@@ -14,6 +14,11 @@
    font-family: "Pretendard Variable", Pretendard, -apple-system, BlinkMacSystemFont, system-ui, Roboto, "Helvetica Neue", "Segoe UI", "Apple SD Gothic Neo", "Noto Sans KR", "Malgun Gothic", "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", sans-serif;
    }
 	
+	
+	div#all {
+		/* border: solid 1px black; */
+	}
+	
 	h2.mypage_order {
 		margin: 40px 0 20px 40px;
 		color: #333;
@@ -32,7 +37,7 @@
 	}
 	
 	input.search {
-		margin-left: 460px;
+		margin-left: 360px;
 
 	}
 	button.period {
@@ -57,7 +62,7 @@
 	}
 	a.deliver_check {
 		position: relative;
-		left: 450px;
+		left: 600px;
 		color: #666666;
 		text-decoration: underline;
 	}
@@ -80,7 +85,7 @@
 	
 	div.search {
 		position: relative;
-		top: -100px;
+		top: -60px;
 		left: 30px;
 	}
 	
@@ -103,21 +108,42 @@
 
 
 </style>
+<!-- Required meta tags -->
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
+<!-- Bootstrap CSS -->
+<link rel="stylesheet" type="text/css" href="<%= ctxPath%>/bootstrap-4.6.0-dist/css/bootstrap.min.css" > 
+
+<!-- Font Awesome 6 Icons -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.3.0/css/all.min.css">
+
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css">
+<link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.6/dist/web/static/pretendard.css" />
+
+<!-- Optional JavaScript -->
+<script type="text/javascript" src="<%= ctxPath%>/js/jquery-3.6.4.min.js"></script>
+<script type="text/javascript" src="<%= ctxPath%>/bootstrap-4.6.0-dist/js/bootstrap.bundle.min.js" ></script>
+</head>
+<body>
+
+<div class="row">
+	<div id="all" class="col-md-9">
 		<h2 class="mypage_order">주문내역</h2>
 		<div class="mypage_order">
-			<f	orm class="form-inline my-2 my-lg-0">
+			<form class="form-inline my-2 my-lg-0">
 				  <span style="margin:30px 0px 0px 30px; color: #666666;">조회기간 2023.03.11 ~ 2023.04.11</span>
 			      <div class="search">
-				      <input class="form-control search sm-2" type="search" placeholder="주문 상품명 검색" aria-label="Search">
+				      <input class="form-control search mr-sm-2" type="search" placeholder="주문 상품명 검색" aria-label="Search">
 				      <button class="btn  btn-outline-success my-2 my-sm-0" type="submit">검색</button>
 		      	  </div>	
 		    </form>
 			<div class="period">
-				<button style="width: 140px;border-radius: 50px; margin-left: 30px;"type="button" class="btn btn-outline-secondary">2주일</button>
+				<button style="width: 140px;border-radius: 50px; margin-left: 10px;"type="button" class="btn btn-outline-secondary">2주일</button>
 				<button type="button" class="btn period btn-outline-secondary">1개월</button>
 				<button type="button" class="btn period btn-outline-secondary">3개월</button>
 				<button type="button" class="btn period btn-outline-secondary">6개월</button>
+				<button type="button" class="btn period btn-outline-secondary">1년</button>
 			</div>
 			<div class="period_check">
 				<button style="color:#b8b894; margin-left:10px; "type="button" class="btn period_check btn-outline-light"><i class="fa-solid fa-rotate-right mr-2"></i>초기화</button>
@@ -142,7 +168,7 @@
 			  		<span style="color:#666666;">1개</span>
 			  </div>
 			  <div style="padding-top:30px; width: 50%;">
-				  <span style="color:#666666; margin-left: 140px; font-size:15pt; font-weight:bold; ">56,700원</span>
+				  <span style="color:#666666; margin-left: 200px; font-size:15pt; font-weight:bold; ">56,700원</span>
 			  </div> 
 			  <div style="width: 23%; padding-right: 20px; height:115px; position: relative; left:60px;">
 			  	  <button class="btn_review_write">후기작성</button>
@@ -159,6 +185,8 @@
 			<li class="page-item"><a class="page-link color_orange" href="#">3</a></li>
 			<li class="page-item"><a class="page-link text-muted" href="#">></a></li>
 		</ul>
+	</div>
+</div>
 
 </div>
   </div>
