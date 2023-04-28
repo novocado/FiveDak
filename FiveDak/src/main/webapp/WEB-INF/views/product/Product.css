@@ -1,0 +1,392 @@
+@charset "UTF-8";
+
+*{
+font-family: "Pretendard Variable", Pretendard, -apple-system, BlinkMacSystemFont, system-ui, Roboto, "Helvetica Neue", "Segoe UI", "Apple SD Gothic Neo", "Noto Sans KR", "Malgun Gothic", "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", sans-serif;
+word-break : break-all ;
+}
+   img#banner{
+      position: absolute;
+      top: 0;
+      left: 0;
+      width:100%;
+      height:100%;
+   }
+   div.banner{
+      height : 80px ;
+   }
+   input#search-header{
+      border : 1px solid #FFA751 ;
+      display : inline-block ;
+      width: 380px;
+       height: 40px;
+       border-radius: 6px;
+       background: #fff;
+   }
+   ul#login_menu{
+      position: absolute;
+      top:10px ;
+      right : 0 ;
+   }
+   div#header-search{
+      height: 120px ; 
+   }
+   div#my_menu{
+      position: absolute ;
+      top: 55px;
+       right: 0;
+   }
+   button.btn-search{
+      background-color: #fff ;
+      border: 0px ;
+      top: 22%;
+       right: 10px;
+   }
+   div.header-search {
+      top: 60px;
+      left : 370px ;
+   }
+   .header-link{
+      color:#666;
+   }
+   a.header-a{
+      display: inline-block;
+      width: 100px ;
+      margin-right : 80px ;
+   }
+   a.header-category{
+      display:inline-block;
+      width: 141px;
+   }
+   span.li-category{
+      color: #666;
+      margin-top:10px;
+      margin-bottom:10px;
+   }
+
+   /* ----------------------------------------------------------------------- */
+   /* 메인 페이지 CSS */
+   
+   img.card-size{
+      height: 256px;
+   
+   }
+   button.btn-icon{
+      border: 1px #f8f8f8 solid; 
+      border-radius:10%;
+      background-color:#f8f8f8;
+   }
+   div.card-time{
+      background-color: #f79960;
+      color: #fff;
+   
+   }
+   .btn-first{
+      margin-top:-36px;
+   }
+   .btn-second{
+      margin-top:-28px;
+   }
+
+
+	/* ----------------------------------------------------------------------- */
+
+
+
+
+
+
+
+
+
+
+
+
+/* 전체 페이지 영역 */
+	.product_head {
+		/* border: solid 2px gray; */
+		display: flex;
+		padding-top: 70px;
+		margin: 0 100px;
+	}
+	
+	/* 좌측 이미지 영역 */
+	.product_head > .product_images {
+		/* border: solid 1px red; */
+		margin-left: 30px;
+	}
+	
+	/* 우측 제품구매상세 영역 */
+	.product_choice {
+		border: solid 0px blue; 
+		margin: 0 auto;
+	}
+	
+	
+	
+	
+	/* 제품 대표이미지 */
+	.product_images > .image_main > img {
+		max-width: 100%;
+		width: 480px;
+		height: 480px;
+		margin-bottom: 17px;
+	}
+	
+	
+	/* 제품 대표이미지 하단 광고 배너 이미지 */ 
+	.product_images > .image_ad > img {
+		max-width: 100%;
+		width: 480px;
+		height: 70px;
+	}
+
+	
+	
+	/* 제품 주문상세 요소 */
+	.product_choice {
+		padding: 0 40px 0 0;
+	}
+	
+	.product_choice > .product_info_tbl > ul {
+		list-style: none;
+	}	
+	
+	.product_head > .product_choice > .product_info_tbl > ul {
+		border-bottom: 1px solid #EDEDED;
+		padding: 15px 0;
+	}
+
+
+
+	/* 장바구니/바로구매 버튼 꾸미기 */
+	.btn_area {
+		margin: 40px 0 60px 0;
+	}
+	
+	
+	.btn_area > .go_cart,
+	.btn_area > .go_buy {
+			width: 280px;
+			height: 60px;
+			border-radius: 5px;
+	}
+	
+	.btn_area > .go_cart {
+		background-color: #fff;
+		border: solid 1.5px #ff6001;
+		margin-right: 10px;
+		color: #ff6001;
+		font-size: 14pt;
+		font-weight: bold;
+	}
+	
+	.btn_area > .go_buy {
+		background-color: #ff7e32;
+		border: solid 1.5px #ff7e32;
+		color: #fff;
+		font-size: 14pt;
+		font-weight: bold;
+	}
+	
+	/* 
+	.product_detail > nav {
+	display: table;
+	table-layout: fixed;
+	width: 1100px;
+	padding-right: 279px;
+	margin: 0 auto;
+	border-left: 1px solid #eee;
+} */
+	
+	
+	.product_choice > .product_info_tbl > dl > dt, 
+	.product_choice > .product_info_tbl > dl > dd {
+		display: inline-block;
+	}
+	
+	
+	.product_choice > .product_info_tbl > dl > dt {
+		vertical-align: top;
+	}
+	
+
+	.product_choice > .product_info_tbl > dl:nth-child(2) > dd > ul,
+	.product_choice > .product_info_tbl > dl:nth-child(3) > dd > ul {
+		list-style: none;
+		
+	}
+	
+	.product_choice > .product_info_tbl > dl:nth-child(4) > dd {
+		margin-left: 40px; 
+		text-decoration: none;
+	}
+	
+	
+	
+	
+	
+	
+	
+body { font-family: "Lato", sans-serif; }
+
+a.sticky-nav-tab { text-decoration: none; }
+
+/* .spa-header {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: horizontal;
+  -webkit-box-direction: normal;
+  -ms-flex-direction: row;
+  flex-direction: row;
+  -webkit-box-pack: justify;
+  -ms-flex-pack: justify;
+  justify-content: space-between;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  padding: 0 2em;
+  height: 75px;
+  z-index: 2;
+  -webkit-transition: all 0.3s cubic-bezier(0.19, 1, 0.22, 1);
+  transition: all 0.3s cubic-bezier(0.19, 1, 0.22, 1);
+}
+
+.spa-header--scrolled {
+  background: #fafafa;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.3);
+}
+
+.spa-header--move-up {
+  -webkit-transform: translateY(-75px);
+  transform: translateY(-75px);
+  -webkit-transition: all 0.3s cubic-bezier(0.19, 1, 0.22, 1);
+  transition: all 0.3s cubic-bezier(0.19, 1, 0.22, 1);
+}
+
+.spa-header__logo { color: #000; }
+
+.spa-header__link {
+  margin-left: 1em;
+  color: #000;
+} */
+
+.sticky-nav-tabs {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+  -ms-flex-direction: column;
+  flex-direction: column;
+  -webkit-box-pack: center;
+  -ms-flex-pack: center; 
+  justify-content: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+ align-items: center;
+/*   height: 100px; */
+  position: relative;
+  background: #fff;
+ /*  text-align: center; */
+  padding: 0 2em;
+}
+
+
+.sticky-nav-tabs-container {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: horizontal;
+  -webkit-box-direction: normal;
+  -ms-flex-direction: row;
+  flex-direction: row;
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  height: 60px;
+  /* box-shadow: 0 0 20px rgba(0, 0, 0, 0.1); */
+  background: #fafafa;
+  z-index: 1;
+  -webkit-transition: all 0.3s cubic-bezier(0.19, 1, 0.22, 1);
+  transition: all 0.3s cubic-bezier(0.19, 1, 0.22, 1);
+}
+
+.sticky-nav-tabs-container--top-first {
+  position: fixed;
+  top: 80px;
+  -webkit-transition: all 0.3s cubic-bezier(0.19, 1, 0.22, 1);
+  transition: all 0.3s cubic-bezier(0.19, 1, 0.22, 1);
+}
+
+.sticky-nav-tabs-container--top-second {
+  position: fixed;
+  top: 0;
+}
+
+.sticky-nav-tab {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-box-flex: 1;
+  -ms-flex: 1;
+  flex: 1;
+  color: #000;
+  letter-spacing: 0.1rem;
+  -webkit-transition: all 0.5s ease;
+  transition: all 0.5s ease;
+  font-size: 0.8rem;
+}
+
+.sticky-nav-tab:hover {
+  color: #000;
+  background: #fff;
+  -webkit-transition: all 0.5s ease;
+  transition: all 0.5s ease;
+}
+
+.sticky-nav-tab-slider {
+  position: absolute;
+  bottom: 0;
+  width: 0;
+  height: 6px;
+  background: #fff;
+  -webkit-transition: left 0.3s ease;
+  transition: left 0.3s ease;
+}
+ @media (min-width: 800px) {
+
+.sticky-nav-tabs h1,  .spa-slide h1 { font-size: 3rem; }
+
+.sticky-nav-tabs h3,  .spa-slide h3 { font-size: 1rem; }
+
+.sticky-nav-tab { font-size: 1rem; }
+}
+	
+	
+	
+	
+	
+	.product_box > .spa-main > .spa-slide > .nutrition_Info {
+		border: solid 1px gray;
+	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
