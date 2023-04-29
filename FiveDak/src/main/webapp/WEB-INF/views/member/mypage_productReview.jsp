@@ -57,7 +57,7 @@
 			<div class="review_1" style="border-bottom: solid 1px #333; margin-left: 40px; padding-bottom: 120px; ">
 				<h2 style="padding-bottom: 10px; margin: 20px 0px 15px 0px; color:#333; border-bottom : solid 1px #333;">상품후기</h2>
 					<p style="margin: 20px 0px 15px 0px; font-size:14pt;">작성가능한 후기 
-						<span style="color: #FF7E32;">1건</span>
+						<span style="color: #FF7E32;"> </span>
 						<button class="btn" type="button" data-toggle="collapse" data-target="#demo1" style="float:right;">
 						  <i class="fa-solid fa-chevron-down"></i>
 					  	</button>
@@ -83,7 +83,7 @@
 							  <span style="color:#666666;font-size:13pt; ">&nbsp;&nbsp;2023.04.22</span>
 						  </div> 
 						  <div class="col-md-1"style="padding:30px 0 0 0; margin-left:15px">
-						  	  <button class="btn_review_write"><i class="fa-solid fa-pen"></i> 후기작성</button>
+						  	  <button type="button" class="btn_review_write"><i class="fa-solid fa-pen"></i> 후기작성</button>
 						  </div>   
 					  </div>
 					</div>

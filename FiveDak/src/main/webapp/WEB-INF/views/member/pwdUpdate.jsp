@@ -54,7 +54,7 @@ $(document).ready(function(){
 		else {
 			const frm = document.pwdChangeForm;
 				
-			frm.action = "<%= ctxPath%>/pwdUpdate.dak";
+			frm.action = "memberPwdUpdate.dak";
 			frm.method = "POST";
 			frm.submit();
 		}
@@ -65,7 +65,7 @@ $(document).ready(function(){
 }); // end of $(document).ready(function(){})
 </script>
 
-<form id="pwdChangeForm" method="post">
+<form name="pwdChangeForm" method="post">
     <input type="hidden" name="userid" value="${requestScope.userid}" />
     
         <!-- PC 비밀 번호 변경 -->    
@@ -80,19 +80,13 @@ $(document).ready(function(){
     
             <div class="password_txt">비밀번호는 영문자, 숫자, 특수문자를 3가지 이상 사용하여 <br> 8자 이상, 16자 이하로 설정해주세요.</div>
 
-			<c:if test="${requestScope.method == 'GET'}">
-	            <div class="wrap_button" style="list-style: none">
-	                <button type="button" class="password_button2" name="password_button2"><span class="password_button_orange">비밀번호 변경하기</span></button>
-	            </div>  
-            </c:if>  
+
+	        <div class="wrap_button" style="list-style: none">
+	            <button type="button" class="password_button2" name="password_button2"><span class="password_button_orange">비밀번호 변경하기</span></button>
+	        </div>   
 
         </div>
         <!-- PC 비밀 번호 변경 end --> 
 </form>
-	<c:if test="${requestScope.method == 'POST' && requestScope.n == 1}">
-	   	<div id="updateResult" align="center">
-	           사용자 ID ${requestScope.userid}님의 암호가 새로이 변경되었습니다.
-	    </div> 
-	</c:if>
 
 <jsp:include page="../footer.jsp" />

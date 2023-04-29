@@ -55,9 +55,4 @@ public class VerifyCertificationAction extends AbstractController {
 
 	}
 
-	private void alert(String string) {
-		// TODO Auto-generated method stub
-		
-	}
-
 }

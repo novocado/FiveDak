@@ -1,5 +1,8 @@
 package semiproject.dak.product.model;
 
+import javax.servlet.http.HttpSession;
+
+import semiproject.dak.member.model.MemberDTO;
 
 public class CartDTO {
 
@@ -77,10 +80,30 @@ public class CartDTO {
 		return prod;
 	}
 
+	
 
 	public void setProd(ProductDTO prod) {
 		this.prod = prod;
 	}
+	
+	
+	
+	// 이하 주문할때 필요한 금액 계산하는 메소드들
+	public int getTotalProductPrice() {
+        return prod.getProdPrice() * cart_quantity;
+    }
+
+    public int getTotalDiscount() {
+        return (prod.getProdPrice() - prod.getProdDiscount()) * cart_quantity;
+    }
+    
+    public int getTotalAmount() {
+    	return (prod.getProdDiscount() * cart_quantity);
+    }
+
+    public int getPointsEarned(int rewardPercentage) {
+        return (int) ((prod.getProdDiscount() * cart_quantity / 100.0) * rewardPercentage);
+    }
 
 
 	

@@ -1,6 +1,7 @@
 package semiproject.dak.member.model;
 
 import java.sql.SQLException;
+import java.util.List;
 import java.util.Map;
 
 public interface InterMemberDAO {
@@ -19,17 +20,18 @@ public interface InterMemberDAO {
 
 	// 비밀번호 찾기(아이디, 성명, 이메일을 입력받아서 해당 사용자가 존재하는지 유뮤를 알려준다.)
 	boolean isUserExist(Map<String, String> paraMap) throws SQLException;
-
-	// 암호변경하기
-	int pwdUpdate(Map<String, String> paraMap) throws SQLException;
-
-	//개인정보 수정 실행
-	int updateMember(MemberDTO member) throws SQLException;
 	
-	//개인정보수정 암호체크
+	int updateMember(MemberDTO member) throws SQLException;
+
 	boolean passwdCheck(Map<String, String> paraMap) throws SQLException;
 
-	
 
+	// 포인트 정보 찾기
+	List<MemberPointDTO> selectPoint(Map<String, String> paraMap) throws SQLException;
+
+	// 페이징 처리 토탈 페이지 알아오기 
+	int getTotalPage(Map<String, String> paraMap) throws SQLException;
+
+	
 
 }
