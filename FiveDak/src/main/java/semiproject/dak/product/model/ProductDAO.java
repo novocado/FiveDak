@@ -12,17 +12,61 @@ import java.util.Map;
 import javax.naming.Context;
 import javax.naming.InitialContext;
 import javax.naming.NamingException;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import javax.sql.DataSource;
 
+import semiproject.dak.product.model.ProductDAO;
 import semiproject.dak.security.AES256;
 import semiproject.dak.security.SecretMyKey;
 
 public class ProductDAO implements InterProductDAO {
+	
 	private DataSource ds; // DataSource == Apache Tomcat이 제공하는 DBCP
 	private PreparedStatement pstmt;
 	private Connection conn;
 	private ResultSet rs;
 	private AES256 aes;
+	
+	
+	
+	// 제품정보를 알아오는 메소드
+	public ProductDTO prodInfo(int product_id) throws SQLException {
+		Connection conn=null;
+		PreparedStatement ps=null;
+		ResultSet rs=null;
+		
+		ProductDTO pdto = new ProductDTO();
+		try {
+			
+			conn = ds.getConnection(); 
+			
+			
+			String sql=" select * from tbl_product where product_id=? ";
+			ps=conn.prepareStatement(sql);
+			ps.setInt(1, product_id);
+			
+			rs=ps.executeQuery();
+			
+			if(rs.next()) {
+				
+				pdto.setProdNum(rs.getInt("PRODUCT_ID"));
+				pdto.setProdName(rs.getString("PRODUCT_NAME"));
+				pdto.setFk_prodCateNum(rs.getInt("PRODUCT_CATEGORY_ID"));
+				pdto.setProdPrice(rs.getInt("PRODUCT_PRICE"));
+				pdto.setProdDiscount(rs.getInt("PRODUCT_DISCOUNT"));
+				pdto.setProdAvgRating(rs.getDouble("AVERAGE_RATING"));
+				pdto.setProdImage1(rs.getString("PRODUCT_IMAGE_URL"));
+				
+			}
+			System.out.println("제발 나와주세요"+pdto);
+			
+			return pdto;
+		}finally {
+			close();
+		}
+	}//제품정보를 알아오는 메소드
+	
 	
 	public ProductDAO() {
 		try {
@@ -157,6 +201,8 @@ public class ProductDAO implements InterProductDAO {
 		return prodList;
 	} // END OF PUBLIC LIST<PRODUCTDTO> SELECTPAGINGPRODUCT(MAP<STRING, STRING> PARAMAP)  THROWS SQLEXCEPTION {
 
+	
+	
 	// 검색을 하였을 때 검색에 해당하는 총 제품 갯수 알아오기  
 	@Override
 	public int getTotalProduct(Map<String, String> paraMap)   throws SQLException {
@@ -181,5 +227,25 @@ public class ProductDAO implements InterProductDAO {
 		}
 		return totalProduct;
 	}
+	
+	
+	//////////////////////////////////////////////////////////////////////
+	// 로그인 유무를 검사해서 로그인을 했으면 true를 리턴해주고, 로그인 안 했으면 false를 리턴해주도록 한다.
+	
+	public boolean checkLogin(HttpServletRequest request) { 
+	
+		HttpSession session = request.getSession();
+		ProductDAO loginuser = (ProductDAO)session.getAttribute("loginuser");
+		
+		if(loginuser != null) {
+		//로그인 한 경우
+		return true;
+		}
+		else {
+		//로그인 안 한 경우
+		return false;
+		}
+	
+	}//end of public boolean checkLogin(HttpServletRequest request)------------------------
 	
 }

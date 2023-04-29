@@ -1,5 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@page import="java.sql.SQLException"%>  
+<%@ page import="semiproject.dak.product.model.ProductDAO" %>
+<%@ page import="semiproject.dak.product.model.ProductDTO" %>
 <% String ctxPath = request.getContextPath(); %> 
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>     
@@ -16,7 +19,7 @@
 
 
 <jsp:include page="../header-final.jsp"/>
-
+<%--<jsp:include page="../serviceSidebar.jsp"/> --%>
 
 <style>
 
@@ -598,6 +601,38 @@ a.sticky-nav-tab { text-decoration: none; }
 
 
 
+<%
+	String product_id = request.getParameter("product_id");	
+	if(product_id==null || product_id.isEmpty()){
+%>
+	<script type="text/javascript">
+		alert("잘못된 url입니다.");
+		location.href="index.jsp";
+	</script>
+	<%
+
+	ProductDAO dao = new ProductDAO();
+	
+	ProductDTO dto=null;
+	try{
+		dto=dao.prodInfo(Integer.parseInt(product_id));
+	}catch(SQLException e){
+		e.printStackTrace();
+	}
+	
+	int prodNum = dto.getProdNum(); // 제품번호
+	String prodName = dto.getProdName(); // 제품명
+	int fk_prodCateNum = dto.getFk_prodCateNum(); // 제품 카데고리 코드(번호)
+	int fk_prodBrandNum = dto.getFk_prodBrandNum(); // 제품 브랜드 코드(번호)
+	int prodPrice = dto.getProdPrice(); // 정가
+	int prodStock = dto.getProdStock(); // 재고 
+	int prodSales = dto.getProdSales(); // 판매량
+	int prodDiscount = dto.getProdDiscount(); // 판매가
+	double prodAvgRating = dto.getProdAvgRating(); // 평균 별점
+	String prodImage1 = dto.getProdImage1(); // 제품 이미지
+%>
+
+
 <!-- 맨 위에 있는 배너 모음 -->
    <div class="container-fluid">
       <div class="row justify-content-center banner">
@@ -878,12 +913,22 @@ a.sticky-nav-tab { text-decoration: none; }
 							<span style="text-decoration: none; color:#212529;">맛있닭</span>
 						</dd>
 					</dl>
+					<%-- ==== 장바구니 담기 폼 ==== --%>
+			          <form name="cartOrderFrm">       
+			             <ul class="list-unstyled mt-3">
+			                <li>
+			                    <label for="spinner">주문개수&nbsp;</label>
+			                    <input id="spinner" name="oqty" value="1" style="width: 110px;">
+			               </li>
+			               <li class="btn_area" style="position:relative; text-align:center;">
+			                  <button type="button" class="go_cart" onclick="goCart()">장바구니담기</button>
+			                  <button type="button" class="go_buy" onclick="goOrder()">바로주문하기</button>
+			               </li>
+			            </ul>
+			            <input type="hidden" name="pnum" value="${requestScope.pvo.pnum}" />
+			         </form>   
 				</div>
 				
-				<div class="btn_area" style="position:relative; text-align:center;">
-					<button type="submit" class="go_cart" style="margin-bottom:20px;">장바구니</button>
-					<button type="submit" class="go_buy">바로구매</button>
-				</div>
 			</div>   <!-- 여기까지가 div.product_choice 끝! -->
 		</div>  <!-- 여기까지가 div.product_head 끝! -->
 		
@@ -1246,11 +1291,25 @@ a.sticky-nav-tab { text-decoration: none; }
 		<div class="sideMenubar" style="padding-top:60px; height:80%;">
 			<span style="font-size:12pt;">옵션선택<br></span>
 			<div>
-				<h4 style="margin-top: 20px; margin-bottom:250px;">맛있닭 소프트 닭가슴살 탄두리맛 100g</h4>
+				<h4 style="margin-top: 20px; margin-bottom:250px;" ><%=prodName %></h4>
 				<div class="product_price" style="text-align: right;">
 					<strong style="font-size:30pt;">20,300</strong>원
 					<p class="per_price" style="color:#666; margin-top:0;">(1팩당 2,300 ~ 3,400)</p>
 				</div>
+				<%-- ==== 장바구니 담기 폼 ==== --%>
+			          <form name="cartOrderFrm">       
+			             <ul class="list-unstyled mt-3">
+			                <li>
+			                    <label for="spinner">주문개수&nbsp;</label>
+			                    <input id="spinner" name="oqty" value="1" style="width: 110px;">
+			               </li>
+			               <li class="btn_area" style="position:relative; text-align:center;">
+			                  <button type="button" class="go_cart" onclick="goCart()">장바구니담기</button>
+			                  <button type="button" class="go_buy" onclick="goOrder()">바로주문하기</button>
+			               </li>
+			            </ul>
+			            <input type="hidden" name="pnum" value="${requestScope.pvo.pnum}" />
+			         </form>   
 			</div>
 			<div class="btn_area" style="margin: 50px 5px  5px 20px;">
 				<button type="submit" class="go_cart" style="margin-bottom:12px">장바구니</button>
@@ -1421,6 +1480,54 @@ $(document).ready(function(){
 		});
 
 		
+		$("input#spinner").spinner( {
+	         spin: function(event, ui) {
+	            if(ui.value > 100) {
+	               $(this).spinner("value", 100);
+	               return false;
+	            }
+	            else if(ui.value < 1) {
+	               $(this).spinner("value", 1);
+	               return false;
+	            }
+	         }
+	      } );// end of $("input#spinner").spinner({});----------------    
+	      
+		
+		
+		// *** 장바구니 담기 ***//
+		   function goCart() {
+		   
+		      // === 주문량에 대한 유효성 검사하기 === //
+		      var frm = document.cartOrderFrm;
+		      
+		      var regExp = /^[0-9]+$/;  // 숫자만 체크하는 정규표현식
+		      var oqty = frm.oqty.value;
+		      var bool = regExp.test(oqty);
+		      
+		      if(!bool) {
+		         // 숫자 이외의 값이 들어온 경우 
+		         alert("주문갯수는 1개 이상이어야 합니다.");
+		         frm.oqty.value = "1";
+		         frm.oqty.focus();
+		         return; // 종료 
+		      }
+		      
+		      // 문자형태로 숫자로만 들어온 경우
+		      oqty = parseInt(oqty);
+		      if(oqty < 1) {
+		         alert("주문갯수는 1개 이상이어야 합니다.");
+		         frm.oqty.value = "1";
+		         frm.oqty.focus();
+		         return; // 종료 
+		      }
+		      
+		      // 주문개수가 1개 이상인 경우
+		      frm.method = "POST";
+		      frm.action = "<%= request.getContextPath()%>/shop/cartAdd.up";
+		      frm.submit();
+		   
+		   }// end of function goCart()-------------------------
 		
 	
 	</script>
