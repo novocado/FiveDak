@@ -28,7 +28,7 @@
 				const prodNum = $("input.prodNum").eq(index).val();
 				// console.log(prodNum);
 				
-				location.href ="<%= ctxPath%>/product/productDetail.dak?prodNum="+prodNum; 
+				location.href ="<%= ctxPath%>/product/detail.dak?prodNum="+11; 
 			});
 	};
 	

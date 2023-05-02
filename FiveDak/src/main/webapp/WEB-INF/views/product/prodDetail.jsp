@@ -3,6 +3,8 @@
 <%@page import="java.sql.SQLException"%>  
 <%@ page import="semiproject.dak.product.model.ProductDAO" %>
 <%@ page import="semiproject.dak.product.model.ProductDTO" %>
+<%@ page import="semiproject.dak.product.model.NutritionDTO" %>
+<%@ page import="semiproject.dak.product.model.BrandDAO" %>
 <% String ctxPath = request.getContextPath(); %> 
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>     
@@ -16,7 +18,13 @@
 <script src="//cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.min.js"></script>
 <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.css" />
 <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick-theme.css" /> 
+<link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/1.1.3/sweetalert.min.css" /> 
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/1.1.3/sweetalert.min.js"></script>
 
+<!-- <script src="./src/bootstrap-input-spinner.js"></script>
+<script>
+    $("input[type='number']").inputSpinner()
+</script> -->
 
 <jsp:include page="../header-final.jsp"/>
 <%--<jsp:include page="../serviceSidebar.jsp"/> --%>
@@ -602,35 +610,70 @@ a.sticky-nav-tab { text-decoration: none; }
 
 
 <%
-	String product_id = request.getParameter("product_id");	
-	if(product_id==null || product_id.isEmpty()){
+	String prodNum = request.getParameter("prodNum");
+	String review_member_id = request.getParameter("review_member_id");
+	int nutrition_id = Integer.parseInt(request.getParameter("nutrition_id"));
+	if((prodNum==null || prodNum.isEmpty()) && (review_member_id==null || review_member_id.isEmpty())){
+	
 %>
-	<script type="text/javascript">
+
+	 <script type="text/javascript">
 		alert("잘못된 url입니다.");
 		location.href="index.jsp";
 	</script>
-	<%
-
+<%
+	 return;
+	} 
+	
 	ProductDAO dao = new ProductDAO();
 	
-	ProductDTO dto=null;
+	ProductDTO dto = null;
 	try{
-		dto=dao.prodInfo(Integer.parseInt(product_id));
+		dto=dao.prodInfo(Integer.parseInt(prodNum),Integer.parseInt(review_member_id));
+		//dto=dao.prodInfo(Integer.parseInt(review_product_id));
 	}catch(SQLException e){
 		e.printStackTrace();
 	}
 	
-	int prodNum = dto.getProdNum(); // 제품번호
+	//int prodNum = dto.getProdNum(); // 제품번호
 	String prodName = dto.getProdName(); // 제품명
-	int fk_prodCateNum = dto.getFk_prodCateNum(); // 제품 카데고리 코드(번호)
-	int fk_prodBrandNum = dto.getFk_prodBrandNum(); // 제품 브랜드 코드(번호)
 	int prodPrice = dto.getProdPrice(); // 정가
 	int prodStock = dto.getProdStock(); // 재고 
 	int prodSales = dto.getProdSales(); // 판매량
 	int prodDiscount = dto.getProdDiscount(); // 판매가
 	double prodAvgRating = dto.getProdAvgRating(); // 평균 별점
 	String prodImage1 = dto.getProdImage1(); // 제품 이미지
-%>
+	
+	int reviewCnt = dto.getreviewDTO().getReview_cnt();
+	
+	String brandName = dto.getbrandDTO().getBrandName();
+	
+	
+	////////////////////////////////////////////////////////////////////////////
+	
+	NutritionDTO ndto = null;
+	try{
+		ndto=dao.nutritionInfo(nutrition_id);
+	} catch(SQLException e) {
+		e.printStackTrace();
+	}
+	
+	//nutrition_id = ndto.getNutrition_id();
+	double product_cal = ndto.getProduct_cal();
+	
+    double product_protein = ndto.getProduct_protein();
+    double product_sodium = ndto.getProduct_sodium();
+    double product_kal = ndto.getProduct_kal();
+    double product_fat = ndto.getProduct_fat();
+    double product_transfat = ndto.getProduct_transfat();
+    double product_satfat = ndto.getProduct_satfat();
+    double product_col = ndto.getProduct_col();
+    double product_sug = ndto.getProduct_sug();
+	
+
+	
+	%>
+
 
 
 <!-- 맨 위에 있는 배너 모음 -->
@@ -868,24 +911,24 @@ a.sticky-nav-tab { text-decoration: none; }
 		
 			<!-- 우측 상품선택 영역 -->
 			<div class="product_choice">
-				<h2>맛있닭 소프트 닭가슴살 탄두리맛 100g</h2>
+				<h2><%=prodName%></h2>
 				<div class="product_rating">
 					<div class="star-rate-md">
         				<span style="width: 70%"></span>
 					</div>
-					<a>예시: 4.9점</a>
-					<a>예시: (2,324)</a>
+					<a><%=prodAvgRating%>점</a>
+					<a>(<%=reviewCnt%>)</a>
 				</div>
 				
 				<div class="product_price">
-					<p class="price"><strong style="font-size:30pt;">20,300</strong>원</p>
+					<p class="price"><strong style="font-size:30pt;"><%=prodPrice%></strong>원</p>
 					<p class="per_price" style="color:#666;">(1팩당 2,300 ~ 3,400)</p>
 				</div>
 				
 				<div class="product_info_tbl">
 					<dl style="border-bottom:solid 1px #ccc;">
 						<dt style="margin:12px 0;">판매량</dt>
-						<dd></dd>
+						<dd><%=prodSales%></dd>
 					</dl>
 					<dl style="border-bottom:solid 1px #ccc;">
 						<dt style="margin-bottom:12px;">배송방법</dt>
@@ -910,9 +953,10 @@ a.sticky-nav-tab { text-decoration: none; }
 					<dl style="border-bottom:solid 1px #ccc;">
 						<dt style="margin-bottom:12px;">브랜드관</dt>
 						<dd>
-							<span style="text-decoration: none; color:#212529;">맛있닭</span>
+							<span style="text-decoration: none; color:#212529;"><%=brandName%></span> 
 						</dd>
 					</dl>
+					
 					<%-- ==== 장바구니 담기 폼 ==== --%>
 			          <form name="cartOrderFrm">       
 			             <ul class="list-unstyled mt-3">
@@ -968,15 +1012,15 @@ a.sticky-nav-tab { text-decoration: none; }
 											<td>당류</td>
 										</tr>
 										<tr>
-											<td>값</td>
-											<td>값</td>
-											<td>값</td>
-											<td>값</td>
-											<td>값</td>
-											<td>값</td>
-											<td>값</td>
-											<td>값</td>
-											<td>값</td>
+											<td><%=product_cal%></td>
+											<td><%=product_protein%></td>
+											<td><%=product_sodium%></td>
+											<td><%=product_kal%></td>
+											<td><%=product_fat%></td>
+											<td><%=product_transfat%></td>
+											<td><%=product_satfat%></td>
+											<td><%=product_col%></td>
+											<td><%=product_sug%></td>
 										</tr>
 									</tbody>
 								</table>
@@ -1289,11 +1333,11 @@ a.sticky-nav-tab { text-decoration: none; }
 		
 		<!-- 스티키 사이드메뉴바 -->
 		<div class="sideMenubar" style="padding-top:60px; height:80%;">
-			<span style="font-size:12pt;">옵션선택<br></span>
+			<span style="font-size:12pt;">제품선택<br></span>
 			<div>
-				<h4 style="margin-top: 20px; margin-bottom:250px;" ><%=prodName %></h4>
+				<h4 style="margin-top: 20px; margin-bottom:250px;" >${pdo.prodName}</h4>
 				<div class="product_price" style="text-align: right;">
-					<strong style="font-size:30pt;">20,300</strong>원
+					<strong style="font-size:30pt;"><%=prodPrice%></strong>원
 					<p class="per_price" style="color:#666; margin-top:0;">(1팩당 2,300 ~ 3,400)</p>
 				</div>
 				<%-- ==== 장바구니 담기 폼 ==== --%>
@@ -1311,11 +1355,11 @@ a.sticky-nav-tab { text-decoration: none; }
 			            <input type="hidden" name="pnum" value="${requestScope.pvo.pnum}" />
 			         </form>   
 			</div>
-			<div class="btn_area" style="margin: 50px 5px  5px 20px;">
+<!-- 			<div class="btn_area" style="margin: 50px 5px  5px 20px;">
 				<button type="submit" class="go_cart" style="margin-bottom:12px">장바구니</button>
 				<button type="submit" class="go_buy">바로구매</button>
 			</div>
-		</div>
+ -->		</div>
 		
 		
 	</div>  <!-- 여기까지가 div.productBox 끝! -->
@@ -1496,7 +1540,7 @@ $(document).ready(function(){
 		
 		
 		// *** 장바구니 담기 ***//
-		   function goCart() {
+	    function goCart() {
 		   
 		      // === 주문량에 대한 유효성 검사하기 === //
 		      var frm = document.cartOrderFrm;
@@ -1524,7 +1568,7 @@ $(document).ready(function(){
 		      
 		      // 주문개수가 1개 이상인 경우
 		      frm.method = "POST";
-		      frm.action = "<%= request.getContextPath()%>/shop/cartAdd.up";
+		      frm.action = "<%= request.getContextPath()%>/cart/cartlist.dak";
 		      frm.submit();
 		   
 		   }// end of function goCart()-------------------------

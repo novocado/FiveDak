@@ -1,5 +1,6 @@
 package semiproject.dak.product.model;
 
+import semiproject.dak.member.model.MembershipTierDTO;
 
 public class ProductDTO {
 	private int prodNum ; // 제품번호
@@ -15,7 +16,9 @@ public class ProductDTO {
 	
 	// 추후에 추가해야할 사항 : JOIN 을 하기 위해서 무조건 필요하다.
 	private CategoryDTO cateDTO ; // 카테고리 DTO 
+	private ReviewDTO reviewDTO;
 	private BrandDTO brandDTO ; // 브랜드 DTO 
+	private NutritionDTO nutriDTO;
 	
 	// 기본 생성자 
 	public ProductDTO () {}
@@ -130,6 +133,7 @@ public class ProductDTO {
 	public void setBrandDTO(BrandDTO brandDTO) {
 		this.brandDTO = brandDTO;
 	}
+	
 	///////////////////////////////////////////////
 	// *** 제품의 할인률 ***
 	public int getDiscountPercent() {
@@ -144,4 +148,33 @@ public class ProductDTO {
 		return 100 - (prodDiscount * 100)/prodPrice;
 	}
 	
+	
+	
+	
+	
+	public ReviewDTO getreviewDTO() {
+		return reviewDTO;
+	}
+
+	public void setreviewDTO(ReviewDTO reviewDTO) {
+		this.reviewDTO = reviewDTO;
+	}
+	
+	
+	public BrandDTO getbrandDTO() {
+		return brandDTO;
+	}
+
+	public void setbrandDTO(BrandDTO brandDTO) {
+		this.brandDTO = brandDTO;
+	}
+	
+	public NutritionDTO getnutriDTO() {
+		return nutriDTO;
+	}
+	
+	
+	public void setnutriDTO(NutritionDTO nutriDTO) {
+		this.nutriDTO = nutriDTO;
+	}
 }

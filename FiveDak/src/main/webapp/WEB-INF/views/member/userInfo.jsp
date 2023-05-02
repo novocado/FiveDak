@@ -1,19 +1,25 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
 
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-
-<% String ctxPath = request.getContextPath(); %>    
-    
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
-
+	<meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
 
 
 <jsp:include page="/WEB-INF/views/header-final.jsp"/>
-<jsp:include page="/WEB-INF/views/serviceSidebar.jsp"/>
 
+<title>이용안내</title>
+</head>
+<body>
+
+
+<jsp:include page="/WEB-INF/views/serviceSidebar.jsp" />
 
 <div class="col-md-9"> 
 
@@ -23,17 +29,14 @@
 	
 	<hr style="border:solid 1px #ccc;">
 
-<%-- <c:forEach var="map" items="${requestScope.userInfo}">
-	<a href="<%= request.getContextPath()%>/service/instruction.dak?instruction_id=${map.instruction_id}">${map.instruction_title}</a>&nbsp;
-</c:forEach> --%>
-	<div id="accordionExample">
+	<div id="accordionExample" class="accordion shadow">
 		<div class="panel-group" id="accordion">
 		
 		
-			<div class="panel panel-default" style="overflow:hidden;">
+			<div class="panel panel-default">
 				<div class="panel-heading">
 					<h4 class="panel-title">
-						<a data-toggle="collapse" data-parent="#accordion" href="#collapse1">포인트 적립 안내</a>
+						<a data-toggle="collapse" data-parent="#accordion" href="#collapse1">${requestScope.instruction_title}</a>
 					</h4>
 				</div>
 				<div id="collapse1" class="panel-collapse collapse">
@@ -47,7 +50,7 @@
 			</div>
 	  
 	  
-			<div class="panel panel-default" style="overflow:hidden;">
+			<div class="panel panel-default">
 				<div class="panel-heading">
 					<h4 class="panel-title">
 						<a data-toggle="collapse" data-parent="#accordion" href="#collapse2">현금영수증 발급 방법 안내 드립니다.</a>
@@ -66,7 +69,7 @@
 			</div>
 		  
 	  
-			<div class="panel panel-default" style="overflow:hidden;">
+			<div class="panel panel-default">
 				<div class="panel-heading">
 					<h4 class="panel-title">
 						<a data-toggle="collapse" data-parent="#accordion" href="#collapse3">주문취소 방법</a>
@@ -86,7 +89,7 @@
 			</div>
 		
 	  
-			<div class="panel panel-default" style="overflow:hidden;">
+			<div class="panel panel-default">
 				<div class="panel-heading">
 					<h4 class="panel-title">
 						<a data-toggle="collapse" data-parent="#accordion" href="#collapse4">한가지 제품만 왔어요</a>
@@ -109,7 +112,7 @@
 			</div>
 	 
 	 
-			<div class="panel panel-default" style="overflow:hidden;">
+			<div class="panel panel-default">
 				<div class="panel-heading">
 					<h4 class="panel-title">
 						<a data-toggle="collapse" data-parent="#accordion" href="#collapse5">주문상품 언제 수령하나요</a>
@@ -130,7 +133,7 @@
 			</div>
 	   
 	   
-			<div class="panel panel-default" style="overflow:hidden;">
+			<div class="panel panel-default">
 				<div class="panel-heading">
 					<h4 class="panel-title">
 						<a data-toggle="collapse" data-parent="#accordion" href="#collapse6">앱에서 로그인이 안 될 때</a>
@@ -154,7 +157,7 @@
 			</div>
 	   
 	   
-			<div class="panel panel-default" style="overflow:hidden;">
+			<div class="panel panel-default">
 				<div class="panel-heading">
 					<h4 class="panel-title">
 						<a data-toggle="collapse" data-parent="#accordion" href="#collapse7">앱다운로드 후 쿠폰발행</a>
@@ -173,7 +176,7 @@
 				</div>
 		   	</div>
 	   
-			<div class="panel panel-default" style="overflow:hidden;">
+			<div class="panel panel-default">
 				<div class="panel-heading">
 					<h4 class="panel-title">
 						<a data-toggle="collapse" data-parent="#accordion" href="#collapse8">배송 조회 확인 안내</a>
@@ -197,12 +200,12 @@
 					<br>
 					<p style="font-size:14px; line-height: 22px; font-weight: 600;">2. 메일/문자로 안내드린 택배송장번호로 해당 택배사 홈페이지에서 조회</p>
 					<br>
-				</div>
+					</div>
 				</div>
 			</div>
 		   
 	   
-			<div class="panel panel-default" style="overflow:hidden;">
+			<div class="panel panel-default">
 				<div class="panel-heading">
 					<h4 class="panel-title">
 						<a data-toggle="collapse" data-parent="#accordion" href="#collapse9">특급배송 서비스 안내</a>
@@ -241,9 +244,14 @@
 			</div>
 		    
 		</div>    <!-- <div class="container">의 끝! -->
-	</div>  <!-- <div class="col-md-9">의 끝! -->    
+		
 	
+	</div>  <!-- <div class="col-md-9">의 끝! -->   
 </div>
-</div>
+</div>	
+	
+</body>
 
-<jsp:include page="/WEB-INF/views/footer.jsp"/>
+	<jsp:include page="/WEB-INF/views/footer.jsp" /> 
+
+</html>
