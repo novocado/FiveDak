@@ -40,7 +40,7 @@ public class PwdUpdateAction extends AbstractController {
 		request.setAttribute("userid", userid);
 		
 		super.setRedirect(false);
-		super.setViewPage("/WEB-INF/login/pwdUpdateEnd.jsp");
+		super.setViewPage("/WEB-INF/views/member/pwdUpdate.jsp");
 		
 	}
 

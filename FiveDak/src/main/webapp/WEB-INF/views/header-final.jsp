@@ -29,7 +29,6 @@
 		randomInput() ; // INPUT에 PLACEHOLDER 가 랜덤하게 들어가게 하는 방법
 		setHeaderEvent();
 		putSearchWord(); // INPUT 검색시에 검색값이 그대로 있도록 하는 메소드
-		
 	}); // END OF $(DOCUMENT).READY(FUNCTION(){
 		
 	/////////////////////////////////////////////////////////////////////////////////////////////////
@@ -40,13 +39,10 @@
 		    '실시간 T.O.P를 소개합니다!',
 		    '밤 12시 이전 주문시 내일 도착!'
 		  ];
-
 		  const randomIndex = Math.floor(Math.random() * placeholders.length);
 		  console.log(`${placeholders[randomIndex]}`);
-
 		  const input = $('<input>', { id: 'search-header', type: 'text', placeholder: placeholders[randomIndex],name:'searchWord' });
 		  const button = $('<button>', { class: 'position-absolute btn-search' }).append($('<i>', { class: 'fa-solid fa-magnifying-glass' }));
-
 		  $('div.div-input').empty().append(input).append(button);
 		}
 		
@@ -58,7 +54,6 @@
 	    $('.dropdown-menu li').mouseover(function(){
 	        $(this).find('.header-list').show();
 	    });
-
 	    // 2차 카테고리 닫히게
 	    $('.dropdown-menu li').mouseleave(function(){
 	        $(this).find('.header-list').hide();
@@ -86,7 +81,6 @@
 		const searchFrm = document.searchFrm;
 		searchFrm.action="<%=ctxPath%>/product/searchProd.dak";
 		searchFrm.method="get";
-
 		searchFrm.submit();	
 	
 	}// END OF FUNCTION
@@ -98,7 +92,6 @@
 		$('img#header-banner').hide();
 	}
 	
-
 	
 		
 	
@@ -164,14 +157,12 @@
 		margin-top:10px;
 		margin-bottom:10px;
 	}
-
 	.header-menu {
 	  display: flex;
 	  justify-content: center; /* 요소들을 가운데 정렬 */
 	  align-items: center; /* 요소들을 수직 중앙 정렬 */
 	  height: 100%;
 	}
-
 </style>
 </head>
 
@@ -222,7 +213,7 @@
 				    <a style="font-size:10pt;" class="nav-link header-link" href="#">주문조회</a>
 				  </li>
 				  <li class="nav-item">
-				    <a style="font-size:10pt;" class="nav-link header-link" href="#">고객센터</a>
+				    <a style="font-size:10pt;" class="nav-link header-link" href="<%= ctxPath %>/CSC/informBoardList.dak">고객센터</a>
 				  </li>
 			</ul>
 		</c:if>
@@ -434,7 +425,7 @@
 				    </li>
 				 
 				    <li class="col-2 offset-2">
-				      <a class="header-category" href="<%= ctxPath %>/product/rankingList.dak" style="color: black;">랭킹</a>
+				      <a class="header-category ranking" href="<%= ctxPath %>/product/rankingList.dak" style="color: black;">랭킹</a>
 				    </li>
 				    <li class="col-2">
 				      <a class="header-category" href="#" style="color: black;">신제품</a>
@@ -453,7 +444,3 @@
 		</div>
 	</div>
 	</div>
-
-
-
-		

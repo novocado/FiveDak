@@ -9,7 +9,7 @@ public class ErrorController extends AbstractController {
 	public void execute(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		
 		//
-		super.setViewPage("/WEB-INF/error/error.jsp");
+		super.setViewPage("/WEB-INF/views/error/error.jsp");
 		
 		
 	}

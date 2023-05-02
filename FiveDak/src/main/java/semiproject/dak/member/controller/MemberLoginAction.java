@@ -19,7 +19,7 @@ public class MemberLoginAction extends AbstractController {
 		
 		HttpSession session = request.getSession();
         
-		MemberDTO member = (MemberDTO) session.getAttribute("member");
+		MemberDTO member = (MemberDTO) session.getAttribute("loginuser");
 		super.setRedirect(false);
 		
 		if (member != null) {

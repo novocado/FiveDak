@@ -5,7 +5,10 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -31,4 +34,313 @@ public class ProductDAO implements InterProductDAO {
 	
 
 	
+	
+	
+	// Ajax(JSON)를 이용한 더보기 방식(페이징처리)으로 상품정보를 20개씩 잘라서(start ~ end) 조회해오기
+	@Override
+	public List<ProductDTO> selectByRank(Map<String, String> paraMap) throws SQLException {
+		
+		List<ProductDTO> prodList = new ArrayList<>();
+		
+		try {
+			conn = ds.getConnection();
+			
+			 String sql = " select RNO, PRODUCT_ID, PRODUCT_NAME, PRODUCT_CATEGORY_ID , PRODUCT_PRICE, PRODUCT_SALES "
+			 			+ "		 , AVERAGE_RATING, PRODUCT_IMAGE_URL , CATEGORY_NAME , BRAND_NAME , PRODUCT_DISCOUNT "
+				 		+ " from "
+				 		+ " ( "
+				 		+ "     select row_number() over (order by "+paraMap.get("listType")+" DESC) AS RNO  "
+				 		+ "          , PRODUCT_ID, PRODUCT_NAME, PRODUCT_PRICE , PRODUCT_SALES, AVERAGE_RATING, PRODUCT_IMAGE_URL "
+				 		+ "			 , PRODUCT_CATEGORY_ID , C.CATEGORY_NAME , B.BRAND_NAME , PRODUCT_DISCOUNT"
+				 		+ "    FROM tbl_product P "
+				 		+ "    JOIN tbl_category C "
+				 		+ "    ON P.product_category_id = C.category_id "
+				 		+ "    JOIN tbl_brand B "
+				 		+ "	   ON P.product_brand_id = B.brand_id"
+				 		+ " ) V "
+				 		+ " where RNO between ? and ? ";
+			 
+			pstmt = conn.prepareStatement(sql);
+			
+			pstmt.setString(1, paraMap.get("start"));
+			pstmt.setString(2, paraMap.get("end"));
+			
+			
+			
+			rs = pstmt.executeQuery();
+			
+			while(rs.next()) {
+				
+				ProductDTO pvo = new ProductDTO();
+				pvo.setProdRno(rs.getInt("RNO"));
+				pvo.setProdNum(rs.getInt("PRODUCT_ID"));	
+				pvo.setProdName(rs.getString("PRODUCT_NAME"));
+
+				CategoryDTO categdto = new CategoryDTO();	
+				categdto.setCateId(rs.getInt("PRODUCT_CATEGORY_ID")); 	
+				categdto.setCateName(rs.getString("CATEGORY_NAME"));
+				pvo.setCateDTO(categdto);				
+				BrandDTO bdto = new BrandDTO();
+				bdto.setBrandName(rs.getString("BRAND_NAME"));
+				pvo.setBrandDTO(bdto);
+				
+	            pvo.setProdPrice(rs.getInt("PRODUCT_PRICE"));   		
+	            pvo.setProdSales(rs.getInt("PRODUCT_SALES"));         
+	            pvo.setProdDiscount(rs.getInt("PRODUCT_DISCOUNT"));        		
+	            pvo.setProdAvgRating(rs.getDouble("AVERAGE_RATING"));	  		
+	            pvo.setProdImage1(rs.getString("PRODUCT_IMAGE_URL"));
+	            
+	            
+	            prodList.add(pvo);
+			}// end of while ------------
+			
+		} finally {
+			close();
+		}
+		
+		return prodList;
+	}
+	
+	
+	// Ajax(JSON)를 사용하여 상품목록을 "더보기" 방식으로 페이징 처리 해주기위해 전체개수 알아오기 
+	@Override
+	public int totalCount() {
+		
+		int totalHITCount = 0;
+		
+		try {
+			conn = ds.getConnection();
+			
+			 String sql = " select count(*) "
+				 		+ " from "
+				 		+ " ( "
+				 		+ "     select row_number() over (order by AVERAGE_RATING DESC) AS RNO  "
+				 		+ "          , PRODUCT_ID, PRODUCT_NAME, PRODUCT_PRICE , PRODUCT_SALES, AVERAGE_RATING, PRODUCT_IMAGE_URL "
+				 		+ "			 , PRODUCT_CATEGORY_ID , C.CATEGORY_NAME , B.BRAND_NAME , PRODUCT_DISCOUNT"
+				 		+ "    FROM tbl_product P "
+				 		+ "    JOIN tbl_category C "
+				 		+ "    ON P.product_category_id = C.category_id "
+				 		+ "    JOIN tbl_brand B "
+				 		+ "	   ON P.product_brand_id = B.brand_id"
+				 		+ " ) V "
+				 		+ " where RNO between 1 and 100 ";
+			 
+			pstmt = conn.prepareStatement(sql);
+			
+			
+			
+			rs = pstmt.executeQuery();
+			
+			rs.next();
+			
+			totalHITCount = rs.getInt(1);
+		
+		}
+		 catch(SQLException e) {
+			e.printStackTrace();
+		}		
+		 finally {
+			close();
+		}
+		
+		return totalHITCount;
+	}
+	
+	
+	
+
+	@Override
+	public List<CartDTO> getCartList(String userid) throws SQLException {
+		List<CartDTO> cartlist = new ArrayList<>();
+		
+		try {
+			conn = ds.getConnection();
+			String sql = " SELECT CART_ID, CART_PRODUCT_ID, CART_QUANTITY, PRODUCT_NAME, BRAND_NAME, PRODUCT_PRICE, PRODUCT_STOCK, PRODUCT_DISCOUNT, PRODUCT_IMAGE_URL "
+					+ " FROM TBL_CART C JOIN TBL_PRODUCT P ON C.CART_PRODUCT_ID = P.PRODUCT_ID"
+					+ " JOIN TBL_BRAND B ON P.PRODUCT_BRAND_ID = B.BRAND_ID"
+					+ " WHERE CART_MEMBER_ID = ? ";
+				
+			pstmt = conn.prepareStatement(sql);
+
+			pstmt.setString(1, userid);
+			rs = pstmt.executeQuery();
+			
+			while(rs.next()) {
+				CartDTO cart = new CartDTO();
+				cart.setCart_id(rs.getInt("CART_ID"));
+				cart.setCart_product_id(rs.getInt("CART_PRODUCT_ID"));
+				cart.setCart_quantity(rs.getInt("CART_QUANTITY"));
+				
+				ProductDTO prod = new ProductDTO();
+				prod.setProdName(rs.getString("PRODUCT_NAME"));
+				
+				BrandDTO brand = new BrandDTO();
+				brand.setBrandName(rs.getString("BRAND_NAME"));
+				prod.setBrandDTO(brand);
+				
+				prod.setProdPrice(rs.getInt("PRODUCT_PRICE"));
+				prod.setProdStock(rs.getInt("PRODUCT_STOCK"));
+				prod.setProdDiscount(rs.getInt("PRODUCT_DISCOUNT"));
+				prod.setProdImage1(rs.getString("PRODUCT_IMAGE_URL"));
+				cart.setProd(prod);
+				
+				cartlist.add(cart);
+			}
+		}finally {
+			close();
+		}
+		return cartlist;
+	}
+
+	
+	
+	
+	@Override
+	public int updateProductQty(Map<String, String> paraMap) throws SQLException {
+		int n = 0; 
+		
+		try {
+			conn = ds.getConnection();
+			String sql = " UPDATE TBL_CART SET CART_QUANTITY = ? WHERE CART_ID = ? ";
+				
+			pstmt = conn.prepareStatement(sql);
+
+			pstmt.setInt(1, Integer.parseInt(paraMap.get("nqty")));
+			pstmt.setInt(2, Integer.parseInt(paraMap.get("cartid")));
+			
+			n = pstmt.executeUpdate();
+			
+			
+		}finally {
+			close();
+		}
+		return n;
+	}
+
+	
+	@Override
+	public int deleteUserCart(int[] cartIds) throws SQLException {
+		int n = 0;
+
+		try {
+			conn = ds.getConnection();
+			conn.setAutoCommit(false);
+			
+			String sql = "DELETE FROM TBL_CART WHERE CART_ID IN (" + String.join(",", Collections.nCopies(cartIds.length, "?")) + ")";
+			pstmt = conn.prepareStatement(sql);
+			
+			for (int i = 0; i < cartIds.length; i++) {
+		        pstmt.setInt(i + 1, cartIds[i]);
+		    }
+
+			
+			n = pstmt.executeUpdate();
+			if(n == cartIds.length) {
+				conn.commit();
+			} else {
+				conn.rollback();
+				n = 0;
+			}
+			
+			
+		}finally {
+			conn.setAutoCommit(true);
+			close();
+			
+			
+		}
+		return n;
+		
+		
+	}
+
+	public String generateOrderSerial() throws SQLException {
+	    
+	    String orderNo = null;
+	    
+	    try {
+	    
+	      conn = ds.getConnection();
+	      
+	    
+	      pstmt = conn.prepareStatement("SELECT seq_order.NEXTVAL FROM DUAL");
+	      rs = pstmt.executeQuery();
+	      
+	      
+	      if (rs.next()) {
+	        int seqNo = rs.getInt(1);
+	        SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd");
+	        String currentDate = sdf.format(new Date());
+	        orderNo = "RK" +currentDate + "-" + String.format("%06d", seqNo);
+	      }
+	      
+	    } finally {
+	      close();
+	    }
+	    
+	    return orderNo;
+	  }
+
+	@Override
+	public CheckoutDTO getCheckOutData(int[] cartIds) throws SQLException {
+		List<CartDTO> cartlist = new ArrayList<>();
+	    int totalPrice = 0, totalDiscount = 0, shippingCost = 0, pointsEarned = 0, totalAmount= 0;
+	    CheckoutDTO checkout = null;
+	    try {
+			conn = ds.getConnection();
+			
+			String sql = "SELECT CART_ID, CART_PRODUCT_ID, CART_QUANTITY, PRODUCT_NAME, BRAND_NAME, PRODUCT_PRICE, PRODUCT_STOCK, PRODUCT_DISCOUNT, PRODUCT_IMAGE_URL "
+					+ "FROM tbl_cart c JOIN tbl_product p ON c.cart_product_id = p.product_id "
+					+ "JOIN tbl_brand b ON p.product_brand_id = b.brand_id "
+					+ "WHERE CART_ID IN (" + String.join(",", Collections.nCopies(cartIds.length, "?")) + ")";
+
+			pstmt = conn.prepareStatement(sql);
+			
+			for (int i = 0; i < cartIds.length; i++) {
+			    pstmt.setInt(i + 1, cartIds[i]);
+			    
+			}
+			
+			rs = pstmt.executeQuery();
+			
+			while(rs.next()) {
+				CartDTO cart = new CartDTO();
+				cart.setCart_id(rs.getInt("CART_ID"));
+				cart.setCart_product_id(rs.getInt("CART_PRODUCT_ID"));
+				cart.setCart_quantity(rs.getInt("CART_QUANTITY"));
+				
+				ProductDTO prod = new ProductDTO();
+				prod.setProdName(rs.getString("PRODUCT_NAME"));
+				
+				BrandDTO brand = new BrandDTO();
+				brand.setBrandName(rs.getString("BRAND_NAME"));
+				prod.setBrandDTO(brand);
+				
+				prod.setProdPrice(rs.getInt("PRODUCT_PRICE"));
+				prod.setProdStock(rs.getInt("PRODUCT_STOCK"));
+				prod.setProdDiscount(rs.getInt("PRODUCT_DISCOUNT"));
+				prod.setProdImage1(rs.getString("PRODUCT_IMAGE_URL"));
+				cart.setProd(prod);
+				
+				totalPrice += cart.getTotalProductPrice();
+				totalDiscount += cart.getTotalDiscount();
+				totalAmount += cart.getTotalAmount();
+				
+				cartlist.add(cart);
+			}
+			if(totalAmount > 30000) {
+				shippingCost += 3000;
+			}
+			
+			checkout = new CheckoutDTO(cartlist, totalPrice, totalDiscount, shippingCost, pointsEarned, totalAmount);
+			
+			
+		}finally {
+			close();
+		}
+		return checkout;
+	}
 }
+	
+	
+	

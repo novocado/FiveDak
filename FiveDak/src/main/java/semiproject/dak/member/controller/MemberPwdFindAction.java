@@ -13,7 +13,7 @@ public class MemberPwdFindAction extends AbstractController {
 		
 		String method = request.getMethod();    // "GET" 또는 "POST" 
 		
-		System.out.println(method +"비ㅣㄹ번호");
+		System.out.println(method +"비밀번호");
 		
 
 		// POST 방식이라면 

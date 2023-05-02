@@ -16,7 +16,7 @@ import javax.servlet.http.HttpSession;
 /**
  * Servlet Filter implementation class MyPageFilter
  */
-@WebFilter("/mypage/*")
+@WebFilter({"/mypage/*" , "/cart/*"})
 public class MyPageFilter extends HttpFilter implements Filter {
        
     /**
