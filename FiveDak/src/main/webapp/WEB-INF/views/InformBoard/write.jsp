@@ -171,16 +171,7 @@
                         <dd><input type="text" placeholder="제목 입력"></dd>
                     </dl>
                 </div>
-                <div class="info">
-                    <dl>
-                        <dt>작성자</dt>
-                        <dd><input type="text" placeholder="작성자 입력"></dd>
-                    </dl>
-                    <dl>
-                        <dt>비밀번호</dt>
-                        <dd><input type="password" placeholder="비밀번호 입력"></dd>
-                    </dl>
-                </div>
+
                 <div class="cont">
                     <textarea placeholder="내용 입력"></textarea>
                 </div>

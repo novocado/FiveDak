@@ -42,3 +42,7 @@
 /admin/adminShowOrder.dak=semiproject.dak.admin.controller.AdminShowOrderAction
 /admin/adminProfit.dak=semiproject.dak.admin.controller.AdminProfitAction
 /admin/adminProductSearch.dak=semiproject.dak.member.controller.AdminProductSearch
+
+/admin/adminShowMember.dak=semiproject.dak.admin.controller.AdminShowMemberAction
+/admin/adminShowMemberDetail.dak=semiproject.dak.admin.controller.AdminShowMemberDetailAction
+/admin/adminShowMemberPoint.dak=semiproject.dak.admin.controller.AdminShowMemberPointAction

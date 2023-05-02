@@ -33,7 +33,7 @@
 <script type="text/javascript">
 $(document).ready(function(){
 	$("span.password_button_orange").click(function(){
-		const pwd = $("input#newpassword").val();
+		const pwd = $("input#pwd").val();
 		const pwd2 = $("input#chknewpassword").val();
 			
 		const regExp = /^.*(?=^.{8,15}$)(?=.*\d)(?=.*[a-zA-Z])(?=.*[^a-zA-Z0-9]).*$/g;
@@ -41,13 +41,13 @@ $(document).ready(function(){
 			
 		if(!bool) {
 			alert("암호는 8글자 이상 15글 이하의 영문자, 숫자, 특수기호가 혼합되어야만 합니다.")
-			$("input#newpassword").val("");
+			$("input#pwd").val("");
 			$("input#chknewpassword").val("");
 			return; // 종료
 		}
 		else if(bool && pwd != pwd2) {
 			alert("암호가 일치하지 않습니다.")
-			$("input#newpassword").val("");
+			$("input#pwd").val("");
 			$("input#chknewpassword").val("");
 			return; // 종료
 		}
@@ -66,14 +66,13 @@ $(document).ready(function(){
 </script>
 
 <form name="pwdChangeForm" method="post">
-    <input type="hidden" name="userid" value="${requestScope.userid}" />
-    
+  
         <!-- PC 비밀 번호 변경 -->    
         <div class="box_pwdChange">
             <div class="password_title1">회원님의 <span>비밀번호</span>를 변경해주세요.</div> 
 
             <div class="password_box">
-                <div class="input-box"> <input type="password" id="newpassword" name="newpassword" placeholder="새 비밀번호를 입력하세요"> <label for="newpassword">새 비밀번호</label> <span id="duplicate_pwd" style="color: red"></span></div>
+                <div class="input-box"> <input type="password" id="pwd" name="pwd" placeholder="새 비밀번호를 입력하세요"> <label for="pwd">새 비밀번호</label> <span id="duplicate_pwd" style="color: red"></span></div>
                 
                 <div class="input-box"> <input type="password" id="chknewpassword" name="chknewpassword" placeholder="새 비밀번호를 한번 더 입력하세요"> <label for="chknewpassword">새 비밀번호 확인</label> </div>
             </div>

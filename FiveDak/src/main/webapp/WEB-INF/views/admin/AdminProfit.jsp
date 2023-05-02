@@ -5,9 +5,11 @@
 <jsp:include page="/WEB-INF/views/member/mypageSidebar_admin.jsp"/>
 
 <script src="https://cdn.jsdelivr.net/npm/echarts@5.2.1/dist/echarts.min.js"></script>
-
-
-<div id="chart" style="width: 800px; height:700px;"></div>
+<div class="col-md-9">
+      		<h2 class="float-left">전체제품목록</h2>
+      		<h5 class="float-right" style="position:relative; top:10px;">전체 제품 수 :  </h5>
+			<hr style="border: 1px solid; clear:both;"/>
+			<div id="chart" style="width: 100%; height:600px;"></div>
 
 
 

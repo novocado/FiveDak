@@ -35,6 +35,17 @@ public class MyPagePointAction extends AbstractController {
 			pointSelect = "";    
 		}
 		
+		try {
+			if(Integer.parseInt(ShowPageNo) < 1) {    // 0 이하이면 1페이지로
+				ShowPageNo = "1";
+			}
+		}
+		catch(NumberFormatException e) {			// 문자로 장난칠 경우 1페이지로
+			ShowPageNo = "1";
+		}
+		
+		
+		
 		request.setAttribute("pointSelect", pointSelect);
 		
 

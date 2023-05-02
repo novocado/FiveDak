@@ -8,9 +8,9 @@ import java.util.Map;
 
 public interface InterProductDAO {
 	
-	// 총 페이지를 알아오는 메소드 
+	// 검색했을 경우에 총 페이지를 알아오는 메소드 
 	int getTotalPage(Map<String, String> paraMap)  throws SQLException;
-
+	
 	// 검색을 하였을 때 검색리스트를 가져오는 메소드 
 	List<ProductDTO> selectPagingProduct(Map<String, String> paraMap)  throws SQLException;
 
@@ -32,6 +32,35 @@ public interface InterProductDAO {
 
 	CheckoutDTO getCheckOutData(int[] cartIds) throws SQLException;
 	
+	//////////////////////////////////////////////////////////////////////////////////////
+	// ADMIN Page 에 제품 목록 가져오는 메소드 
+	// 제품의 총 개수를 알아오는 메소드 
+	Map<String,Integer> getTotalNum(Map<String, String> paraMap) throws SQLException ;
+ 
+	// 제품 목록들 가져오는 메소드 
+	List<ProductDTO> selAllProduct(Map<String, String> paraMap)  throws SQLException  ;
 
+	// 제품 목록에서 해당 제품을 삭제하는 메소드 
+	int deleteProd(String prodNum) throws SQLException ;
+
+	// 특정 제품 번호에 해당하는 제품의 상세정보 가져오기 
+	ProductDTO selectOneProduct(String prodNum) throws SQLException  ;
+
+	// 특정 주문 번호에 해당하는 제품들에 대한 정보 가져오기 
+	List<ProductDTO> getOrderDetail(String order_serial) throws SQLException ;
+
+	// 카테고리 종류 모두 가져오는 메소드 
+	List<String> getCategoryList() throws SQLException ;
+
+	// 특정 prodNum에 해당하는 PDTO 가져오는 메소드
+	ProductDTO prodInfo(Map<String, String> paraMap) throws SQLException;
+
+	// 제품 상세 정보에서 보여줄 영양소 가져오기 
+	NutritionDTO nutritionInfo(String prodNum) throws SQLException ;
+	
+	
+	
+	
+	///////////////////////////////////////////////////////////////////////////////////////
 
 }

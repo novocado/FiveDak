@@ -23,6 +23,7 @@
 <!-- 글꼴 적용하기 -->
 <link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.6/dist/web/static/pretendard.css" />
 <link rel="icon" href="<%=ctxPath%>/images/파비콘.ico">
+
 <title>오조닭조</title>
 <script type="text/javascript">
 	$(document).ready(function(){
@@ -184,7 +185,7 @@
 	<div class="container position-relative" id="header-search">
 		
 		
-		<c:if test="${sessionScope.loginuser == null }">
+		<c:if test="${sessionScope.loginuser == null}">
 			<ul class="nav" id="login_menu" >
 				  <li class="nav-item border-right">
 				    <a style="font-size:10pt;" class="nav-link active header-link" href="<%= ctxPath %>/login.dak">로그인</a>
@@ -196,7 +197,7 @@
 				    <a style="font-size:10pt;" class="nav-link header-link" href="#">주문조회</a>
 				  </li>
 				  <li class="nav-item">
-				    <a style="font-size:10pt;" class="nav-link header-link" href="#">고객센터</a>
+				    <a style="font-size:10pt;" class="nav-link header-link" href="<%= ctxPath %>/CSC/informBoardList.dak">고객센터</a>
 				  </li>
 			</ul>
 		</c:if>
@@ -230,7 +231,7 @@
 				    <a style="font-size:10pt;" class="nav-link header-link" href="#">주문조회</a>
 				  </li>
 				  <li class="nav-item">
-				    <a style="font-size:10pt;" class="nav-link header-link" href="#">고객센터</a>
+				    <a style="font-size:10pt;" class="nav-link header-link" href="<%= ctxPath %>/CSC/informBoardList.dak">고객센터</a>
 				  </li>
 			</ul>
 		</c:if>
@@ -428,7 +429,7 @@
 				      <a class="header-category ranking" href="<%= ctxPath %>/product/rankingList.dak" style="color: black;">랭킹</a>
 				    </li>
 				    <li class="col-2">
-				      <a class="header-category" href="#" style="color: black;">신제품</a>
+				      <a class="header-category" href="#" style="color: black;">신신제품</a>
 				    </li>
 				    <li class="col-2">
 				      <a class="header-category" href="#" style="color: black;">특가/혜택</a>

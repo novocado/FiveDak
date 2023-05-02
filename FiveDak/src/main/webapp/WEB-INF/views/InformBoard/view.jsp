@@ -22,7 +22,7 @@
 
 .board_title p {
     margin-top: 5px;
-    font-size: 1.4rem;
+    font-size: 15px;
 }
 
 .bt_wrap {
@@ -166,10 +166,6 @@
                     <dl>
                         <dt>번호</dt>
                         <dd>1</dd>
-                    </dl>
-                    <dl>
-                        <dt>작성자</dt>
-                        <dd>작성자</dd>
                     </dl>
                     <dl>
                         <dt>작성일</dt>

@@ -50,6 +50,7 @@ public class AdminShowOrderAction extends AbstractController {
 				JSONObject jsonObj = new JSONObject();
 				jsonObj.put("order_id", odto.getOrderId());
 				jsonObj.put("order_member_id", odto.getFk_orderMbrId());
+				jsonObj.put("order_serial", odto.getOrderSerial());
 				jsonObj.put("order_total_price", odto.getOrderTotalPrice());
 				jsonObj.put("shipping_address", odto.getOrderAddress());
 				jsonObj.put("tracking_number", odto.getOrderTrackNo());

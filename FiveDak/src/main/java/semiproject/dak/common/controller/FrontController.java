@@ -42,9 +42,9 @@ public class FrontController extends HttpServlet {
 			
 			while(en.hasMoreElements()) {
 				String key = (String)en.nextElement();
-				// System.out.println("~~~ 확인용 key => "+key);
+			//	System.out.println("~~~ 확인용 key => "+key);
 				String className = pr.getProperty(key);
-				// System.out.println("=== 확인용 className => "+className);
+			//  System.out.println("=== 확인용 className => "+className);
 				
 				if ( className != null ) {
 					className = className.trim(); 

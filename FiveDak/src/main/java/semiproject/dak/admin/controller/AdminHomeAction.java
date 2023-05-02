@@ -28,16 +28,7 @@ public class AdminHomeAction extends AbstractController {
 		}
 		// System.out.println(order_status);
 		
-		// 한달간 전체 주문 상품 수 알아오기 
-		int sumMonthOrder = odao.getSumMonthOrder();
 		
-		// 한달간 현재 미 배송중인 주문 상품 수 알아오기
-		int sumNotShipped = odao.getSumNotShipped();
-		
-		// 한달간 현재 누적 판매액 
-		int sumTotalSales = odao.getSumTotalSales();
-		int successShipped = sumMonthOrder - sumNotShipped ;
-		int percent = (successShipped)*100 / sumMonthOrder ; 
 		
 		// 페이징 처리시 필요한 해당 총 수 구해오기 
 		Map<String,String> paraMap = new HashMap<>();
@@ -46,11 +37,6 @@ public class AdminHomeAction extends AbstractController {
 		
 		int totalNo = odao.getTotalNo(paraMap);
 		
-		request.setAttribute("sumMonthOrder", sumMonthOrder);
-		request.setAttribute("sumNotShipped", sumNotShipped);
-		request.setAttribute("sumTotalSales", sumTotalSales);
-		request.setAttribute("successShipped", successShipped);
-		request.setAttribute("percent", percent);
 		request.setAttribute("order_status", order_status);
 		request.setAttribute("order_date", order_date);
 		request.setAttribute("totalNo", totalNo);

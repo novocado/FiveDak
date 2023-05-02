@@ -1,9 +1,13 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <jsp:include page="/WEB-INF/views/header-final.jsp"/>
-
+<% String ctxPath = request.getContextPath();%>
 <jsp:include page="/WEB-INF/views/member/mypageSidebar_admin.jsp"/>
-
+<style type="text/css">
+	
+	
+</style>
 <script type="text/javascript">
 	$(document).ready(function(){
 		$('span#countHIT').hide();
@@ -26,12 +30,25 @@
 				displayOrder($(this).val());				
 			}
 			
+		}); // END OF $('BUTTON#BTNMOREHIT').CLICK(FUNCTION(){
+			
+		$(document).on('click', 'tr.orderInfo', function(e){
+			
+			const orderserial = $(this).data('orderserial') ;
+			location.href ="<%= ctxPath%>/admin/orderDetail.dak?order_serial="+orderserial;
+		});
+			
+		$(document).on('mouseenter', 'tr.orderInfo', function() {
+		    $(this).css('cursor', 'pointer');
+		});
+
+		$(document).on('mouseleave', 'tr.orderInfo', function() {
+		    $(this).css('cursor', '');
 		});
 		
-		
-	});
+	}); // END OF 	$(DOCUMENT).READY(FUNCTION(){
 	
-	let lenHIT = 1 ;
+	let lenHIT = 10 ;
 	
 	
  	function displayOrder(start){
@@ -55,8 +72,8 @@
 				else if ( json.length > 0 ){
 					$.each(json,function(index,item){
 						html += 
-							"<tr>"
-					    +"<td>"+item.order_id+"</td>"
+							"<tr class='orderInfo' data-orderserial='"+item.order_serial+"'>"
+					    +"<td class='orderid'>"+item.order_id+"</td>"
 					    +"<td>"+item.order_member_id+"</td>"
 					    +"<td>"+item.order_total_price+"</td>"
 					    +"<td>"+item.shipping_address+"</td>"

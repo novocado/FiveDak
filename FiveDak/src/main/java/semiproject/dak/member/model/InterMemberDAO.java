@@ -32,6 +32,22 @@ public interface InterMemberDAO {
 	// 페이징 처리 토탈 페이지 알아오기 
 	int getTotalPage(Map<String, String> paraMap) throws SQLException;
 
+
+	int pwdUpdate(MemberDTO mdto) throws SQLException;
+
+	// 페이징 처리를 하기 위해 회원정보 목록 보기 
+	int getShowMemberTotalPage(Map<String, String> paraMap) throws SQLException;
+
+	// 회원 목록 보기 
+	List<MemberDTO> memberShowList(Map<String, String> paraMap) throws SQLException;
+
+	// 회원 정보 디테일하게 보기 위해 
+	MemberDTO MemberShowDetail(String MemberId) throws SQLException;
+	
+	// 회원 정보 포인트 부분 
+	List<MemberDTO> memberShowListPoint(Map<String, String> paraMap) throws SQLException;
+
+
 	
 
 }

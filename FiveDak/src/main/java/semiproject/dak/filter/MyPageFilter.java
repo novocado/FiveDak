@@ -13,6 +13,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import semiproject.dak.member.model.MemberDTO;
+
 /**
  * Servlet Filter implementation class MyPageFilter
  */
@@ -40,7 +42,7 @@ public class MyPageFilter extends HttpFilter implements Filter {
 	public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
 		HttpServletRequest httpRequest = (HttpServletRequest) request;
         HttpSession session = httpRequest.getSession(false);
-
+        
         if (session == null || session.getAttribute("loginuser") == null) {
             HttpServletResponse httpResponse = (HttpServletResponse) response;
             httpResponse.sendRedirect(httpRequest.getContextPath() + "/login.dak");
