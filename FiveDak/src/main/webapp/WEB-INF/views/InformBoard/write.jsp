@@ -95,6 +95,7 @@
 .board_write .title,
 .board_write .info {
     padding: 15px;
+    border-bottom: 1px solid #999;
 }
 
 .board_write .info {

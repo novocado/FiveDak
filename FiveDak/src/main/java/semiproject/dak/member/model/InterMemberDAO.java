@@ -61,6 +61,14 @@ public interface InterMemberDAO {
 	// 멤버 세션 갱신
 	void updateMemberSession(HttpSession session) throws SQLException;
 
+	// 공지사항 글번호
+	String getSeqNo() throws SQLException;
+
+	// 공지사항 등록
+	int boardWrite(Map<String, String> paraMap) throws SQLException;
+
+
+
 	
 
 }

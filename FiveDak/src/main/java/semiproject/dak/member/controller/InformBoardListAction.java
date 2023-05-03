@@ -29,8 +29,8 @@ public class InformBoardListAction extends AbstractController {
 		
 		
 		if(searchField == null ||
-				  (!"title".equals(searchField) && 
-				   !"detail".equals(searchField))) {
+				  (!"notice_title".equals(searchField) && 
+				   !"notice_content".equals(searchField))) {
 			searchField = "";
 				}
 		if(searchText == null ||
@@ -55,7 +55,7 @@ public class InformBoardListAction extends AbstractController {
 		// currentShowPageNo 는 사용자가 보고자하는 페이지바의 페이지번호이다.
 		// 메뉴에서 회원목록 만을 클릭했을 경우에는 currentShowPageNo 는 null 이 된다.
 		// currentShowPageNo 가 null 이라면 currentShowPageNo 를 1 페이지로 바꾸어야 한다.
-		String sizePerPage = "10";
+
 		////////////////////////////////////////////////////////////////////////////////////////////////////
 		
 		
@@ -76,7 +76,7 @@ public class InformBoardListAction extends AbstractController {
 		}
 		
 		paraMap.put("currentShowPageNo", currentShowPageNo);	// 조회하고자하는 페이지번호
-		paraMap.put("sizePerPage", sizePerPage); 				// 한페이지당 보여줄 행의 개수
+
 		
 		// 페이징 처리를 위한 검색이 있거나 없는 전체회원에 대한 총페이지 알아오기
 		int totalPage = mdao.getBoardTotalPage(paraMap);
@@ -117,9 +117,9 @@ public class InformBoardListAction extends AbstractController {
 		
 		// *** [맨처음][이전] 만들기 *** //
 		
-		pageBar += "<li class='page-item'><a class='page-link' href='memberList.up?searchField="+searchField+"&searchText="+searchText+"&currentShowPageNo=1&sizePerPage="+sizePerPage+"'>[맨처음]</a></li>";
+		pageBar += "<li class='page-item'><a class='page-link' href='informBoardList.dak?searchField="+searchField+"&searchText="+searchText+"&currentShowPageNo=1'>[처음]</a></li>";
 		if(pageNo != 1) {
-			pageBar += "<li class='page-item'><a class='page-link' href='memberList.up?searchField="+searchField+"&searchText="+searchText+"&currentShowPageNo="+(pageNo-1)+"&sizePerPage="+sizePerPage+"'>[이전]</a></li>";
+			pageBar += "<li class='page-item'><a class='page-link' href='informBoardList.dak?searchField="+searchField+"&searchText="+searchText+"&currentShowPageNo="+(pageNo-1)+"'>[이전]</a></li>";
 		}
 		
 		while(!(loop > blockSize || pageNo > totalPage)) {
@@ -127,7 +127,7 @@ public class InformBoardListAction extends AbstractController {
 				pageBar += "<li class='page-item active'><a class='page-link' href='#'>" + pageNo + "</a></li>";
 			}
 			else {
-				pageBar += "<li class='page-item'><a class='page-link' href='memberList.up?searchField="+searchField+"&searchText="+searchText+"&currentShowPageNo="+pageNo+"&sizePerPage="+sizePerPage+"'>" + pageNo + "</a></li>";
+				pageBar += "<li class='page-item'><a class='page-link' href='informBoardList.dak?searchField="+searchField+"&searchText="+searchText+"&currentShowPageNo="+pageNo+"'>" + pageNo + "</a></li>";
 			}
 			loop++; 	// 1 2 3 4 5 6 7 8 9 10
 			
@@ -138,9 +138,9 @@ public class InformBoardListAction extends AbstractController {
 		
 		// *** [다음][마지막] 만들기 *** //
 		if(pageNo <= totalPage) {
-			pageBar += "<li class='page-item'><a class='page-link' href='memberList.up?searchField="+searchField+"&searchText="+searchText+"&currentShowPageNo="+pageNo+"&sizePerPage="+sizePerPage+"'>[다음]</a></li>";
+			pageBar += "<li class='page-item'><a class='page-link' href='informBoardList.dak?searchField="+searchField+"&searchText="+searchText+"&currentShowPageNo="+pageNo+"'>[다음]</a></li>";
 		}
-		pageBar += "<li class='page-item'><a class='page-link' href='memberList.up?searchField="+searchField+"&searchText="+searchText+"&currentShowPageNo="+totalPage+"&sizePerPage="+sizePerPage+"'>[마지막]</a></li>";
+		pageBar += "<li class='page-item'><a class='page-link' href='informBoardList.dak?searchField="+searchField+"&searchText="+searchText+"&currentShowPageNo="+totalPage+"'>[마지막]</a></li>";
 		
 		
 		request.setAttribute("pageBar", pageBar);

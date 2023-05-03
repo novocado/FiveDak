@@ -913,7 +913,7 @@ public class MemberDAO implements InterMemberDAO {
 			String sql = " select * "
 					   + " FROM "
 					   + " ( "
-					   + "    select notice_id, notice_title, notice_created_at "
+					   + "    select notice_id, notice_title, notice_content, to_char(notice_created_at,'yyyy-mm-dd') "
 					   + "    from "
 					   + "    ( "
 					   + "        select * "
@@ -928,20 +928,19 @@ public class MemberDAO implements InterMemberDAO {
 			}
 			*/
 			if(!"".equals(colname) && searchText != null && !searchText.trim().isEmpty()) {
-				sql += " and " + colname + " like '%'|| ? || '%' ";
+				sql += " where " + colname + " like '%' || ? || '%' ";
 				// 컬럼명과 테이블명은 위치홀더(?)로 사용하면 꽝!!이다.
 				// 위치홀더(?)로 들어오는 것은 컬럼명과 테이블명이 아닌 오로지 데이터 값만 들어온다.
 			}
 			
-			sql += " order by notice_id desc "
-				 + "    ) V "
+			sql += " order by notice_id desc) V "
 				 + " ) T "
 				 + " where notice_id between ? and ? ";
 			
 			pstmt = conn.prepareStatement(sql);
 			
 			int currentShowPageNo = Integer.parseInt(paraMap.get("currentShowPageNo")); 	// 조회하고자하는 페이지번호
-			int sizePerPage = Integer.parseInt(paraMap.get("sizePerPage"));			// 한페이지당 보여줄 행의 개수
+			int sizePerPage = 10;			// 한페이지당 보여줄 행의 개수
 			
 		/*
 		    === 페이징 처리 공식 ===
@@ -963,11 +962,13 @@ public class MemberDAO implements InterMemberDAO {
 			while(rs.next()) {
 				NoticeBoardDTO board = new NoticeBoardDTO();
 				
-				board.setNote_id(Integer.parseInt(rs.getString(1)));
+				board.setNote_id(rs.getInt(1));
 				board.setNote_title(rs.getString(2));
-				board.setNote_created_at(rs.getString(3));
-				//userid, name, email, gender
-				//notice_id, notice_title, notice_created_at
+				board.setNote_content(rs.getString(3));
+				board.setNote_created_at(rs.getString(4));
+				
+				
+				
 				boardList.add(board);
 				
 			} // end of while(rs.next())----------------------------------------
@@ -1000,7 +1001,7 @@ public class MemberDAO implements InterMemberDAO {
 			}
 			*/
 			if(!"".equals(colname) && searchText != null && !searchText.trim().isEmpty()) {
-				sql += " and " + colname + " like '%'|| ? || '%' ";
+				sql += " where " + colname + " like '%'|| ? || '%' ";
 				// 컬럼명과 테이블명은 위치홀더(?)로 사용하면 꽝!!이다.
 				// 위치홀더(?)로 들어오는 것은 컬럼명과 테이블명이 아닌 오로지 데이터 값만 들어온다.
 			}
@@ -1027,6 +1028,7 @@ public class MemberDAO implements InterMemberDAO {
 		return boardTotalPage;
 	}
 
+	// 게시판 내용 보기
 	@Override
 	public NoticeBoardDTO informBoardView(String note_id) throws SQLException {
 		
@@ -1035,7 +1037,7 @@ public class MemberDAO implements InterMemberDAO {
 		try {
 			conn = ds.getConnection();
 			
-			String sql = " select NOTICE_ID, NOTICE_TITLE, NOTICE_CONTENT, NOTICE_CREATED_AT "
+			String sql = " select NOTICE_ID, NOTICE_TITLE, NOTICE_CONTENT, to_char(NOTICE_CREATED_AT,'yyyy-mm-dd') "
 					   + " from tbl_notice "
 		 		       + " where NOTICE_ID = ? "; 
 			
@@ -1052,7 +1054,7 @@ public class MemberDAO implements InterMemberDAO {
 			if(rs.next()) {
 				boardContents = new NoticeBoardDTO();
 				
-				boardContents.setNote_id(Integer.parseInt(rs.getString(1)));
+				boardContents.setNote_id(rs.getInt(1));
 				boardContents.setNote_title(rs.getString(2));
 				boardContents.setNote_content(rs.getString(3));
 				boardContents.setNote_created_at(rs.getString(4));
@@ -1115,6 +1117,56 @@ public class MemberDAO implements InterMemberDAO {
 		}
 		
 		
+	}
+
+	// 글번호 시퀀스
+	@Override
+	public String getSeqNo() throws SQLException {
+		
+		String seq = "";
+		
+		try {
+			conn = ds.getConnection();
+			
+			String sql = " select notice_id.nextval from tbl_notice ";
+			
+			pstmt = conn.prepareStatement(sql);
+			rs = pstmt.executeQuery();
+			rs.next();
+			
+			seq = rs.getString(1);
+			
+		} finally {
+			close();
+		}
+		
+		return seq;
+	}
+
+	// 공지사항 등록
+	@Override
+	public int boardWrite(Map<String, String> paraMap) throws SQLException {
+		int n = 0;
+		
+		try {
+			conn = ds.getConnection(); 
+			
+			String sql = " insert into tbl_notice(notice_id, notice_title, notice_content) "
+					   + " values(?, ?, ?) ";
+			
+			pstmt = conn.prepareStatement(sql);
+			
+			pstmt.setString(1, paraMap.get("seq"));
+			pstmt.setString(2, paraMap.get("title"));
+			pstmt.setString(3, paraMap.get("content"));
+			
+			n = pstmt.executeUpdate();
+			
+		} finally {
+			close();
+		}
+		
+		return n;
 	}
 
 

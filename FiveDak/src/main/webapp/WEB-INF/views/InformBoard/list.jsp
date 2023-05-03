@@ -102,10 +102,9 @@
     width: 20%;
 }
 
-.board_page {
-    margin-top: 30px;
-    text-align: center;
-    font-size: 0;
+div.boardDetail:hover {
+			background-color: #e6ffe6;
+			cursor: pointer;
 }
 
 </style>
@@ -114,13 +113,13 @@
 	$(document).ready(function(){
 		
 	<%--	if("${fn:trim(requestScope.searchWord)}" != "") {}	--%>
-		if(("${requestScope.searchType}" != "") &&
-		   ("${requestScope.searchWord}" != "")) {
-			$("select#searchType").val("${requestScope.searchType}");
-			$("input#searchWord").val("${requestScope.searchWord}");
+		if(("${requestScope.searchField}" != "") &&
+		   ("${requestScope.searchText}" != "")) {
+			$("select#searchField").val("${requestScope.searchField}");
+			$("input#searchText").val("${requestScope.searchText}");
 		}
 		
-		$("input#searchWord").bind("keyup", (e) => {
+		$("input#searchText").bind("keyup", (e) => {
 			if(e.keyCode == 13) {	// 검색어에서 엔터를 치면 검색하러 가도록 한다.
 				goSearch();
 			}
@@ -163,8 +162,8 @@
 							<tr>
 								<td><select class="form-control" name="searchField">
 										<option value="0">선택</option>
-										<option value="title">제목</option>
-										<option value="detail">내용</option>
+										<option value="notice_title">제목</option>
+										<option value="notice_content">내용</option>
 								</select></td>
 								<td><input type="text" class="form-control"
 									placeholder="검색어 입력" name="searchText" ></td>
@@ -200,9 +199,11 @@
 	    		
                 
             </div>
-            <div class="board_page">
-                <ul class="pagination" style='margin:auto;'>${requestScope.pageBar}</ul>
-            </div>
+            <nav class="my-5">
+			   	<div class="board_page" style='display:flex;'>
+			     	<ul class="pagination" style='margin:auto;'>${requestScope.pageBar}</ul>
+			    </div>
+			</nav>
             <div class="bt_wrap">
                 <a href="<%= ctxPath%>/CSC/informBoardWrite.dak" class="on">작성</a>
                 <!--<a href="#">수정</a>-->

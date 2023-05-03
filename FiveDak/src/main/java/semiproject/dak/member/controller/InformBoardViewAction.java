@@ -14,12 +14,14 @@ public class InformBoardViewAction extends AbstractController {
 		
 		
 		String note_id = request.getParameter("num");
-		System.out.println(note_id);
+	//	System.out.println(note_id);
 		
 		InterMemberDAO mdao = new MemberDAO();
 		NoticeBoardDTO ndto = mdao.informBoardView(note_id);
 		
-		request.setAttribute("ndto", ndto);
+		if(ndto != null) {
+			request.setAttribute("ndto", ndto);
+		}
 		
 		super.setRedirect(false);
 		super.setViewPage("/WEB-INF/views/InformBoard/view.jsp");

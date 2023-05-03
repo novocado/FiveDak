@@ -149,6 +149,9 @@
     line-height: 160%;
     font-size: 16px;
 }
+.cont {
+	height: 300px;
+}
 
 
 </style>
