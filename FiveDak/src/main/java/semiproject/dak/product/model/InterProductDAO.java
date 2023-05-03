@@ -22,7 +22,7 @@ public interface InterProductDAO {
 	List<ProductDTO> selectByRank(Map<String, String> paraMap)   throws SQLException ;
 	
 	// Ajax(JSON)를 사용하여 상품목록을 "더보기" 방식으로 페이징 처리 해주기위해 전체개수 알아오기 
-	int totalCount()    throws SQLException ;
+	int totalCount();
 
 	
 	List<CartDTO> getCartList(String userid) throws SQLException;
@@ -45,8 +45,11 @@ public interface InterProductDAO {
 	// 특정 제품 번호에 해당하는 제품의 상세정보 가져오기 
 	ProductDTO selectOneProduct(String prodNum) throws SQLException  ;
 
+	// 특정 주문 번호에 해당하는 제품들에 대한 정보 가져오기 
+	List<ProductDTO> getOrderDetail(String order_serial) throws SQLException ;
+
 	// 카테고리 종류 모두 가져오는 메소드 
-	List<CategoryDTO> getCategoryList() throws SQLException ;
+	List<String> getCategoryList() throws SQLException ;
 
 	// 특정 prodNum에 해당하는 PDTO 가져오는 메소드
 	ProductDTO prodInfo(Map<String, String> paraMap) throws SQLException;
@@ -74,13 +77,8 @@ public interface InterProductDAO {
 	//결제 위한 체크아웃 데이터
 	CheckoutDTO getCheckOutData(int[] cartIds, HttpServletRequest request) throws SQLException;
 	//최종 주문 완료시 테이블 insert 작업
-	int insertOrderInfo(Map<String, Object> orderMap) throws SQLException;
+	int insertOrderInfo(Map<String, Object> orderMap) throws SQLException;;
 
-	////////////////////////////////////////////////////////////////////////////////////////
-	
-	// 제품 상세 페이지에서 장바구니 담기시 CART 에 INSERT 또는 업데이트 시 
-	int insertCartlist(Map<String, String> paraMap) throws SQLException ;
-	
 	List<OrderDetailDTO> getReviewable(Map<String, String> paraMap) throws SQLException;
 
 	List<OrderDetailDTO> getReviewed(Map<String, String> paraMap) throws SQLException;
@@ -90,8 +88,5 @@ public interface InterProductDAO {
 	int getTotalReviewed(String userid) throws SQLException;
 	
 	int reviewDel(Map<String, String> paraMap) throws SQLException;
-
-	// 제품 등록하는 메소드 
-	int insertProduct(ProductDTO pdto) throws SQLException;
 
 }

@@ -133,6 +133,7 @@ div.boardDetail:hover {
 			location.href="<%= ctxPath%>/CSC/informBoardView.dak?num="+num;
 		});
 		
+		
 	});
 	
 	//Function Declaration
@@ -204,10 +205,12 @@ div.boardDetail:hover {
 			     	<ul class="pagination" style='margin:auto;'>${requestScope.pageBar}</ul>
 			    </div>
 			</nav>
-            <div class="bt_wrap">
-                <a href="<%= ctxPath%>/CSC/informBoardWrite.dak" class="on">작성</a>
-                <!--<a href="#">수정</a>-->
-            </div>
+			<c:if test="${sessionScope.loginuser != null and sessionScope.loginuser.mbrId == 'admin'}">
+	            <div class="bt_wrap">
+	                <a href="<%= ctxPath%>/CSC/informBoardWrite.dak" class="on">작성</a>
+	                <!--<a href="#">수정</a>-->
+	            </div>
+            </c:if>
         </div>
     </div>
 </body>

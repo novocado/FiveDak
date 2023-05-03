@@ -130,30 +130,30 @@
                   <tr>
                   	<th>배송지 주소</th>
                   	<td>${requestScope.odto.combineAddress }</td>
-                  	 <th>배송시 요청사항</th>
-					 <td>${odto.orderMessage}</td>	
+                  	 <th></th>
+					 <td></td>	
                   </tr>
                 
-						<c:forEach var="list" items="${requestScope.odtolist}">
+						<c:forEach var="pdto" items="${requestScope.pdtoList}">
 							<tr>
 								<th>주문 상품 이름</th>	
-								<td>${list.prod.prodName}</td>
+								<td>${pdto.prodName}</td>
 								
 								<th>브랜드 명</th>
-								<td>${list.prod.brandDTO.brandName}</td>
+								<td>${pdto.brandDTO.brandName}</td>
 								
 							</tr>
 							
 							<tr>
 								<th>주문 제품수 </th>
-								<td>${list.orddt.orderQuantity}</td>
+								<td>${pdto.orderNo}</td>
 								<th>주문 제품가격 </th>
-								<td><fmt:formatNumber value="${list.orddt.pricePerUnit}" pattern="#,###"/></td>
+								<td><fmt:formatNumber value="${pdto.prodPrice}" pattern="#,###"/></td>
 							</tr>
 								
 							<tr>
 								<th>주문 이미지</th>
-								<td><img src="/FiveDak/images/${list.prod.prodImage1}" style="width:80px; height:80px;"/></td>
+								<td><img src="/FiveDak/images/${pdto.prodImage1}" style="width:80px; height:80px;"/></td>
 							    <th></th>
 							 	<td></td>	
 							</tr>	

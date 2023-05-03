@@ -256,7 +256,6 @@ h4 { display: block; margin-block-start: 1.33em; margin-block-end: 1.33em; margi
 .prd-info-area { position: relative;}
 .prd-info-area .inner { display: table; table-layout: auto; width: 100%;}
 .prd-info-area .column.img { width: 80px; height: 80px; overflow: hidden; position: relative;}
-.prd-info-area .column.img img {width: 100%; height: 100%;}
 .prd-info-area .column.tit { padding: 0 10px 0 15px; text-align: left;}
 .prd-info-area .column.tit .tit { font-size: 15px; color: #333; margin-bottom: 3px; }
 .prd-info-area .column.tit .desc { font-size: 14px; color: #666; margin-bottom: 15px;}

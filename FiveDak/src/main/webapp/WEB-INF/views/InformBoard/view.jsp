@@ -153,32 +153,7 @@
 	height: 300px;
 }
 
-
 </style>
-
-<%--
-<c:if test="${not empty requestScope.mvo}">
-   <h3>::: ${requestScope.mvo.name}님의 회원 상세정보 :::</h3>
-
-   <div id="mvoInfo">
-    <ol>   
-       <li><span class="myli">아이디 : </span>${mvo.userid}</li>
-       <li><span class="myli">회원명 : </span>${mvo.name}</li>
-       <li><span class="myli">이메일 : </span>${mvo.email}</li>
-       <li><span class="myli">휴대폰 : </span>${fn:substring(mobile, 0, 3)}-${fn:substring(mobile, 3, 7)}-${fn:substring(mobile, 7, 11)}</li>
-       <li><span class="myli">우편번호 : </span>${mvo.postcode}</li>
-       <li><span class="myli">주소 : </span>${mvo.address}&nbsp;${mvo.detailaddress}&nbsp;${mvo.extraaddress}</li>
-       <li><span class="myli">성별 : </span><c:choose><c:when test="${mvo.gender eq '1'}">남</c:when><c:otherwise>여</c:otherwise></c:choose></li> 
-       <li><span class="myli">생년월일 : </span>${fn:substring(birthday, 0, 4)}.${fn:substring(birthday, 4, 6)}.${fn:substring(birthday, 6, 8)}</li> 
-       <li><span class="myli">나이 : </span>${mvo.age}세</li> 
-       <li><span class="myli">코인액 : </span><fmt:formatNumber value="${mvo.coin}" pattern="###,###" /> 원</li>
-       <li><span class="myli">포인트 : </span><fmt:formatNumber value="${mvo.point}" pattern="###,###" /> POINT</li>
-       <li><span class="myli">가입일자 : </span>${mvo.registerday}</li>
-     </ol>
-   </div>
-   
-</c:if>
- --%>
 
 <body>
     <div class="board_wrap">
@@ -227,7 +202,9 @@
             </div>
             <div class="bt_wrap">
                 <a href="<%= ctxPath%>/CSC/informBoardList.dak" class="on">목록</a>
-                <a href="<%= ctxPath%>/CSC/informBoardEdit.dak">수정</a>
+                <c:if test="${sessionScope.loginuser != null and sessionScope.loginuser.mbrId == 'admin'}">
+                	<a href="<%= ctxPath%>/CSC/informBoardEdit.dak">수정</a>
+            	</c:if>
             </div>
         </div>
     </div>

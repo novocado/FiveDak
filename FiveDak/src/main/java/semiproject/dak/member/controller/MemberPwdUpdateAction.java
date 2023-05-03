@@ -44,14 +44,14 @@ public class MemberPwdUpdateAction extends AbstractController {
         	super.setViewPage("/WEB-INF/views/member/pwdUpdate.jsp");
         }
 		
-		System.out.println(method);
+	//	System.out.println(method);
 		
 		if("POST".equalsIgnoreCase(method)) {
 			// 암호변경하기 버튼을 클릭한 경우
 			String pwd = request.getParameter("pwd");
 		
-			System.out.println(userid);
-			System.out.println(pwd);
+		//	System.out.println(userid);
+		//	System.out.println(pwd);
 			
 			MemberDTO mdto = new MemberDTO(userid, pwd);
 

@@ -25,7 +25,7 @@
 		// *** 특정 회원을 클릭하면 그 회원의 상세정보를 보여주도록 한다. *** //
 		$("tr.ShowMemberDetail").click((e) => {
 
-			const MemberId = $(e.target).parent().find("td#ShowMemberID2").text();
+			const MemberId = $(e.target).parent().find("span#ShowMemberID2").text();
 			location.href = "<%=ctxPath%>/admin/adminShowMemberDetail.dak?MemberId="+MemberId;
 			// 절대 경로    														
 		
@@ -79,13 +79,20 @@
 			  <tbody>
 			  	<c:forEach var="showMember" items="${requestScope.memberShowList}" varStatus="loop">
 					 <tr class="ShowMemberDetail"  <c:if test="${loop.first}">style="background-color:  #FF7E32 ;"</c:if>>
-					 	
-					 	<td id="ShowMemberNo">${showMember.mbrNum}</td>
-					 	<td id="ShowMemberID2">${showMember.mbrId}</td>
-					 	<td id="ShowMembeName">${showMember.mbrName}</td>
-					 	<td id="ShowMemberEmail">${showMember.mbrEmail}</td>
+					 	<td id="ShowMemberNo">
+					 		<span>${showMember.mbrNum }</span>
+					 	</td>
+					 	<td id="ShowMemberID">
+					 		<span id="ShowMemberID2">${showMember.mbrId }</span>
+					 	</td>
+					 	<td id="ShowMembeName">
+					 		<span>${showMember.mbrName }</span>
+					 	</td>
+					 	<td id="ShowMemberEmail">
+					 		<span>${showMember.mbrEmail }</span>
+					 	</td>
 					 	<td id="ShowMemberTier">
-					 		${showMember.mbrTierId}
+					 		<span>${showMember.mbrTierId }</span>
 					 		<c:if test="${loop.first}">
 						        <!-- 첫 번째 루프에서만 실행할 코드 -->
 						        <span id="vipText" style="color:purple;"><br>VVIP</span>

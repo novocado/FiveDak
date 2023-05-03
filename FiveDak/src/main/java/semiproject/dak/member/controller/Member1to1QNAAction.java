@@ -49,6 +49,7 @@ public class Member1to1QNAAction extends AbstractController {
 	    	  
 	    	  if(n==1) {
 	    		  
+	    		// 로그인한 사용자가 다른 사용자의 코인을 충전결제 시도하는 경우 
 				String message = "문의하기 성공!!!";
 				String loc = request.getContextPath() + "/index.dak";    
 				

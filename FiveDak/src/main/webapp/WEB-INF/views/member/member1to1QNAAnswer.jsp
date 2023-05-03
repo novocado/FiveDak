@@ -7,15 +7,17 @@
 <%
 	String ctxPath = request.getContextPath();
 %> 
-   
+
+
 <jsp:include page="/WEB-INF/views/member/mypageSidebar.jsp"/>
 
 
 <style type="text/css">
 
-
-
-
+tr.Show1to1Detail:hover{
+	background-color: #dcdcdc;
+	cursor: pointer;
+}
 
 </style>
 
@@ -26,26 +28,10 @@
 		// *** 특정 회원을 클릭하면 그 회원의 상세정보를 보여주도록 한다. *** //
 		$("tr.Show1to1Detail").click((e) => {
 
-			const qnaId = $(e.target).parent().find("td#qna_ID").text();
-			const qnauserid = $(e.target).parent().find("td#QNA_MEMBER_ID").text();
-			const qnacontent = $(e.target).parent().find("td#QUESTION_CONTENT").text();
-			const qnatitle = $(e.target).parent().find("td#QUESTION_TITLE").text();
-			const qnacreated_at = $(e.target).parent().find("td#QUESTION_CREATED_AT").text();
-					$.ajax({
-					  url:"<%=ctxPath%>/mypage/1to1QNAAnswerDetail.dak",
-					  type:"POST",
-					  data:{"qnaId":qnaId,
-						     "qnauserid": qnauserid,
-						     "qnacontent": qnacontent,
-						     "qnatitle": qnatitle,
-						     "qnacreated_at":qnacreated_at},
-					  success: function(result) {
-						  $('div#mbr1to1').html(result);
-					  },
-					  error: function(request, status, error){
-					    alert("code: "+request.status+"\n"+"message: "+request.responseText+"\n"+"error: "+error);
-					  }
-					});						
+			const qnaId = $(e.target).parent().find("span#qna_ID").text();
+			location.href = "<%=ctxPath%>/mypage/1to1QNAAnswerDetail.dak?qnaId="+qnaId;
+			// 절대 경로    														
+		
 		});		
 		
 		
@@ -59,7 +45,7 @@
     
 </div>
 
-<div id="mbr1to1" style="clear: both;">	
+<div style="clear: both;">	
 
 	<div style="border: solid 2px black; margin-bottom: 20px;"></div>
 
@@ -83,11 +69,21 @@
 		  	
 
 			    <tr class="Show1to1Detail" style="border-bottom: solid 1px black;">
-			      <td id="QUESTION_CREATED_AT">${qna.QUESTION_CREATED_AT}</td>
-			      <td id="QUESTION_TITLE">${qna.QUESTION_TITLE}</td>
-			      <td id="QNA_MEMBER_ID">${qna.QNA_MEMBER_ID}</td>
-			      <td style="display: none" id="qna_ID">${qna.QNA_ID}</td>
-			      <td style="display: none" id="QUESTION_CONTENT">${qna.QUESTION_CONTENT}</td>
+			      <td>
+			      	<span style="display: none" id="qna_ID">${qna.QNA_ID}</span>			  
+			      	<span>${qna.QUESTION_CREATED_AT}</span>
+			      
+			      </td>
+			      <td>
+			        
+			      	<span>${qna.QUESTION_TITLE}</span>
+			      
+			      </td>
+			      <td>
+			      
+			      	<span>${qna.QNA_MEMBER_ID}</span>
+
+			      </td>
 			    </tr>
 	  
 		  </c:forEach>
@@ -119,10 +115,7 @@
 	</c:if> <%-- if 문 끝 나는 곳 --%>  
 	
 		
-	<div>
-
-
-
+<div>
     </div>
   </div>
 </div>

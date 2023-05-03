@@ -6,7 +6,9 @@
 <%
 	String ctxPath = request.getContextPath();
 %> 
-    
+
+<jsp:include page="/WEB-INF/views/member/mypageSidebar.jsp"/>
+
 
 <style type="text/css">
 
@@ -20,54 +22,37 @@
 <script type="text/javascript">
 	$(document).ready(function(){
 		
-		
-		
 	});
 
 	
 </script>	
-    	<h4 style="text-align: center; margin-bottom: 20px;">문의 내용</h4>
+    
+    
+    
+    
+    
+    <!-- 오른쪽에 들어갈 내용 -->
       	<table class="table">
-		 	<thead class="thead-light">
-		 		<tr>
-		 			<th>제목 : ${requestScope.qnatitle}</th>
-		 			<th style="text-align: right;">글 번호 : ${requestScope.qnaId}</th>
-		 		</tr>
-		 		<tr style="">	
-				 	<td>작성자 : ${requestScope.qnauserid}</td>
-				 	<td style="text-align: right;">작성일자 : ${requestScope.qnacreated_at}</td>	
-				</tr>
-			</thead>			
-		</table>		 	
-
-
-		<div style="border-top: solid 1px black; padding: 20px; margin-bottom: 100px;">${requestScope.qnacontent}</div>
-		
-		<div style="border: solid 1px black; width:100%; margin-bottom: 20px;"></div>
-		
-		<h4 style="text-align: center; margin-bottom: 20px;">문의 답변</h4>
-		
-		<div style="border: solid 1px black; width:100%; margin-bottom: 20px;"></div>		
-		
-				
-		<table class="table">
-		 	<thead class="thead-light">
-		 		<tr>
-		 			<th>제목 : ${requestScope.qnatitle}</th>
-		 			<th style="text-align: right;">글 번호 : ${requestScope.qnaId}</th>
-		 		</tr>
-		 		<tr style="">	
-				 	<td>작성자 : ${requestScope.qnauserid}</td>
-				 	<td style="text-align: right;">작성일자 : ${requestScope.qnacreated_at}</td>	
-				</tr>
-			</thead>			
-		</table>		 	
-
-
-		<div style="border-top: solid 1px black; padding: 20px; margin-bottom: 100px;">${requestScope.qnacontent}</div>
-				
-				
-				
-				
-				
-				
+		 		<thead>
+		 			<tr>
+		 				<th>제목 : ${qna.QUESTION_TITLE}</th>
+		 				
+		 			</tr>
+		 		</thead>
+		 	</table>
+		 	
+		 	<div>
+		 		<span>작성자 : ${qna.QNA_MEMBER_ID}</span>
+		 		<span style="float: right">작성일자 : ${qna.QUESTION_CREATED_AT}</span>
+		 	</div>		
+		 	
+		 	
+		 	<div style="clear: both; border-top: solid 1px black; padding: 10px 0;">${qna.QUESTION_CONTENT}</div>
+		 	<div style="text-align: center; margin-bottom: 100px;"><button type="button" class="btn btn-secondary btn-lg">답변 확인하기</button></div>
+		 	
+		 	
+      <!-- 오른쪽에 들어갈 내용 -->
+    </div>
+  </div>
+</div>
+<jsp:include page="/WEB-INF/views/footer.jsp"/>

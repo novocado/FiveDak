@@ -113,7 +113,7 @@ public class ProductDAO implements InterProductDAO {
 							" ON P.PRODUCT_CATEGORY_ID = C.CATEGORY_ID "+
 							" JOIN tbl_brand B  "+
 							" ON P.PRODUCT_BRAND_ID = B.brand_id "+
-							" WHERE P.PRODUCT_NAME like '%' || ? || '%'  or C.CATEGORY_NAME like '%' || ? || '%' or B.BRAND_NAME like '%' || ? || '%' "+
+							" WHERE P.PRODUCT_NAME like '%' || ? || '%' "+
 							" )V "+
 							" WHERE RNO BETWEEN ?  AND ?  "
 							+  "ORDER BY RNO ASC ";
@@ -127,11 +127,8 @@ public class ProductDAO implements InterProductDAO {
 			
 			// pstmt.setString(1, paraMap.get("orderBy"));
 			pstmt.setString(1, paraMap.get("searchWord"));
-			pstmt.setString(2, paraMap.get("searchWord"));
-			pstmt.setString(3, paraMap.get("searchWord"));
-			
-			pstmt.setInt(4, (sizePerPage*currentShowPageNo)-(sizePerPage-1));
-			pstmt.setInt(5, sizePerPage*currentShowPageNo);
+			pstmt.setInt(2, (sizePerPage*currentShowPageNo)-(sizePerPage-1));
+			pstmt.setInt(3, sizePerPage*currentShowPageNo);
 			
 			rs = pstmt.executeQuery();
 			
@@ -668,36 +665,48 @@ public class ProductDAO implements InterProductDAO {
 		return null;
 	}
 
-	
-
-
 	@Override
-	public List<CategoryDTO> getCategoryList() throws SQLException {
-		List<CategoryDTO> cdtolist = new ArrayList<>();
+	public List<ProductDTO> getOrderDetail(String order_serial) throws SQLException {
+		List<ProductDTO> list = new ArrayList<>();
 		try {
 			conn = ds.getConnection();
-			String sql = " select category_id , category_name from tbl_category ";
+			String sql = " SELECT   D.ORDER_DETAIL_PRODUCT_ID, P.PRODUCT_NAME , D.ORDER_QUANTITY , D.PRICE_PER_UNIT , p.product_image_url , B.BRAND_NAME "
+					+ " FROM tbl_order_detail D "
+					+ " JOIN TBL_PRODUCT P  "
+					+ " ON D.ORDER_DETAIL_PRODUCT_ID = P.PRODUCT_ID "
+					+ " JOIN TBL_BRAND B "
+					+ " on P.PRODUCT_BRAND_ID = B.BRAND_ID "
+					+ " WHERE D.FK_ORDER_SERIAL = ? ";
 					
 			pstmt = conn.prepareStatement(sql);
-	
+		
+			pstmt.setString(1, order_serial);
+			
 			rs = pstmt.executeQuery();
 			
 			while ( rs.next()) {
-				CategoryDTO cdto = new CategoryDTO() ;
-				cdto.setCateId(rs.getInt("category_id"));
-				cdto.setCateName(rs.getString("category_name"));
+				ProductDTO pdto = new ProductDTO();
+				pdto.setProdNum(rs.getInt(1));
+				pdto.setProdName(rs.getString(2));
+				pdto.setOrderNo(rs.getInt(3));
+				pdto.setProdPrice(rs.getInt(4));
+				pdto.setProdImage1(rs.getString(5));
 				
-				cdtolist.add(cdto);
+				BrandDTO bdto = new BrandDTO() ;
+				bdto.setBrandName(rs.getString(6));
+				pdto.setBrandDTO(bdto);
+				
+				list.add(pdto);
 			}
 			
 		}finally {
 			close();
 		}
-		
 	
-	
-		return cdtolist ; 
+		return list;
 	}
+
+	
 
 	//  특정 prodNum에 해당하는 PDTO 가져오는 메소드
 	@Override
@@ -799,7 +808,7 @@ public class ProductDAO implements InterProductDAO {
 					+ " , review_id, review_member_id, review_product_id , review_score, review_content  "
 					+ " , review_date "
 					+ " from tbl_review "
-					+ " where review_product_id = ? "
+					+ " where review_product_id = 24 "
 					+ " )V "
 					+ " WHERE RNO BETWEEN ? AND ? ";
 			
@@ -807,9 +816,9 @@ public class ProductDAO implements InterProductDAO {
 			
 			int pageNum = Integer.parseInt(paraMap.get("pageNum"));
 			
-			pstmt.setString(1, paraMap.get("prodNum"));
-			pstmt.setInt(2, (5*pageNum)-(5-1));
-			pstmt.setInt(3,  5* pageNum);
+			// pstmt.setString(1, paraMap.get("prodNum"));
+			pstmt.setInt(1, (5*pageNum)-(5-1));
+			pstmt.setInt(2,  5* pageNum);
 			
 			rs= pstmt.executeQuery();
 			
@@ -1104,72 +1113,6 @@ public class ProductDAO implements InterProductDAO {
 	        throw e;
 	    }
 	}
-
-	// 제품 상세 페이지에서 장바구니 담기시 CART 에 INSERT 또는 업데이트 시 
-	@Override
-	public int insertCartlist(Map<String, String> paraMap) throws SQLException {
-		int n1 = 0 , n2 = 0 ;
-		int cartId = 0;
-		try {
-			conn = ds.getConnection();
-			
-			String sql = " SELECT COUNT(*) FROM TBL_CART  "
-					+ " WHERE CART_PRODUCT_ID = ? AND CART_MEMBER_ID = ? " ;
-	
-			pstmt = conn.prepareStatement(sql);
-			
-			pstmt.setString(1, paraMap.get("prodNum") );
-			pstmt.setString(2, paraMap.get("userid") );
-			
-			rs = pstmt.executeQuery();
-			
-			rs.next();
-			
-			n1 = rs.getInt(1);
-			
-			if ( n1 == 1 ) {
-				sql = " update tbl_cart set cart_quantity = ?  , cart_insert_time = sysdate "
-					+ " WHERE CART_PRODUCT_ID = ? AND CART_MEMBER_ID = ? ";
-				pstmt = conn.prepareStatement(sql);
-				pstmt.setString(1, paraMap.get("oqty"));
-				pstmt.setString(2, paraMap.get("prodNum"));
-				pstmt.setString(3, paraMap.get("userid"));
-				
-				n2 = pstmt.executeUpdate();
-				
-				
-			}
-			else {
-				sql = " INSERT INTO TBL_CART ( cart_member_id , cart_product_id , cart_quantity , cart_insert_time ) "
-						+ " VALUES ( ? , ? , ? , default ) " ;
-				pstmt = conn.prepareStatement(sql);
-				pstmt.setString(1, paraMap.get("userid"));
-				pstmt.setInt(2, Integer.parseInt(paraMap.get("prodNum")));
-				pstmt.setInt(3, Integer.parseInt(paraMap.get("oqty")));
-				
-				n2 = pstmt.executeUpdate();
-			}
-			
-			if ( n2 == 1) {
-				sql =     " SELECT CART_ID FROM TBL_CART  "
-						+ " WHERE CART_PRODUCT_ID = ? AND CART_MEMBER_ID = ? " ;
-				pstmt = conn.prepareStatement(sql);
-				pstmt.setInt(1, Integer.parseInt(paraMap.get("prodNum"))) ;
-				pstmt.setString(2, paraMap.get("userid"));
-				
-				rs = pstmt.executeQuery();
-				if ( rs.next() ) {
-					cartId = rs.getInt(1);
-				}
-			}
-		}finally {
-			close();
-		}
-		
-		return cartId ;
-	
-	
-	}
 	
 	
 
@@ -1266,7 +1209,12 @@ public class ProductDAO implements InterProductDAO {
 	}
 
 
-
+	@Override
+	public List<String> getCategoryList() throws SQLException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+			
 	
 	@Override
 	public List<OrderDetailDTO> getReviewable(Map<String, String> paraMap) throws SQLException {
@@ -1567,36 +1515,6 @@ public class ProductDAO implements InterProductDAO {
 	    }
 
 	    return isSuccess;
-	}
-
-	// 제품 등록 해주기 
-	@Override
-	public int insertProduct(ProductDTO pdto) throws SQLException {
-		int n = 0 ;
-		 	try {
-			conn = ds.getConnection();
-			
-			
-	        String sql = " Insert into tbl_product ( PRODUCT_NAME , PRODUCT_CATEGORY_ID , PRODUCT_BRAND_ID , PRODUCT_PRICE  "
-	        		+    " ,  PRODUCT_SALES , PRODUCT_DISCOUNT , AVERAGE_RATING , PRODUCT_IMAGE_URL )  "
-	                   + " values ( ? , ? , ? , ? , ? , ?  , ?  , ? ) ";
-	                   
-	        pstmt = conn.prepareStatement(sql);
-	        pstmt.setInt(1, pdto.getProdNum() );
-	        pstmt.setInt(2, pdto.getFk_prodCateNum());
-	        pstmt.setInt(3, pdto.getFk_prodBrandNum());
-	        pstmt.setInt(4, pdto.getProdPrice());
-	        pstmt.setInt(5, 0 );
-	        pstmt.setInt(6, pdto.getProdDiscount());
-	        pstmt.setInt(7, 0 );
-	        pstmt.setString(8, pdto.getProdImage1());
-	        
-	        n = pstmt.executeUpdate();
-	        
-		 	}finally {
-		 		close();
-		 	}
-		return n ;
 	}
 	
 

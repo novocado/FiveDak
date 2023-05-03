@@ -9,7 +9,6 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import semiproject.dak.common.controller.AbstractController;
-import semiproject.dak.member.model.AdminQNADTO;
 import semiproject.dak.member.model.InterMemberDAO;
 import semiproject.dak.member.model.MemberDAO;
 import semiproject.dak.member.model.MemberDTO;
@@ -29,6 +28,7 @@ public class Member1to1QNAAnswerAction extends AbstractController {
 		
 		// 페이징 처리를 위한 것 
 		String ShowPage = request.getParameter("ShowPage");
+		
 		
 		// 페이징 처리를 하기 위한 것 
 		if(ShowPage == null) {
@@ -54,11 +54,12 @@ public class Member1to1QNAAnswerAction extends AbstractController {
 		
 		int Show1to1TotalPage = mdao.Show1to1TotalPage(paraMap);
 		
+		System.out.println(Show1to1TotalPage);
 		
 		List<MemberQNADTO> QNAList = mdao.selectQNAList(paraMap);    // 메소드 생성
 		
+		System.out.println(QNAList);
 	
-		
 		request.setAttribute("QNAList", QNAList);
 		request.setAttribute("ShowPage", ShowPage);
 		
