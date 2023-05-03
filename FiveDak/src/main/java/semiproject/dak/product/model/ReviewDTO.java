@@ -1,3 +1,4 @@
+
 package semiproject.dak.product.model;
 
 import java.util.Date;
@@ -106,3 +107,4 @@ public class ReviewDTO {
 	}
 	
 }
+

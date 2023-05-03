@@ -24,14 +24,8 @@
 		
 		// *** 특정 회원을 클릭하면 그 회원의 상세정보를 보여주도록 한다. *** //
 		$("tr.ShowMemberDetail").click((e) => {
-			
-			// 알아와야 할 ID 구해오기
-			//alert($(e.target).parent().find(".userid").text());    // e.target 은 tr 부분이 아닌 tr 안에 있는 td 부분을 말한다.
-																   // parent() 를 붙이면 부모 를 나타냄 
-			   													   // find(."userid") 는 userid 클래스를 찾는다.
-																   // text() 는 그 사람의 아이디값을 나타낼 수 있다.
-			   
-			const MemberId = $(e.target).parent().find("span#ShowMemberID2").text();
+
+			const MemberId = $(e.target).parent().find("td#ShowMemberID2").text();
 			location.href = "<%=ctxPath%>/admin/adminShowMemberDetail.dak?MemberId="+MemberId;
 			// 절대 경로    														
 		
@@ -85,20 +79,13 @@
 			  <tbody>
 			  	<c:forEach var="showMember" items="${requestScope.memberShowList}" varStatus="loop">
 					 <tr class="ShowMemberDetail"  <c:if test="${loop.first}">style="background-color:  #FF7E32 ;"</c:if>>
-					 	<td id="ShowMemberNo">
-					 		<span>${showMember.mbrNum }</span>
-					 	</td>
-					 	<td id="ShowMemberID">
-					 		<span id="ShowMemberID2">${showMember.mbrId }</span>
-					 	</td>
-					 	<td id="ShowMembeName">
-					 		<span>${showMember.mbrName }</span>
-					 	</td>
-					 	<td id="ShowMemberEmail">
-					 		<span>${showMember.mbrEmail }</span>
-					 	</td>
+					 	
+					 	<td id="ShowMemberNo">${showMember.mbrNum}</td>
+					 	<td id="ShowMemberID2">${showMember.mbrId}</td>
+					 	<td id="ShowMembeName">${showMember.mbrName}</td>
+					 	<td id="ShowMemberEmail">${showMember.mbrEmail}</td>
 					 	<td id="ShowMemberTier">
-					 		<span>${showMember.mbrTierId }</span>
+					 		${showMember.mbrTierId}
 					 		<c:if test="${loop.first}">
 						        <!-- 첫 번째 루프에서만 실행할 코드 -->
 						        <span id="vipText" style="color:purple;"><br>VVIP</span>

@@ -297,7 +297,7 @@ public class OrderDAO implements InterOrderDAO{
 			conn = ds.getConnection();
 			
 			String sql = " SELECT  ORDER_MEMBER_ID ,ORDER_TOTAL_PRICE , (SHIPPING_ADDRESS || ' ' || SHIPPING_DETAIL_ADDRESS ) AS ORDER_ADDRESS "
-					+ " , RECIPIENT_MOBILE , TRACKING_NUMBER , ORDER_STATUS  ,  STATUS_NAME , ORDER_SERIAL , ORDER_DATE "
+					+ " , RECIPIENT_MOBILE , TRACKING_NUMBER , ORDER_STATUS  ,  STATUS_NAME , ORDER_SERIAL , ORDER_DATE , ORDER_MESSAGE "
 					+ " FROM TBL_ORDER O "
 					+ " JOIN order_status S "
 					+ " ON O.ORDER_STATUS = S.STATUS_ID  "  
@@ -320,6 +320,7 @@ public class OrderDAO implements InterOrderDAO{
 				odto.setOrderStatus(rs.getInt("ORDER_STATUS"));
 				odto.setOrderStatus_name(rs.getString("STATUS_NAME"));
 				odto.setOrderDate(rs.getString("ORDER_DATE"));
+				odto.setOrderMessage(rs.getString("ORDER_MESSAGE"));
 			}
 		}finally {
 			close();
@@ -346,6 +347,16 @@ public class OrderDAO implements InterOrderDAO{
 			
 			n = pstmt.executeUpdate();
 			
+			if ( Integer.parseInt(paraMap.get("orderStatus")) == 4 ) {
+				sql = " update tbl_order_detail  "
+					+ "  set REVIEW_STATUS =  2 "
+					+ "  where FK_ORDER_SERIAL ? " ;
+				
+				pstmt = conn.prepareStatement(sql);
+				pstmt.setString(1, paraMap.get("order_serial"));
+				
+				n = pstmt.executeUpdate();
+			}
 		}finally {
 			close();
 		}
@@ -379,7 +390,54 @@ public class OrderDAO implements InterOrderDAO{
 		
 		return n;
 	}
+
+	@Override
+	public List<OrderDTO> getOrderDetail(String order_serial) throws SQLException {
+		List<OrderDTO> list = new ArrayList<>();
+		try {
+			conn = ds.getConnection();
+			String sql = " SELECT   D.ORDER_DETAIL_PRODUCT_ID, P.PRODUCT_NAME , D.ORDER_QUANTITY , O.ORDER_MESSAGE , D.PRICE_PER_UNIT , p.product_image_url , B.BRAND_NAME "
+					+ " FROM tbl_order_detail D "
+					+ " JOIN TBL_ORDER O "
+					+ " ON D.FK_ORDER_SERIAL = O.ORDER_SERIAL "
+					+ " JOIN TBL_PRODUCT P  "
+					+ " ON D.ORDER_DETAIL_PRODUCT_ID = P.PRODUCT_ID "
+					+ " JOIN TBL_BRAND B "
+					+ " on P.PRODUCT_BRAND_ID = B.BRAND_ID "
+					+ " WHERE D.FK_ORDER_SERIAL = ? ";
+					
+			pstmt = conn.prepareStatement(sql);
+		
+			pstmt.setString(1, order_serial);
+			
+			rs = pstmt.executeQuery();
+			
+			while ( rs.next()) {
+				OrderDTO odto = new OrderDTO();
+				OrderDetailDTO oddto = new OrderDetailDTO();
+					ProductDTO pdto = new ProductDTO();
+					pdto.setProdNum(rs.getInt("ORDER_DETAIL_PRODUCT_ID"));
+					pdto.setProdName(rs.getString("PRODUCT_NAME"));
+					pdto.setProdImage1(rs.getString("product_image_url"));
+					BrandDTO bdto = new BrandDTO();
+					bdto.setBrandName(rs.getString("BRAND_NAME"));
+					pdto.setBrandDTO(bdto);
+				oddto.setOrderDetailProd(pdto);
+				oddto.setOrderQuantity(rs.getInt("ORDER_QUANTITY"));
+				oddto.setPricePerUnit(rs.getInt("PRICE_PER_UNIT"));
+				odto.setOrderMessage(rs.getString("ORDER_MESSAGE"));
+				odto.setOrddt(oddto);
+				odto.setProd(pdto);
+				
+				list.add(odto);
+			}
+			
+		}finally {
+			close();
+		}
 	
+		return list;
+	}
 	
 
 	

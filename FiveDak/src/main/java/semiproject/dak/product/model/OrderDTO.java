@@ -1,5 +1,6 @@
 package semiproject.dak.product.model;
 
+
 public class OrderDTO {
 	private int orderId ; // 주문 번호
 	private String orderSerial ; // 주문 시리얼 번호
@@ -19,7 +20,24 @@ public class OrderDTO {
 	private int reviewStatus ; // 리뷰 여부
 	private String orderStatus_name ; // 배송 상태 여부 이름 ( 원래는 dto 가 필요하지만 굳이 안만들고 여기에다가 함) 
 	
-	
+	private ProductDTO prod ; 
+	private OrderDetailDTO orddt;
+
+	public ProductDTO getProd() {
+		return prod;
+	}
+
+	public void setProd(ProductDTO prod) {
+		this.prod = prod;
+	}
+
+	public OrderDetailDTO getOrddt() {
+		return orddt;
+	}
+
+	public void setOrddt(OrderDetailDTO orddt) {
+		this.orddt = orddt;
+	}
 
 	// 기본 생성자 
 	public OrderDTO () {}

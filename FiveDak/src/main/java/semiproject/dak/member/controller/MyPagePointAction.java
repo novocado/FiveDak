@@ -84,10 +84,10 @@ public class MyPagePointAction extends AbstractController {
 		while( !(loop > blockSize || pageNo > totalPage)) { 
 			
 			if(pageNo == Integer.parseInt(ShowPageNo)) {
-				pageBar += "<li class='page-item active'><a style='background-color: #FF7E32; color:black; border-color : #FF7E32;' class='page-link' href= '#'>" + pageNo + "</a></li>";    
+				pageBar += "<li class='page-item active'><a class='page-link' href= '#'>" + pageNo + "</a></li>";    
 			}																
 			else {
-				pageBar += "<li class='page-item'><a style='color:black;' class='page-link' href='point.dak?pointSelect="+pointSelect+"&ShowPageNo="+pageNo+"'>" + pageNo + "</a></li>"; 
+				pageBar += "<li class='page-item'><a class='page-link' href='point.dak?pointSelect="+pointSelect+"&ShowPageNo="+pageNo+"'>" + pageNo + "</a></li>"; 
 			}
 			
 			loop++;  

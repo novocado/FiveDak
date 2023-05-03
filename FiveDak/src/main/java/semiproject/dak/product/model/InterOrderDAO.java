@@ -32,4 +32,7 @@ public interface InterOrderDAO {
 	// 주문 상세 페이지 에서 ORDER 를 삭제하는 경우 
 	int goRemoveOrder(String order_serial) throws SQLException ;
 
+	// 관리자 페이지에서 주문에 대한 상세정보를 볼 경우
+	List<OrderDTO> getOrderDetail(String order_serial) throws SQLException;
+
 }

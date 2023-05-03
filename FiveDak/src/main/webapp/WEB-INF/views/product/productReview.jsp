@@ -18,25 +18,25 @@
 	<div style='display:flex; width:80%; position:relative; left :175px;'>
 	    <ul  id="pageBar"class="pagination" style='margin:auto; list-style-type: none'>
 			<c:if test="${requestScope.pageNum != 1 }">
-				<li class="page-item"><button type="button" class="btn btn-outline-primary text-muted" onclick="goReviewList(1)">[맨처음]</button></li>
+				<li class="page-item"><button type="button" class="btn btn-outline-warning " onclick="goReviewList(1)">맨처음</button></li>
 			</c:if>
 			
 			<c:if test="${requestScope.startPage != 1 }">
-				<li class="page-item"><button type="button" class="btn btn-outline-primary text-muted" onclick="goReviewList(${requestScope.pageNum -1})">[이전]</button></li>
+				<li class="page-item"><button type="button" class="btn btn-outline-warning " onclick="goReviewList(${requestScope.pageNum -1})">이전</button></li>
 			</c:if>
 			
 			<c:forEach begin="${requestScope.startPage}" end="${requestScope.endPage}" var="page">
 				<li class="page-item">
-					<button class="btn ${requestScope.pageNum == page ? 'btn-primary' : 'btn-outline-primary' }" onclick="goReviewList(${page})">${page}</button>
+					<button class="btn ${requestScope.pageNum == page ? 'btn-warning' : 'btn-outline-warning' }" onclick="goReviewList(${page})">${page}</button>
 				</li>
 			</c:forEach>
 			
 			<c:if test="${requestScope.endPage != requestScope.totalPage}">
-				<li class="page-item"><button type="button" class="btn btn-outline-primary text-muted" onclick="goReviewList(${requestScope.pageNum +1})">[다음]</button></li>
+				<li class="page-item"><button type="button" class="btn btn-outline-warning" onclick="goReviewList(${requestScope.pageNum +1})">다음</button></li>
 			</c:if>
 			
 			<c:if test ="${requestScope.pageNum != requestScope.totalPage}">
-				<li class="page-item"><button type="button" class="btn btn-outline-primary text-muted" onclick="goReviewList(${requestScope.endPage})">[마지막]</button></li>
+				<li class="page-item"><button type="button" class="btn btn-outline-warning" onclick="goReviewList(${requestScope.endPage})">마지막</button></li>
 			</c:if>
 
 		</ul>

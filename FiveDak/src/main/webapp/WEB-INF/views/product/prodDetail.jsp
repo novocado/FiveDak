@@ -20,7 +20,10 @@
 
 <script type="text/javascript">
 	$(document).ready(function(){
-		
+			$('span#spinnerOqty').text(1);
+			var frist_value = 1*${pdto.prodDiscount} ;
+			$('h4#totalPrice1').text( frist_value.toLocaleString()+"원") ;
+			
 			$("input#spinner").spinner( {
 			    spin: function(event, ui) {
 			       if(ui.value > 100) {
@@ -33,14 +36,52 @@
 			       }
 			    }
 			 } );// end of $("input#spinner").spinner({});----------------    
-
+			
 			$("span.star-rate-lg").css('width', '${requestScope.percent}%') ; 
-			goReviewList(1); 
+			goReviewList(1);
+			
+			  // spinner1의 값을 변경할 때
+			  $('#spinner1').spinner({
+			    spin: function(event, ui){
+			    	
+			      var value1 = ui.value;
+			      if ( value1 > 0){
+			     	 $('span#spinnerOqty').text(value1);	
+			     	 var totalPrice1 = value1 * ${requestScope.pdto.prodDiscount} ;
+			     	 $('h4#totalPrice1').text(totalPrice1.toLocaleString()+"원");
+			      }
+			      var value2 = $('#spinner2').spinner('value');
+			      if (value1 != value2) {
+			        $('#spinner2').spinner('value', value1);
+			      }
+			    }
+			  });
+
+			  // spinner2의 값을 변경할 때
+			  $('#spinner2').spinner({
+			    spin: function(event, ui){
+			      var value2 = ui.value;
+			      if ( value2 > 0 ){
+				      $('span#spinnerOqty').text(value2);	
+				      var totalPrice2 = value2 * ${requestScope.pdto.prodDiscount} ;
+				      $('h4#totalPrice1').text(totalPrice2.toLocaleString()+"원");
+				      
+			      }
+			      
+			      var value1 = $('#spinner1').spinner('value');
+			      if (value2 != value1) {
+			        $('#spinner1').spinner('value', value2);
+			        
+			      }
+			    }
+			  });
+			
+			
 	}) ; // END OF 	$(DOCUMENT).READY(FUNCTION(){
 	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	
 	function goReviewList(pageNum){
-		  
+		  	
 			$.ajax({
     		  url:"<%=request.getContextPath() %>/product/getReviewList.dak",
     		  data:{ "prodNum":"${requestScope.pdto.prodNum}" 
@@ -50,7 +91,7 @@
     		  success:function(result) {
     			  
     			  if(result.trim() == 'false') {
-	             		$("section#review").html('<h2 class="my-5">등록된 리뷰가 존재하지 않습니다.</h2>');
+	             		$("section#review").html('<h3 style="font-weight:bold; font-size:12pt;">구매후기</h3><h2 class="my-5">등록된 리뷰가 존재하지 않습니다.</h2>');
 	              } 
     			  else {
 	             		$("section#review").html(result);
@@ -69,8 +110,105 @@
 		
 	}; // FUNCTION GOREVIEWLIST(){
 	
+	function goCart(){
+		 // === 주문량에 대한 유효성 검사하기 === //
+	      var frm = document.cartOrderFrm;
+	      var regExp = /^[0-9]+$/;  // 숫자만 체크하는 정규표현식
+	      var oqty = frm.oqty.value;
+	      var bool = regExp.test(oqty);
+	      
+	      if(!bool) {
+	         // 숫자 이외의 값이 들어온 경우 
+	         alert("주문갯수는 1개 이상이어야 합니다.");
+	         frm.oqty.value = "1";
+	         frm.oqty.focus();
+	         return; // 종료 
+	      }
+	      
+	      // 문자형태로 숫자로만 들어온 경우
+	      oqty = parseInt(oqty);
+	      if(oqty < 1) {
+	         alert("주문갯수는 1개 이상이어야 합니다.");
+	         frm.oqty.value = "1";
+	         frm.oqty.focus();
+	         return; // 종료 
+	      }
+	      
+	       $.ajax({
+    		  url:"<%=request.getContextPath() %>/product/insertCart.dak",
+    		  data:{ "oqty":oqty 
+    			  , "prodNum":'${requestScope.pdto.prodNum}'
+    			  } ,
+    		  type:"POST",
+    		  async:false ,
+    		  dataType:"json",
+    		  success:function(json) {
+    			  if ( json.result == "true" ){
+    				  alert("장바구니에 제품이 추가되셨습니다.");
+    			  }
+    			  else {
+    				  alert("오류가 발생했습니다.");
+    			  }
+    			  
+    		  },
+               error: function(request, status, error){
+                  alert("code: "+request.status+"\n"+"message: "+request.responseText+"\n"+"error: "+error);
+               }
+    	   
+    	   
+    	   }); // end of $.ajax 
+			
+    	   if ( confirm("장바구니로 이동하시겠습니까?")){
+		      frm.method = "POST";
+		      frm.action = "<%= request.getContextPath()%>/cart/cartlist.dak";
+		      frm.submit();
+    	   }
+	}; // END OF GOCART(); 
 	
+	function goOrder(){
 		
+		var frm = document.cartOrderFrm;
+		var oqty = frm.oqty.value;
+		
+		$.ajax({
+  		  url:"<%=request.getContextPath() %>/product/insertCart.dak",
+  		  data:{ "oqty":oqty 
+  			  , "prodNum":'${requestScope.pdto.prodNum}'
+  			  } ,
+  		  type:"POST",
+  		  async:false ,
+  		  dataType:"json",
+  		  success:function(json) {
+  			  if ( json.result == "true" ){
+  				  alert(" 주문 페이지로 이동합니다.");
+  				  let selectedProducts = [];
+  				
+  				selectedProducts.push({
+  		            productid: '${requestScope.pdto.prodNum}',
+  		            cartid: json.cartId ,
+  		            oqty: oqty
+  		         });
+  				const selectedProductsJson = JSON.stringify(selectedProducts);
+  				
+  				$("#cartOrderFrm input[name='SelectedProductArr']").val(selectedProductsJson);
+  			      frm.method = "POST";
+  			      frm.action = "<%= request.getContextPath()%>/order/order.dak";
+  			      frm.submit();	
+  			  
+  			  }
+  			  else {
+  				  alert("오류가 발생했습니다.");
+  			  }
+  			  
+  		  },
+             error: function(request, status, error){
+                alert("code: "+request.status+"\n"+"message: "+request.responseText+"\n"+"error: "+error);
+             }
+  	   
+  	   
+  	   }); // end of $.ajax 
+
+	}
 		
 	
 
@@ -610,7 +748,7 @@ a.sticky-nav-tab { text-decoration: none; }
 				<div class="product_price">
 					
 					<p class="price"><span style="color:#f15220;font-size:30pt; font-weight: bold;">${pdto.discountPercent}%</span>
-					<strong style="font-size:30pt;"><fmt:formatNumber value="${requestScope.pdto.prodPrice}" pattern="###,###" /></strong>원&nbsp;
+					<strong style="font-size:30pt;"><fmt:formatNumber value="${requestScope.pdto.prodDiscount}" pattern="###,###" /></strong>원&nbsp;
 					<span class="text-muted" style="text-decoration: line-through;font-size:15pt; font-weight: bold;"><fmt:formatNumber value="${pdto.prodPrice}" pattern="#,###"/>원</span>
 					</p>
 					
@@ -619,7 +757,7 @@ a.sticky-nav-tab { text-decoration: none; }
 				
 				<div class="product_info_tbl">
 					<dl style="border-bottom:solid 1px #ccc;">
-						<dt style="margin-bottom:12px ; width: 60px;">판매량</dt>
+						<dt style="margin-bottom:12px ; width: 70px;">판매량</dt>
 						<dd>
 							<ul style="list-style-type: none">
 								<li><fmt:formatNumber value="${requestScope.pdto.prodSales }" pattern="###,###" />개</li>
@@ -628,7 +766,7 @@ a.sticky-nav-tab { text-decoration: none; }
 						</dd>
 					</dl>
 					<dl style="border-bottom:solid 1px #ccc;">
-						<dt style="margin-bottom:12px; width: 60px;">배송방법</dt>
+						<dt style="margin-bottom:12px; width: 70px;">배송방법</dt>
 						<dd>
 							<ul>
 								<li>일반&nbsp;&nbsp;&nbsp;<strong>24시</strong> 이전 주문 시 <strong>내일</strong> 도착</li>
@@ -637,7 +775,7 @@ a.sticky-nav-tab { text-decoration: none; }
 						</dd>
 					</dl>
 					<dl style="border-bottom:solid 1px #ccc;">
-						<dt style="margin-bottom:12px; width: 60px;">추가혜택</dt>
+						<dt style="margin-bottom:12px; width: 70px;">추가혜택</dt>
 						<dd>
 							<ul>
 								<li>[추가증정 EVENT★]<br></li>
@@ -648,18 +786,19 @@ a.sticky-nav-tab { text-decoration: none; }
 						</dd>
 					</dl>
 					<dl style="border-bottom:solid 1px #ccc;">
-						<dt style="margin-bottom:12px; width: 60px; ">브랜드관</dt>
+						<dt style="margin-bottom:12px; width: 70px; ">브랜드관</dt>
 						<dd>
 							<span style="text-decoration: none; color:#212529;">${requestScope.pdto.brandDTO.brandName }</span> 
 						</dd>
 					</dl>
 					
 					<%-- ==== 장바구니 담기 폼 ==== --%>
-			          <form name="cartOrderFrm">       
+			          <form id="cartOrderFrm" name="cartOrderFrm">       
 			             <ul class="list-unstyled mt-3">
 			                <li>
-			                    <label for="spinner">주문개수&nbsp;</label>
-			                    <input id="spinner" name="oqty" value="1" style="width: 110px;">
+			                    <label for="spinner1">주문개수&nbsp;</label>
+			                    <input id="spinner1" name="oqty" value="1" style="width: 110px;">
+			                    <input type="hidden" name="SelectedProductArr"/>
 			               </li>
 			               <li class="btn_area" style="position:relative; text-align:center;">
 			                  <button type="button" class="go_cart" onclick="goCart()">장바구니담기</button>
@@ -1007,24 +1146,25 @@ a.sticky-nav-tab { text-decoration: none; }
 		<div class="sideMenubar" style="padding-top:60px; height:80%;">
 			<span style="font-size:12pt;">제품선택<br></span>
 			<div>
-				<h4 style="margin-top: 20px; margin-bottom:250px;" >${requestScope.pdto.prodName}</h4>
-				
-				<h5>총 가격 : <fmt:formatNumber value="${requestScope.pdto.prodPrice}" pattern="###,###" />원</h5>
-				
+				<h4 style="margin-top: 20px; margin-bottom:20px;" >${requestScope.pdto.prodName}</h4>
+				<img src="<%=ctxPath %>/images/${requestScope.pdto.prodImage1}" style="width:200px; height:200px;border-radius:5px; margin-bottom : 20px; " />
+				<h5>총 가격 : <fmt:formatNumber value="${requestScope.pdto.prodDiscount}" pattern="###,###" />원 X 
+				<span id="spinnerOqty"> </span>개</h5>
+				<h4 id="totalPrice1"></h4>
 				<%-- ==== 장바구니 담기 폼 ==== --%>
-			          <form name="cartOrderFrm">       
+			    
 			             <ul class="list-unstyled mt-3">
 			                <li>
-			                    <label for="spinner">주문개수&nbsp;</label>
-			                    <input id="spinner" name="oqty" value="1" style="width: 110px;">
+			                    <label for="spinner2">주문개수&nbsp;</label>
+			                    <input id="spinner2" value="1" style="width: 110px;">
 			               </li>
 			               <li class="btn_area" style="position:relative; text-align:center;">
 			                  <button type="button" class="go_cart" onclick="goCart()">장바구니담기</button>
-			                  <button type="button" class="go_buy" onclick="goOrder()">바로주문하기</button>
+			                  <button type="button" class="go_buy" onclick="goOrder()" style="margin-right:10px; margin-top:30px;">바로주문하기</button>
 			               </li>
 			            </ul>
 			            <input type="hidden" name="pnum" value="${requestScope.pvo.pnum}" />
-			         </form>   
+			      
 			</div>
 <!-- 			<div class="btn_area" style="margin: 50px 5px  5px 20px;">
 				<button type="submit" class="go_cart" style="margin-bottom:12px">장바구니</button>
@@ -1120,39 +1260,7 @@ a.sticky-nav-tab { text-decoration: none; }
 
 		
 		
-		// *** 장바구니 담기 ***//
-	    function goCart() {
-		   
-		      // === 주문량에 대한 유효성 검사하기 === //
-		      var frm = document.cartOrderFrm;
-		      
-		      var regExp = /^[0-9]+$/;  // 숫자만 체크하는 정규표현식
-		      var oqty = frm.oqty.value;
-		      var bool = regExp.test(oqty);
-		      
-		      if(!bool) {
-		         // 숫자 이외의 값이 들어온 경우 
-		         alert("주문갯수는 1개 이상이어야 합니다.");
-		         frm.oqty.value = "1";
-		         frm.oqty.focus();
-		         return; // 종료 
-		      }
-		      
-		      // 문자형태로 숫자로만 들어온 경우
-		      oqty = parseInt(oqty);
-		      if(oqty < 1) {
-		         alert("주문갯수는 1개 이상이어야 합니다.");
-		         frm.oqty.value = "1";
-		         frm.oqty.focus();
-		         return; // 종료 
-		      }
-		      
-		      // 주문개수가 1개 이상인 경우
-		      frm.method = "POST";
-		      frm.action = "<%= request.getContextPath()%>/cart/cartlist.dak";
-		      frm.submit();
-		   
-		   }// end of function goCart()-------------------------
+		
  </script> 
 
 

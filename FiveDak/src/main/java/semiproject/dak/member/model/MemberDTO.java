@@ -22,7 +22,13 @@ public class MemberDTO {
 	private int mbrStatus;
 	private int mbrIdle;
 	private String mbrLastPwdChanged;
+	private int mbrOrderCount;
 	
+	
+
+
+
+
 	///
 	private boolean requirePwdChange = false;
 	
@@ -210,7 +216,14 @@ public class MemberDTO {
 		this.mbrTier = mbrTier;
 	}
 	
-	
+	public int getMbrOrderCount() {
+		return mbrOrderCount;
+	}
+
+	public void setMbrOrderCount(int mbrOrderCount) {
+		this.mbrOrderCount = mbrOrderCount;
+	}
+
 	
 	
 }

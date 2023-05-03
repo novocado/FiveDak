@@ -35,7 +35,7 @@ public class OrderEndAction extends AbstractController {
 			super.setViewPage("/WEB-INF/views/msg.jsp");
 		}
 		
-		String dataList = request.getParameter("dataList");
+		String dataList = request.getParameter("paymentData");
 		System.out.println(dataList);
 		JSONObject jsonObject = new JSONObject(dataList);
 		JSONArray cartIdsJSON = jsonObject.getJSONArray("cartIds");
@@ -72,21 +72,23 @@ public class OrderEndAction extends AbstractController {
 		
 		
 		int n = dao.insertOrderInfo(orderMap);
-		
+		String message = "";
+		String loc = "";
 		if(n > 0) {
 			InterMemberDAO mdao = new MemberDAO();
 			mdao.updateMemberSession(session);
+			message = "정상적으로 결제되었습니다.";
+			loc = request.getContextPath() + "/index.dak";
+		} else {
+			message = "결제가 정상적으로 되었지만 주문 접수에 실패했습니다. 관리자에게 문의하세요.";
+			loc = "javascript:history.back()";
 		}
 		
+		request.setAttribute("message", message);
+	    request.setAttribute("loc", loc);
+	    super.setViewPage("/WEB-INF/views/msg.jsp");
+
 		
-		JSONObject jsonObj = new JSONObject();
-		jsonObj.put("status", n);
-		
-		String json = jsonObj.toString();
-		
-		request.setAttribute("json", json);
-		
-		super.setViewPage("/WEB-INF/views/jsonview.jsp");
 		
 		
 

@@ -19,6 +19,14 @@ public class MemberLoginAction extends AbstractController {
 		
 		HttpSession session = request.getSession();
         
+		String redirectURL = request.getHeader("referer");
+		redirectURL = redirectURL.substring(redirectURL.indexOf(request.getContextPath()) + request.getContextPath().length());
+		
+		if(!"/login.dak".equals(redirectURL)) {
+			session.setAttribute("redirectURL", redirectURL);
+		}
+		
+		
 		MemberDTO member = (MemberDTO) session.getAttribute("loginuser");
 		super.setRedirect(false);
 		
@@ -62,6 +70,8 @@ public class MemberLoginAction extends AbstractController {
 	        if (loginuser != null) {
 	            
 	        	//로그인 성공했을 때
+	        	int orderCount = dao.CountOrder(userid);
+	        	loginuser.setMbrOrderCount(orderCount);
 	            session.setAttribute("loginuser", loginuser);
 	            // 메인페이지로 보내기 추가
 	            
@@ -79,7 +89,14 @@ public class MemberLoginAction extends AbstractController {
 				}
 				else { // 비밀번호를 변경한지 3개월 이내 인 경우
 					super.setRedirect(true);
-					super.setViewPage(request.getContextPath()+"/index.dak");					
+					if(session.getAttribute("redirectURL") != null) {
+						super.setViewPage(request.getContextPath()+ session.getAttribute("redirectURL"));
+						session.removeAttribute("redirectURL");
+					} else {
+						super.setViewPage(request.getContextPath()+"/index.dak");
+					}
+					
+										
 				}
 	        }  //로그인 성공
 	        else {

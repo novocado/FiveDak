@@ -25,7 +25,7 @@ public class SearchProdAction extends AbstractController {
 		// 어떤 순서로 상품들을 보여줄 것인가 ?
 		// 예 >> 평균별점 , 가격순 , 이름순대로 
 		String orderBy = request.getParameter("orderBy");
-		if ( orderBy == null || !("AVERAGE_RATING".equalsIgnoreCase(orderBy) || "PRODUCT_DISCOUNT".equalsIgnoreCase(orderBy)) ) {
+		if ( orderBy == null || !("AVERAGE_RATING".equalsIgnoreCase(orderBy) || "PRODUCT_DISCOUNT".equalsIgnoreCase(orderBy) || "PRODUCT_SALES".equalsIgnoreCase(orderBy)) ) {
 			orderBy = "AVERAGE_RATING"; 
 		}
 		

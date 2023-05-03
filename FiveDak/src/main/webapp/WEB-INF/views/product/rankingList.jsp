@@ -55,6 +55,11 @@
 	.activeList {
 		color: #ff8237 !important; border: solid 1px #ff8237; font-weight: bold; background-color: #ffffff; 
 	}
+	
+	.cart_icon:hover {
+		color: #FF7E32;
+	}
+	
 </style>
 
 <script type="text/javascript">
@@ -83,7 +88,6 @@
 		});
 		$('a#sales').on('click',function(){
 			$('input#save').val('product_sales');
-			
 			goRedirect();
 		});
 		
@@ -149,12 +153,12 @@
 											"<span class='prod_number'style='margin-top:20px;'>"+item.rno+"</span>"+
 										"</div>"+
 										"<div id='div_img' class='col-md-1'style='margin-left:10px;display:inline;'>"+
-											"<a href='<%= ctxPath%>/product/productDetail.dak?product_id="+item.product_id+"'><img src='/FiveDak/images/"+item.product_image_url+"' style='height:90px'/></a>"+
+											"<a href='<%= ctxPath%>/product/productDetail.dak?prodNum="+item.product_id+"'><img src='/FiveDak/images/"+item.product_image_url+"' style='height:90px'/></a>"+
 										"</div>"+
 										"<div class='col-md-5' style='display:inline;  padding-left:50px;'>"+
-											"<a href='<%= ctxPath%>/product/productDetail.dak?product_id="+item.product_id+"' style='vertical-align: top; text-decoration: none; color:#333333;' >["+item.brand_name+"]"+item.product_name+" </a>"+
+											"<a href='<%= ctxPath%>/product/productDetail.dak?prodNum="+item.product_id+"' style='vertical-align: top; text-decoration: none; color:#333333;' >["+item.brand_name+"]"+item.product_name+" </a>"+
 											"<div style='margin-top:30px;'>"+
-												"<span><i class='fa-solid fa-star' style='color:yellow;'></i>"+item.average_rating+"</span>"+
+												"<span><i class='fa-solid fa-star' style='color:#FF7E32;'></i>"+item.average_rating+"</span>"+
 											"</div>"+
 										"</div>"+
 										"<div class='col-md-2 text-center' style='margin-top:30px;'>"+
@@ -165,7 +169,7 @@
 										"</div>"+
 										"<div class='col-md-2 text-right' style='margin-top:30px;'>"+
 											"<ul style='list-style-type: none; margin-right: 30px;'>"+
-												"<li><a href='#'><i class='fa-solid fa-cart-shopping'></i></a> &nbsp;|&nbsp; <a href='#'><i class='fa-regular fa-heart'></i></a></li>"+
+												"<li><a href='#'><i class='fa-solid fa-cart-shopping cart_icon'></i></a> &nbsp;|&nbsp; <a href='#'><i class='fa-regular fa-heart'></i></a></li>"+
 											"</ul>"+
 										"</div>"+
 									"</li>"+				
@@ -206,8 +210,8 @@
 			<div class="row-12" style="margin-top: 50px; width:100%; height: 70px;">
 				<h4 style="display:inline;">오늘의 전체 랭킹 순위!</h4>
 				<ul style="float:right;">
-					<li class="orderby"><a id="live" href="#" style="color: #666666;background-color: #F8F8F8;">실시간</a></li>
-					<li class="orderby"><a id="sales" href="#" style= "color: #666666;background-color: #F8F8F8;">판매량</a></li>
+					<li class="orderby"><a id="live" href="#" style="color: #666666;background-color: #F8F8F8;">별점순</a></li>
+					<li class="orderby"><a id="sales" href="#" style= "color: #666666;background-color: #F8F8F8;">판매순</a></li>
 					<form name="listfrm">
 						<input type="hidden" name="listType" id="save"   value="" />
 					</form>

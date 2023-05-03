@@ -2,6 +2,7 @@
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <%
 	String ctxPath = request.getContextPath();
 %>
@@ -154,6 +155,33 @@
 	
 	.original-price{ color: #333; text-decoration: line-through; margin-left: 2px; font-size: 11pt;}
 	.checkbox-col{margin-left: 20px;}
+	
+	.page-title-area{margin-top: 50px;}
+	.title-page { font-size: 25px; font-weight: 700; }
+	.no-data{ 
+		margin-top: 15px;
+		border-top: 1px solid #666;
+		border-bottom: 1px solid #ccc;
+    	padding: 180px 0 200px 0;
+		text-align: center;
+    	width: 100%;    	
+	}
+	
+	.no-data .message {
+    color: #000;
+    font-size: 20px;
+	}
+	
+	.no-data:before {
+    display: block;
+    content: '';
+    margin: 0 auto 10px;
+    width: 80px;
+    height: 90px;
+    background: url(<%=ctxPath%>/images/alert.png);
+	}
+	
+	
 </style>
 
 <script type="text/javascript">
@@ -480,8 +508,7 @@
 
 
 </script>
-
-
+<c:if test="${fn:length(requestScope.cartlist) > 0}">
 <form id="frm" name="frm" action="/FiveDak/order/order.dak" method="post">
         <input type="hidden" name="SelectedProductArr"/>
         <input type="hidden" name="ordertype" value="CART"/>
@@ -539,7 +566,7 @@
 								</div>
 								
 								<div>
-								    <img class="prod-cart-img" src="${cart.prod.prodImage1 }">
+								    <img class="prod-cart-img" src="<%=ctxPath%>/images/${cart.prod.prodImage1 }">
 								</div>
 								
 								<div class="col-5 prod-info-description mr-4">
@@ -664,5 +691,20 @@
 		</div><!-- cart main -->
 	
 	</div><!-- cart container -->
+</c:if>
+
+
+<c:if test="${fn:length(requestScope.cartlist) eq 0}">
+<div class="container">	
+	<div class="page-title-area">
+	        <h2 class="title-page">장바구니</h2>
+	</div>
+	        
+	<div class="no-data">
+		<p class="message">장바구니에 담긴 상품이 없습니다.</p>
+		<a class="btn btn-light" href="<%= ctxPath %>/index.dak">쇼핑 계속하기</a>
+	</div>
+</div>
+</c:if>
 
 <jsp:include page="/WEB-INF/views/footer.jsp"/>

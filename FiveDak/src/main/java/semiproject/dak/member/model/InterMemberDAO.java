@@ -61,14 +61,38 @@ public interface InterMemberDAO {
 	// 멤버 세션 갱신
 	void updateMemberSession(HttpSession session) throws SQLException;
 
+
 	// 공지사항 글번호
 	String getSeqNo() throws SQLException;
 
 	// 공지사항 등록
 	int boardWrite(Map<String, String> paraMap) throws SQLException;
 
+	// 회원마다 주문건수 찾기
+	int CountOrder(String order_Member_count) throws SQLException;
 
+
+	// QNA 보내기 
+	int goQNA(Map<String, String> paraMap)  throws SQLException;
+
+	// 문의하기 한것돌 가져오기 
+	List<MemberQNADTO> selectQNAList(Map<String, String> paraMap) throws SQLException;
+
+	// 문의하기 페이징바 처리
+	int Show1to1TotalPage(Map<String, String> paraMap) throws SQLException;
+	
+	
+	// 문의하기 페이징바 처리 
+	int Show1to1TotalPageAdmin(Map<String, String> paraMap) throws SQLException;
+	
+	// 문의하기 한것돌 가져오기 
+	List<MemberQNADTO> selectQNAListAdmin(Map<String, String> paraMap) throws SQLException;
+
+	// 문의하기 답변하기 
+	int AdmingoQNA(Map<String, String> paraMap)  throws SQLException;
 
 	
-
+	
+	
 }
+	

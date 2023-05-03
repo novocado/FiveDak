@@ -11,7 +11,34 @@
 
 <style type="text/css">
 
+.pagination > li > a
+{
+    background-color: white;
+    color: #ffba38;
+}
 
+.pagination > li > a:focus,
+.pagination > li > a:hover,
+.pagination > li > span:focus,
+.pagination > li > span:hover
+{
+    color: #5a5a5a;
+    background-color: #eee;
+    border-color: #ddd;
+}
+
+.pagination > .active > a
+{
+    color: white;
+    background-color: #ffba38 !Important;
+    border: solid 1px #ffba38 !Important;
+}
+
+.pagination > .active > a:hover
+{
+    background-color: #ffba38 !Important;
+    border: solid 1px #ffba38;
+}
 
 
 </style>

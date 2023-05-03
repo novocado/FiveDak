@@ -27,11 +27,7 @@ public class CartListAction extends AbstractController {
 		
 		List<CartDTO> cartlist = dao.getCartList(userid);
 		
-		if(cartlist.size() == 0) {
-			super.setRedirect(true);
-			super.setViewPage(request.getContextPath() + "/index.dak");
-			return;
-		}
+		
 		
 		request.setAttribute("cartlist", cartlist);
 		super.setRedirect(false);

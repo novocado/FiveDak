@@ -9,11 +9,9 @@ import javax.servlet.http.HttpServletResponse;
 
 import semiproject.dak.common.controller.AbstractController;
 import semiproject.dak.product.model.InterOrderDAO;
-import semiproject.dak.product.model.InterProductDAO;
 import semiproject.dak.product.model.OrderDAO;
 import semiproject.dak.product.model.OrderDTO;
-import semiproject.dak.product.model.ProductDAO;
-import semiproject.dak.product.model.ProductDTO;
+import semiproject.dak.product.model.OrderDetailDTO;
 
 public class OrderDetailAction extends AbstractController {
 
@@ -25,10 +23,9 @@ public class OrderDetailAction extends AbstractController {
 		InterOrderDAO odao = new OrderDAO();
 		OrderDTO odto = odao.getOrderInfo(order_serial);
 		
-		InterProductDAO pdao = new ProductDAO() ; 
-		List<ProductDTO> pdtoList = pdao.getOrderDetail(order_serial) ;
+		List<OrderDTO> odtolist = odao.getOrderDetail(order_serial);
 		
-		request.setAttribute("pdtoList", pdtoList);
+		request.setAttribute("odtolist", odtolist);
 		request.setAttribute("odto", odto);
 		request.setAttribute("order_serial", order_serial);
 		

@@ -21,6 +21,18 @@
   <!-- ========= MyDBCP Setting End  ===========  -->
   
   
+
+  <filter>
+    <filter-name>MemberFilter</filter-name>
+    <filter-class>semiproject.dak.filter.MemberFilter</filter-class>
+  </filter>
+  <filter-mapping>
+    <filter-name>MemberFilter</filter-name>
+    <url-pattern>/mypage/*</url-pattern>
+  </filter-mapping>
+  
+
+  
   
   
 </web-app>

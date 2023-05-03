@@ -15,12 +15,24 @@ public class MemberLogoutAction extends AbstractController {
 				// 로그아웃 처리하기
 				HttpSession session = request.getSession(); 
 				
+				String redirectURL = request.getHeader("referer");
+				redirectURL = redirectURL.substring(redirectURL.indexOf(request.getContextPath()) + request.getContextPath().length());
+				
 				MemberDTO loginuser = (MemberDTO) session.getAttribute("loginuser");
 				
+				
+				
 				session.invalidate();	
-
+				
 				super.setRedirect(true);
-				super.setViewPage(request.getContextPath()+"/index.dak");	
+				if(redirectURL != null && !"admin".equals(loginuser.getMbrId())) {
+					super.setViewPage(request.getContextPath() + redirectURL);						
+				} else {
+					super.setViewPage(request.getContextPath()+"/index.dak");
+				}
+				
+				
+					
 				
 		
 	}

@@ -256,6 +256,7 @@ h4 { display: block; margin-block-start: 1.33em; margin-block-end: 1.33em; margi
 .prd-info-area { position: relative;}
 .prd-info-area .inner { display: table; table-layout: auto; width: 100%;}
 .prd-info-area .column.img { width: 80px; height: 80px; overflow: hidden; position: relative;}
+.prd-info-area .column.img img {width: 100%; height: 100%;}
 .prd-info-area .column.tit { padding: 0 10px 0 15px; text-align: left;}
 .prd-info-area .column.tit .tit { font-size: 15px; color: #333; margin-bottom: 3px; }
 .prd-info-area .column.tit .desc { font-size: 14px; color: #666; margin-bottom: 15px;}
@@ -389,8 +390,8 @@ $(document).ready(function(){
 	}
 	
 	function UseAllPoint() {
-		  var currentPoint = $('#currentPoint').val();
-		  var totAmountPrice = $('#totAmountPrice').val();
+		  var currentPoint = Number($('#currentPoint').val());
+		  var totAmountPrice = Number($('#totAmountPrice').val());
 
 		  if (currentPoint < 1000) {
 		    alert('1000포인트부터 사용 가능합니다.');
@@ -400,6 +401,7 @@ $(document).ready(function(){
 		  if (currentPoint > totAmountPrice) {
 		    $('#usePoint').val(totAmountPrice);
 		    $('#textUsePoint').val(totAmountPrice);
+			 
 		  } else {
 		    $('#usePoint').val(currentPoint);
 		    $('#textUsePoint').val(currentPoint);
@@ -581,27 +583,9 @@ $(document).ready(function(){
 					cartIds: cartIds
 					};
 			
-			
-			$.ajax({
-		        url: '/FiveDak/order/orderend.dak',
-		        method: 'POST',
-		        data: {dataList:JSON.stringify(data)},
-		        dataType: 'json',
-		        success: function(response) {
-		            if(response.status == 1) {
-		            	alert("주문이 정상적으로 완료됐습니다.");
-		            	location.href = "<%=request.getContextPath()%>/index.dak";
-		            	
-		            } else {
-		            	alert("뭔가 문제있음");
-		            }
-		            
-		        },
-		        error: function() {
-		            alert("ajax 오류");
-
-		        }
-		    });
+			const dataJSON = JSON.stringify(data);
+			$("#frm input[name='paymentData']").val(dataJSON);
+			$('#frm').submit();
 		}
 		
 		
@@ -669,7 +653,9 @@ $(document).ready(function(){
 <div class="approval-container container" style="display: flex; margin-bottom: 5%;">
 	
 	<div class="col-9">
-		<form>
+		<form id="frm" name="paymentFrm" action="/FiveDak/order/orderend.dak" method="post">
+			<input type="hidden" name="paymentData" />
+		</form>
 		<div class="page-title-area">
 			<h2 class="title-page">주문/결제</h2>
 		</div>
@@ -770,7 +756,7 @@ $(document).ready(function(){
 				      		 data-productdiscount="${cartDto.prod.prodDiscount }">
 							<input type="hidden" class="vProductCd" value="25900"/>
 								<div class="inner">
-                                	<div class="column img"><a href="javascript:void(0);"><img src="" alt="상품이미지"/></a></div>
+                                	<div class="column img"><a href="javascript:void(0);"><img src="<%=request.getContextPath()%>/images/${cartDto.prod.prodImage1 }" alt="상품이미지"/></a></div>
                                 	<div class="column tit">
 										<p class="tit">[${cartDto.prod.brandDTO.brandName}] ${cartDto.prod.prodName}</p>
 	                                    <!-- <p class="desc">제품설명(안넣을수도있음)</p> -->
@@ -877,7 +863,7 @@ $(document).ready(function(){
 		<div class="payment-btn">
 			<button type="button" id="paymentButton3" class="btn" onclick="insertOrderInfo()">결제하기(바로 insert)</button>
 		</div>
-		</form>
+		
 	</div>
 
 

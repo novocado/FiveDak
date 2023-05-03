@@ -4,10 +4,8 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-
 import javax.sql.DataSource;
 
-import semiproject.dak.security.AES256;
 
 public class BrandDAO {
 
@@ -15,7 +13,7 @@ public class BrandDAO {
 	private PreparedStatement pstmt;
 	private Connection conn;
 	private ResultSet rs;
-	private AES256 aes;
+
 	
 
 	public String getBrandName(int brand_id) throws SQLException {
@@ -38,9 +36,8 @@ public class BrandDAO {
 			rs = pstmt.executeQuery();
 			
 			if(rs.next()) {
-				brandName = rs.getString("BRAND_NAME");
+				brandName = rs.getString("BRAND_NAME");		
 			}
-			
 			
 		}finally {
 			close();
