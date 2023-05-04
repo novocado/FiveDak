@@ -123,17 +123,17 @@ public class InformBoardListAction extends AbstractController {
 		
 		// *** [맨처음][이전] 만들기 *** //
 		
-		pageBar += "<li class='page-item'><a class='page-link' href='informBoardList.dak?searchField="+searchField+"&searchText="+searchText+"&currentShowPageNo=1&sizePerPage="+sizePerPage+"'>[처음]</a></li>";
+		pageBar += "<li class='page-item'><a style='color:black;' class='page-link' href='informBoardList.dak?searchField="+searchField+"&searchText="+searchText+"&currentShowPageNo=1&sizePerPage="+sizePerPage+"'>&lt;&lt;</a></li>";
 		if(pageNo != 1) {
-			pageBar += "<li class='page-item'><a class='page-link' href='informBoardList.dak?searchField="+searchField+"&searchText="+searchText+"&currentShowPageNo="+(pageNo-1)+"&sizePerPage="+sizePerPage+"'>[이전]</a></li>";
+			pageBar += "<li class='page-item'><a style='color:black;' class='page-link' href='informBoardList.dak?searchField="+searchField+"&searchText="+searchText+"&currentShowPageNo="+(pageNo-1)+"&sizePerPage="+sizePerPage+"'>[이전]</a></li>";
 		}
 		
 		while(!(loop > blockSize || pageNo > totalPage)) {
 			if(pageNo == Integer.parseInt(currentShowPageNo)) {
-				pageBar += "<li class='page-item active'><a class='page-link' href='#'>" + pageNo + "</a></li>";
+				pageBar += "<li class='page-item active'><a style='background-color: #FF7E32; color:black; border-color : #FF7E32;' class='page-link' href='#'>" + pageNo + "</a></li>";
 			}
 			else {
-				pageBar += "<li class='page-item'><a class='page-link' href='informBoardList.dak?searchField="+searchField+"&searchText="+searchText+"&currentShowPageNo="+pageNo+"&sizePerPage="+sizePerPage+"'>" + pageNo + "</a></li>";
+				pageBar += "<li class='page-item'><a style='color:black;' class='page-link' href='informBoardList.dak?searchField="+searchField+"&searchText="+searchText+"&currentShowPageNo="+pageNo+"&sizePerPage="+sizePerPage+"'>" + pageNo + "</a></li>";
 			}
 			loop++; 	// 1 2 3 4 5 6 7 8 9 10
 			
@@ -144,9 +144,9 @@ public class InformBoardListAction extends AbstractController {
 		
 		// *** [다음][마지막] 만들기 *** //
 		if(pageNo <= totalPage) {
-			pageBar += "<li class='page-item'><a class='page-link' href='informBoardList.dak?searchField="+searchField+"&searchText="+searchText+"&currentShowPageNo="+pageNo+"&sizePerPage="+sizePerPage+"'>[다음]</a></li>";
+			pageBar += "<li class='page-item'><a style='color:black;' class='page-link' href='informBoardList.dak?searchField="+searchField+"&searchText="+searchText+"&currentShowPageNo="+pageNo+"&sizePerPage="+sizePerPage+"'>[다음]</a></li>";
 		}
-		pageBar += "<li class='page-item'><a class='page-link' href='informBoardList.dak?searchField="+searchField+"&searchText="+searchText+"&currentShowPageNo="+totalPage+"&sizePerPage="+sizePerPage+"'>[마지막]</a></li>";
+		pageBar += "<li class='page-item'><a style='color:black;' class='page-link' href='informBoardList.dak?searchField="+searchField+"&searchText="+searchText+"&currentShowPageNo="+totalPage+"&sizePerPage="+sizePerPage+"'>&gt;&gt;</a></li>";
 		
 		
 		request.setAttribute("pageBar", pageBar);

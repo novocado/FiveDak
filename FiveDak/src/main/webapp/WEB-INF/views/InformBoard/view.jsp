@@ -152,8 +152,8 @@
 .cont {
 	height: 300px;
 }
-.button1 {width:100px; box-sizing: border-box; display: inline-block; *zoom: 1; *display: inline; vertical-align: middle; border: 1px solid; border-color: #999; text-align: center; overflow: hidden; text-decoration: none!important; cursor: pointer; border-radius: 3px; background-color: #fff;}
-.button2 {width:100px; margin-right:10px; box-sizing: border-box; display: inline-block; *zoom: 1; *display: inline; vertical-align: middle; border: 1px solid; border-color: #c82370; text-align: center; overflow: hidden; text-decoration: none!important; cursor: pointer; border-radius: 3px; background-color: #ff7E32;}
+.button1 {width:100px; margin-right:10px; box-sizing: border-box; display: inline-block; *zoom: 1; *display: inline; vertical-align: middle; border: 1px solid; border-color: #999; text-align: center; overflow: hidden; text-decoration: none!important; cursor: pointer; border-radius: 3px; background-color: #fff;}
+.button2 {width:100px; box-sizing: border-box; display: inline-block; *zoom: 1; *display: inline; vertical-align: middle; border: 1px solid; border-color: #c82370; text-align: center; overflow: hidden; text-decoration: none!important; cursor: pointer; border-radius: 3px; background-color: #ff7E32;}
 span.button_gray {color:#555; padding:13px 20px 14px 20px; box-sizing: border-box; display: block; font-size: 15px; font-weight: bold;}
 span.button_orange {color:#fff; padding:13px 20px 14px 20px; box-sizing: border-box; display: block; font-size: 15px; font-weight: bold;} 
 .button2 span:hover {text-decoration: none!important; background: #ff7232!important; padding:13px 20px 14px 20px; }
@@ -165,14 +165,11 @@ span.button_orange {color:#fff; padding:13px 20px 14px 20px; box-sizing: border-
 
 $(document).ready(function(){
 	
-
 	$("span.button_orange").click(function(){
-		
-		const frm = document.boardViewFrm;
-		frm.action = "informBoardEdit.dak";
-		frm.method = "post";
-		frm.submit();
-	});
+		//	alert($(e.target).parent().find(".userid").text());
+			const num = $("div.info").find(".num").text();
+			location.href="<%= ctxPath%>/CSC/informBoardEdit.dak?num="+num;
+		});
 	
 });
 
@@ -212,7 +209,7 @@ $(document).ready(function(){
 	                <div class="info">
 	                    <dl>
 	                        <dt>번호</dt>
-	                        <dd>${ndto.note_id}</dd>
+	                        <dd class=num>${ndto.note_id}</dd>
 	                    </dl>
 	                    <dl>
 	                        <dt>작성일</dt>
@@ -237,7 +234,7 @@ $(document).ready(function(){
             	<button type="button" class="button1" name="button1" onClick="location.href='informBoardList.dak'"><span class="button_gray">목록</span></button>
             	
 		      	<c:if test="${sessionScope.loginuser != null and sessionScope.loginuser.mbrId == 'admin'}">
-		         	<button type="button" class="button2" name="button2"><span class="button_orange">수정</span></button>
+		         	<button type="button" class="button2" name="button2" method="post"><span class="button_orange">수정</span></button>
 		      	</c:if>
 		   	</div> 
             

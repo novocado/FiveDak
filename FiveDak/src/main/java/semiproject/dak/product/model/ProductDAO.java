@@ -1627,7 +1627,7 @@ public class ProductDAO implements InterProductDAO {
 			
 	        String sql = " Insert into tbl_product ( PRODUCT_NAME , PRODUCT_CATEGORY_ID , PRODUCT_BRAND_ID , PRODUCT_PRICE  "
 	        		+    " ,  PRODUCT_SALES , PRODUCT_DISCOUNT , AVERAGE_RATING , PRODUCT_IMAGE_URL , PRODUCT_STOCK )  "
-	                   + " values ( ? , ? , ? , ? , ? , ?  , ?  , ? ) ";
+	                   + " values ( ? , ? , ? , ? , ? , ?  , ?  , ? , ? ) ";
 	                   
 	        pstmt = conn.prepareStatement(sql);
 	        pstmt.setString(1, pdto.getProdName() );

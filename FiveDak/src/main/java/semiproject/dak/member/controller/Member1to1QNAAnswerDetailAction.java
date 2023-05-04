@@ -35,6 +35,13 @@ public class Member1to1QNAAnswerDetailAction extends AbstractController {
 		paraMap.put("id",id);
 		
 		
+		
+		
+		
+		
+				
+
+		
 		super.setRedirect(false);
 		super.setViewPage("/WEB-INF/views/member/member1to1QNADetail.jsp");
 		

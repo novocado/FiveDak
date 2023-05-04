@@ -122,6 +122,7 @@
                   			<option value="3">배송중</option>
                   			<option value="4">배송완료</option>
                   			<option value="6">결제취소</option>
+                  			<option value="5">구매확정</option>     			
                   		</select>
                   	 <button type="button" class="btn" style="background-color: #FFA751;" onclick="goEdit()">수정</button>
                   	</td>

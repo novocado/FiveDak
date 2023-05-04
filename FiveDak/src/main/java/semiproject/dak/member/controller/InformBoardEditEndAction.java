@@ -24,19 +24,10 @@ public class InformBoardEditEndAction extends AbstractController {
 			
 			String title = request.getParameter("title");
 			String content = request.getParameter("content");
-			String seq = request.getParameter("id");
-			/*
-			 * content = content.replaceAll("<", "&lt;"); 
-			 * content = content.replaceAll(">",
-			 * "&gt;"); content = content.replace("\r\n", "<br>");
-			 */
-			
+			String seq = request.getParameter("num");
 			
 			
 			InterMemberDAO mdao = new MemberDAO();
-			
-			System.out.println(title);
-			System.out.println(content);
 			
 			Map<String, String> paraMap = new HashMap<>();
 			paraMap.put("title", title);
@@ -44,6 +35,7 @@ public class InformBoardEditEndAction extends AbstractController {
 			paraMap.put("seq", seq);
 			
 			int n = mdao.boardEdit(paraMap);
+			
 			
 			if(n==1) {
 				message = "공지사항 수정이 완료되었습니다.";
@@ -57,7 +49,7 @@ public class InformBoardEditEndAction extends AbstractController {
 			}
 			else {
 				message = "공지사항 수정이 실패하였습니다.";
-				loc = "javascript:location.reload()";
+				loc = "javascript:history.back()";
 
 				request.setAttribute("message", message);
 				request.setAttribute("loc", loc);

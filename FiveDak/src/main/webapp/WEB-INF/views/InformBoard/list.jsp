@@ -103,8 +103,8 @@
 }
 
 div.boardDetail:hover {
-			background-color: #e6ffe6;
-			cursor: pointer;
+	background-color: #dcdcdc;
+	cursor: pointer;
 }
 
 </style>

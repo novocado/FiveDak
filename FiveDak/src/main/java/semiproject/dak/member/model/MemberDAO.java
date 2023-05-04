@@ -1060,7 +1060,7 @@ public class MemberDAO implements InterMemberDAO {
 			if(rs.next()) {
 				boardContents = new NoticeBoardDTO();
 				
-				boardContents.setNote_id(rs.getInt(1));
+				boardContents.setNote_id(Integer.parseInt(rs.getString(1)));
 				boardContents.setNote_title(rs.getString(2));
 				boardContents.setNote_content(rs.getString(3));
 				boardContents.setNote_created_at(rs.getString(4));
@@ -1442,7 +1442,6 @@ public class MemberDAO implements InterMemberDAO {
 	            		+ " ON Q.QNA_ID = A.QNA_ID  ";
 	             
 	            String id = paraMap.get("id");
-	            
 	            if(!"admin".equalsIgnoreCase(id)) {
 	               sql += " WHERE Q.QNA_MEMBER_ID = ? ";
 	            }
@@ -1452,8 +1451,9 @@ public class MemberDAO implements InterMemberDAO {
 	                + "where RNO BETWEEN ? and ? ";
 	            
 	            pstmt = conn.prepareStatement(sql);
-	            
+
 	            int ShowPage = Integer.parseInt(paraMap.get("ShowPage"));   
+	            
 	            
 	            if(!"admin".equalsIgnoreCase(id)) {
 	               pstmt.setString(1, id);
@@ -1528,6 +1528,7 @@ public class MemberDAO implements InterMemberDAO {
 			
 		}
 		
+		// 공지사항 수정
 		@Override
 		public int boardEdit(Map<String, String> paraMap) throws SQLException {
 			
@@ -1536,7 +1537,7 @@ public class MemberDAO implements InterMemberDAO {
 			try {
 				conn = ds.getConnection(); 
 				
-				String sql = " update tbl_notice set notice_title = ?, notice_content = ? ) "
+				String sql = " update tbl_notice set notice_title = ?, notice_content = ? "
 						   + " where notice_id = ? ";
 				
 				pstmt = conn.prepareStatement(sql);

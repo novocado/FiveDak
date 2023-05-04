@@ -15,12 +15,11 @@ public class InformBoardEditAction extends AbstractController {
 	@Override
 	public void execute(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		
-			
-		String message = "";
-		String loc = "";
-		
 		HttpSession session = request.getSession();
 		MemberDTO loginuser = (MemberDTO) session.getAttribute("loginuser");
+		
+		String message = "";
+		String loc = "";
 		
 		if ((loginuser != null && !loginuser.getMbrId().equals("admin")) || loginuser == null) {
 			
@@ -35,17 +34,18 @@ public class InformBoardEditAction extends AbstractController {
 		}
 		
 		else {
-			String note_id = request.getParameter("note_id");
-			System.out.println(note_id);
-				
+			
+			String note_id = request.getParameter("num");
+			
 			InterMemberDAO mdao = new MemberDAO();
 			NoticeBoardDTO ndto = mdao.informBoardView(note_id);
-			
+				
 			if(ndto != null) {
 				request.setAttribute("ndto", ndto);
 			}
 			
 			super.setViewPage("/WEB-INF/views/InformBoard/edit.jsp");
+			
 		}
 		
 		

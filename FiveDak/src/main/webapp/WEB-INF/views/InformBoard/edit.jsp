@@ -215,8 +215,8 @@
     border: 0;
     resize: vertical;
 }
-.button1 {width:100px; margin-right:10px; box-sizing: border-box; display: inline-block; *zoom: 1; *display: inline; vertical-align: middle; border: 1px solid; border-color: #999; text-align: center; overflow: hidden; text-decoration: none!important; cursor: pointer; border-radius: 3px; background-color: #fff;}
-.button2 {width:100px; box-sizing: border-box; display: inline-block; *zoom: 1; *display: inline; vertical-align: middle; border: 1px solid; border-color: #c82370; text-align: center; overflow: hidden; text-decoration: none!important; cursor: pointer; border-radius: 3px; background-color: #ff7E32;}
+.button1 {width:100px; box-sizing: border-box; display: inline-block; *zoom: 1; *display: inline; vertical-align: middle; border: 1px solid; border-color: #999; text-align: center; overflow: hidden; text-decoration: none!important; cursor: pointer; border-radius: 3px; background-color: #fff;}
+.button2 {width:100px; margin-right: 10px; box-sizing: border-box; display: inline-block; *zoom: 1; *display: inline; vertical-align: middle; border: 1px solid; border-color: #c82370; text-align: center; overflow: hidden; text-decoration: none!important; cursor: pointer; border-radius: 3px; background-color: #ff7E32;}
 span.button_gray {color:#555; padding:13px 20px 14px 20px; box-sizing: border-box; display: block; font-size: 15px; font-weight: bold;}
 span.button_orange {color:#fff; padding:13px 20px 14px 20px; box-sizing: border-box; display: block; font-size: 15px; font-weight: bold;} 
 .button2 span:hover {text-decoration: none!important; background: #ff7232!important; padding:13px 20px 14px 20px; }
@@ -231,8 +231,9 @@ $(document).ready(function(){
 
 	$("span.button_orange").click(function(){
 		
+		const num = $("div.title").find(".num").text();
 		const frm = document.boardEditFrm;
-		frm.action = "informBoardEditEnd.dak";
+		frm.action = "informBoardEditEnd.dak?num="+num;
 		frm.method = "post";
 		frm.submit();
 	});
@@ -256,21 +257,21 @@ $(document).ready(function(){
 			                <div class="title">
 			                	<dl>
 			                        <dt>글번호</dt>
-			                        <dd>${ndto.note_id}</dd>
+			                        <dd class="num">${ndto.note_id}</dd>
 			                    </dl>
 			                    <dl>
 			                        <dt>제목</dt>
-			                        <dd><input name="title" type="text" placeholder="${ndto.note_title}"></dd>
+			                        <dd><input name="title" type="text" value="${ndto.note_title}"></dd>
 			                    </dl>
 			                </div>
 			
 			                <div class="cont">
-			                    <textarea name="content" placeholder="${ndto.note_content}"></textarea>
+			                    <textarea name="content">${ndto.note_content}</textarea>
 			                </div>
 			            </div>
 		            </c:if>
 		            
-		            <c:if test="${not empty requestScope.ndto}">
+		            <c:if test="${empty requestScope.ndto}">
 		            	<div class="board_write">
 			                <div class="title">
 			                	<dl>
