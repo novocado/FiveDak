@@ -1,6 +1,7 @@
 package semiproject.dak.product.model;
 
 import java.io.UnsupportedEncodingException;
+import java.security.GeneralSecurityException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -651,26 +652,117 @@ public class ProductDAO implements InterProductDAO {
    }
    
    
-   // 특정 제품 번호에 해당하는 제품의 상세정보 가져오기 
+   
+   
+   //관리자 페이지에서 특정 제품 번호에 해당하는 제품의 상세정보 가져오기 
    @Override
    public ProductDTO selectOneProduct(String prodNum) throws SQLException {
    
-      
-      return null;
+	      ProductDTO pdto = null;
+	      
+	      try {
+	         conn = ds.getConnection();
+	         
+	         String sql=" select product_id, product_name, product_image_url, category_id, category_name, brand_id, brand_name, product_price, product_discount, product_stock, product_sales, average_rating, sysdate "
+	         		  + " from tbl_product P join tbl_brand B "
+	         		  + " on P.PRODUCT_BRAND_ID = B.brand_id "
+	         		  + " join tbl_category C "
+	         		  + " on P.PRODUCT_CATEGORY_ID = C.CATEGORY_ID "
+	         		  + " where product_id = ? ";
+	         	  	  
+	         pstmt = conn.prepareStatement(sql);
+	         
+	         pstmt.setString(1, prodNum);
+	         
+	         rs = pstmt.executeQuery();
+	      
+	         if(rs.next()) {
+	            pdto = new ProductDTO();
+	            pdto.setProdNum(rs.getInt("PRODUCT_ID"));
+	            pdto.setProdName(rs.getString("PRODUCT_NAME"));
+	            pdto.setProdImage1(rs.getString("PRODUCT_IMAGE_URL"));
+	            pdto.setProdPrice(rs.getInt("PRODUCT_PRICE"));
+	            pdto.setProdDiscount(rs.getInt("PRODUCT_DISCOUNT"));
+	            pdto.setProdStock(rs.getInt("PRODUCT_STOCK"));
+	            pdto.setProdSales(rs.getInt("PRODUCT_SALES"));
+	            pdto.setProdAvgRating(rs.getDouble("AVERAGE_RATING"));
+	            
+	            CategoryDTO cdto = new CategoryDTO();
+	            cdto.setCateId(rs.getInt("CATEGORY_ID"));
+				cdto.setCateName(rs.getString("CATEGORY_NAME")); 
+				pdto.setCateDTO(cdto);
+			
+	            BrandDTO bdto = new BrandDTO();
+	            bdto.setBrandId(rs.getInt("BRAND_ID"));
+	            bdto.setBrandName(rs.getString("BRAND_NAME"));
+	            pdto.setBrandDTO(bdto);
+	         }   
+	      
+	      }finally {
+	         close();
+	      }
+	      return pdto;
+		      
+	      
    }
+   
 
+  
+   //관리자 페이지에서 제품정보를 수정하는 메소드   
+	@Override
+	public int updateProduct(ProductDTO pdto) throws SQLException {
+		
+		int result = 0;
+		
+		try {
+			conn = ds.getConnection();   
+			
+			String sql = " update tbl_product set product_name = ? "
+					   + "       				 , product_category_id = ? " 
+					   + "		 				 , product_brand_id = ? "  
+					   + "                       , product_price = ? "
+					   + "                       , product_discount = ? "
+					   + "                       , product_stock = ? "
+					   + " where product_id = ? ";
+			
+			pstmt = conn.prepareStatement(sql);
+			
+			
+			System.out.println(pdto.getFk_prodCateNum());
+			System.out.println(pdto.getFk_prodBrandNum());
+			
+			pstmt.setString(1, pdto.getProdName());		
+			pstmt.setInt(2, pdto.getFk_prodCateNum()); 
+			pstmt.setInt(3, pdto.getFk_prodBrandNum()); 
+			pstmt.setInt(4, pdto.getProdPrice());
+			pstmt.setInt(5, pdto.getProdDiscount());
+			pstmt.setInt(6, pdto.getProdStock());
+			pstmt.setInt(7, pdto.getProdNum());
+			
+			result = pstmt.executeUpdate();
+			
+		} finally {
+			close();
+		}
+		
+		return result;
+	}
+
+   
+   
+   
    @Override
    public List<ProductDTO> getOrderDetail(String order_serial) throws SQLException {
       List<ProductDTO> list = new ArrayList<>();
       try {
          conn = ds.getConnection();
          String sql = " SELECT   D.ORDER_DETAIL_PRODUCT_ID, P.PRODUCT_NAME , D.ORDER_QUANTITY , D.PRICE_PER_UNIT , p.product_image_url , B.BRAND_NAME "
-               + " FROM tbl_order_detail D "
-               + " JOIN TBL_PRODUCT P  "
-               + " ON D.ORDER_DETAIL_PRODUCT_ID = P.PRODUCT_ID "
-               + " JOIN TBL_BRAND B "
-               + " on P.PRODUCT_BRAND_ID = B.BRAND_ID "
-               + " WHERE D.FK_ORDER_SERIAL = ? ";
+                    + " FROM tbl_order_detail D "
+                    + " JOIN TBL_PRODUCT P  "
+                    + " ON D.ORDER_DETAIL_PRODUCT_ID = P.PRODUCT_ID "
+                    + " JOIN TBL_BRAND B "
+                    + " on P.PRODUCT_BRAND_ID = B.BRAND_ID "
+                    + " WHERE D.FK_ORDER_SERIAL = ? ";
                
          pstmt = conn.prepareStatement(sql);
       
@@ -699,12 +791,44 @@ public class ProductDAO implements InterProductDAO {
    
       return list;
    }
+   
 
-   @Override
-   public List<String> getCategoryList() throws SQLException {
-      // TODO Auto-generated method stub
-      return null;
-   }
+// tbl_category 테이블에서 카테고리 대분류 번호(cnum), 카테고리코드(code), 카테고리명(cname)을 조회해오기 
+	@Override
+	public List<HashMap<String, String>> getCategoryList() throws SQLException {
+
+		List<HashMap<String, String>> categoryList = new ArrayList<>();   //HashMap<String, String> 대신 그냥 Map<String, String> 이라고 해도 된다!!
+		
+		try {
+			conn = ds.getConnection(); 
+			
+			String sql = " select cnum, code, cname "
+					   + " from tbl_category "
+					   + " order by cnum asc ";
+			
+			pstmt = conn.prepareStatement(sql);
+			
+			rs = pstmt.executeQuery();
+			
+			while(rs.next()) {
+				
+				HashMap<String, String> map = new HashMap<>();
+				
+	            map.put("cnum", rs.getString(1));
+	            map.put("code", rs.getString(2));
+	            map.put("cname", rs.getString(3));
+	            
+	            categoryList.add(map);
+	            
+			}//end of while---------------------------------------------
+			
+		} finally {
+			close();  //자원반납
+		}
+		
+		return categoryList;
+		
+	}//end of public List<HashMap<String, String>> getCategoryList() throws SQLException----------------------------------
 
    //  특정 prodNum에 해당하는 PDTO 가져오는 메소드
    @Override
@@ -791,6 +915,11 @@ public class ProductDAO implements InterProductDAO {
    
       return ndto ;
    }
+
+
+
+   
+
    
    
 

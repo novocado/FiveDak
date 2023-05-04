@@ -7,6 +7,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import semiproject.dak.common.controller.AbstractController;
+import semiproject.dak.product.model.BrandDTO;
 import semiproject.dak.product.model.InterProductDAO;
 import semiproject.dak.product.model.NutritionDTO;
 import semiproject.dak.product.model.ProductDAO;
@@ -23,7 +24,7 @@ public class ProductDetailAction extends AbstractController {
 		Map<String,String> paraMap = new HashMap<>();
 		paraMap.put("prodNum", prodNum);
 		paraMap.put("review_member_id", review_member_id);
-		ProductDTO pdto = pdao.prodInfo(paraMap) ;
+		ProductDTO pdto = pdao.selectOneProduct(prodNum) ;
 		
 		String prodName = pdto.getProdName(); // 제품명
 		int prodPrice = pdto.getProdPrice(); // 정가
@@ -61,6 +62,7 @@ public class ProductDetailAction extends AbstractController {
 	    request.setAttribute("product_satfat", product_satfat);
 	    request.setAttribute("product_col", product_col);
 	    request.setAttribute("product_sug", product_sug);
+	    
 	    
 		super.setRedirect(false);
 		super.setViewPage("/WEB-INF/views/product/prodDetail.jsp");

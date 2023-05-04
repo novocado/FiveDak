@@ -181,6 +181,8 @@ public class ProductDTO {
 		// 할인률 = 100 - (판매가 * 100) / 정가
 		return 100 - (prodDiscount * 100)/prodPrice;
 	}
+
+
 	
 
 }

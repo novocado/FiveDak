@@ -1,6 +1,7 @@
 package semiproject.dak.product.model;
 
 import java.sql.SQLException;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -50,13 +51,17 @@ public interface InterProductDAO {
 	List<ProductDTO> getOrderDetail(String order_serial) throws SQLException ;
 
 	// 카테고리 종류 모두 가져오는 메소드 
-	List<String> getCategoryList() throws SQLException ;
+	List<HashMap<String, String>> getCategoryList() throws SQLException ;
 
 	// 특정 prodNum에 해당하는 PDTO 가져오는 메소드
 	ProductDTO prodInfo(Map<String, String> paraMap) throws SQLException;
 
 	// 제품 상세 정보에서 보여줄 영양소 가져오기 
 	NutritionDTO nutritionInfo(String prodNum) throws SQLException ;
+
+	
+	//관리자 페이지에서 제품정보를 수정하는 메소드
+	int updateProduct(ProductDTO pdto) throws SQLException;
 	
 	
 	

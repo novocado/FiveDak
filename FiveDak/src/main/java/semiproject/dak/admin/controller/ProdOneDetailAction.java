@@ -17,7 +17,9 @@ public class ProdOneDetailAction extends AbstractController {
 		InterProductDAO pdao = new ProductDAO();
 		
 		ProductDTO pdto = pdao.selectOneProduct(prodNum);
-		
+	//	System.out.println(pdto);
+	//	System.out.println(pdto.getBrandDTO().getBrandName());
+		request.setAttribute("pdto", pdto);
 		super.setRedirect(false);
 		super.setViewPage("/WEB-INF/views/admin/productDetail.jsp");
 

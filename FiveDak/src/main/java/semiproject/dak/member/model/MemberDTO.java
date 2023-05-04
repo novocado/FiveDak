@@ -67,7 +67,6 @@ public class MemberDTO {
 	}
 
 
-
 	public int getMbrNum() {
 		return mbrNum;
 	}
@@ -209,6 +208,7 @@ public class MemberDTO {
 	public void setMbrTier(MembershipTierDTO mbrTier) {
 		this.mbrTier = mbrTier;
 	}
+	
 	
 	
 	
