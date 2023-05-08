@@ -124,7 +124,7 @@
         <div class="card my-page-card">
           <div class="card-body">
             <p class="card-title">포인트</p>
-            <p class="card-text orange-text font-weight-bold"><span class="h3">${sessionScope.loginuser.mbrPoint }</span>p</p>
+            <p class="card-text orange-text font-weight-bold"><span class="h3"><fmt:formatNumber type="number" value="${sessionScope.loginuser.mbrPoint }"  pattern="#,###"/></span>p</p>
           </div>
         </div>
       </div>

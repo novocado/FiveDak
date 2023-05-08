@@ -35,11 +35,6 @@ public class Member1to1QNAAnswerDetailAction extends AbstractController {
 		paraMap.put("id",id);
 		
 		
-		List<MemberQNADTO> QNAList = mdao.selectQNAList(paraMap);    // 메소드 생성
-		
-		System.out.println(QNAList);
-	
-		request.setAttribute("QNAList", QNAList);
 		
 		
 			

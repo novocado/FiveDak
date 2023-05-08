@@ -302,16 +302,16 @@
 				        <ul style="padding: 0; list-style: none;">
 				        	
 				        	<li>
-						        <a id="ChickenBreast" class="dropdown-item" href="/FiveDak/product/searchProd.dak?searchWord=닭가슴살">
+						        <a id="ChickenBreast" class="dropdown-item" href="<%= ctxPath %>/product/searchProd.dak?searchWord=닭가슴살">
 						        	<i class="fa-solid fa-drumstick-bite" style="margin-right:10px;"></i>
 						        	닭가슴살
 						        </a>
 						        <div class="header-list" style="border: solid 2px white;" id="show1">
 						        	<ul style="list-style: none; overflow-y: auto; overflow-x: hidden; position: absolute; top: 0; left: 100%; z-index: 2; width: 160px; height: 100%; background: #f4f4f4; border: 1px solid #ccc; border-top: 0; border-left: 0; padding-top: 5px;">
-						        			<li><a href="/FiveDak/product/searchProd.dak?searchWord=닭가슴살"><span class="li-category">전체</span></a></li>
-						        			<li><a href="/FiveDak/product/searchProd.dak?searchWord=스테이크"><span class="li-category">스테이크</span></a></li>
-						        			<li><a href="/FiveDak/product/searchProd.dak?searchWord=소스닭가슴살"><span class="li-category">소스닭가슴살</span></a></li>
-						        			<li><a href="/FiveDak/product/searchProd.dak?searchWord=스팀"><span class="li-category">스팀-소프트</span></a></li>
+						        			<li><a href="<%= ctxPath %>/product/searchProd.dak?searchWord=닭가슴살"><span class="li-category">전체</span></a></li>
+						        			<li><a href="<%= ctxPath %>/product/searchProd.dak?searchWord=스테이크"><span class="li-category">스테이크</span></a></li>
+						        			<li><a href="<%= ctxPath %>/product/searchProd.dak?searchWord=소스닭가슴살"><span class="li-category">소스닭가슴살</span></a></li>
+						        			<li><a href="<%= ctxPath %>/product/searchProd.dak?searchWord=스팀"><span class="li-category">스팀-소프트</span></a></li>
 						        			<li><a href="#"><span class="li-category">볼-큐브</span></a></li>
 						        			<li><a href="#"><span class="li-category">슬라이스</span></a></li>
         							</ul>
@@ -432,10 +432,10 @@
 				      <a class="header-category ranking" href="<%= ctxPath %>/product/rankingList.dak" style="color: black;">랭킹</a>
 				    </li>
 				    <li class="col-2">
-				      <a class="header-category" href="#" style="color: black;">신신제품</a>
+				      <a class="header-category" href="#" style="color: black;">신제품</a>
 				    </li>
 				    <li class="col-2">
-				      <a class="header-category" href="#" style="color: black;">특가/혜택</a>
+				      <a class="header-category" href="<%= ctxPath %>/CSC/informBoardList.dak" style="color: black;">공지시항</a>
 				    </li>
 				    <li class="col-2">
 				      <a class="header-category" href="#" style="color: black;">MD추천</a>

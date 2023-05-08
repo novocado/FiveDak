@@ -962,7 +962,7 @@ a.sticky-nav-tab { text-decoration: none; }
 	                    <div class="tit-cell" style="display:inline-block;">
 	                        <a href="javascript:void(0)" class="ui-toggle-btn">[배송문의] 입니다.</a>
 	                        <i class="fa-solid fa-lock" style="color: #000000;"></i>
-	                        </div><!--// tit-cell -->
+	                        </div>// tit-cell
 	                    <div class="name-cell" style="display:inline-block; margin-left:500px;"><span>phj4213</span></div>
 	                    <div class="date-cell" style="display:inline-block;"><span>2023.03.20</span></div>
 	                </div>
@@ -971,7 +971,7 @@ a.sticky-nav-tab { text-decoration: none; }
 	                    <div class="tit-cell" style="display:inline-block;">
 	                        <a href="javascript:void(0)" class="ui-toggle-btn">[배송문의] 입니다.</a>
 	                        <i class="fa-solid fa-lock" style="color: #000000;"></i>
-	                        </div><!--// tit-cell -->
+	                        </div>// tit-cell
 	                    <div class="name-cell" style="display:inline-block; margin-left:500px;"><span>phj4213</span></div>
 	                    <div class="date-cell" style="display:inline-block;"><span>2023.03.20</span></div>
 	                </div>
@@ -980,7 +980,7 @@ a.sticky-nav-tab { text-decoration: none; }
 	                    <div class="tit-cell" style="display:inline-block;">
 	                        <a href="javascript:void(0)" class="ui-toggle-btn">[배송문의] 입니다.</a>
 	                        <i class="fa-solid fa-lock" style="color: #000000;"></i>
-	                        </div><!--// tit-cell -->
+	                        </div>// tit-cell
 	                    <div class="name-cell" style="display:inline-block; margin-left:500px;"><span>phj4213</span></div>
 	                    <div class="date-cell" style="display:inline-block;"><span>2023.03.20</span></div>
 	                </div>
@@ -989,7 +989,7 @@ a.sticky-nav-tab { text-decoration: none; }
 	                    <div class="tit-cell" style="display:inline-block;">
 	                        <a href="javascript:void(0)" class="ui-toggle-btn">[배송문의] 입니다.</a>
 	                        <i class="fa-solid fa-lock" style="color: #000000;"></i>
-	                        </div><!--// tit-cell -->
+	                        </div>// tit-cell
 	                    <div class="name-cell" style="display:inline-block; margin-left:500px;"><span>phj4213</span></div>
 	                    <div class="date-cell" style="display:inline-block;"><span>2023.03.20</span></div>
 	                </div>
@@ -998,14 +998,14 @@ a.sticky-nav-tab { text-decoration: none; }
 	                    <div class="tit-cell" style="display:inline-block;">
 	                        <a href="javascript:void(0)" class="ui-toggle-btn">[배송문의] 입니다.</a>
 	                        <i class="fa-solid fa-lock" style="color: #000000;"></i>
-	                        </div><!--// tit-cell -->
+	                        </div>// tit-cell
 	                    <div class="name-cell" style="display:inline-block; margin-left:500px;"><span>phj4213</span></div>
 	                    <div class="date-cell" style="display:inline-block;"><span>2023.03.20</span></div>
 	                </div>
 	            </div>
 	        </li>
         </ul>
-	</section>
+	</section> 
  		
     <section class="spa-slide" id="tab-last">
     	<div class="deliveryInfo">

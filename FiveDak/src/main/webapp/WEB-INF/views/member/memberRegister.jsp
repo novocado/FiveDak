@@ -627,8 +627,8 @@
 		 <div class="form-group">
 		      <select class="form-control" id="gender" name="gender">
 		        <option value="" selected disabled>성별선택</option>
-		        <option value="1" >남자</option>
-		        <option value="2" >여자</option>
+		        <option value="0" >남자</option>
+		        <option value="1" >여자</option>
 		      </select>
 		 </div>
 		 

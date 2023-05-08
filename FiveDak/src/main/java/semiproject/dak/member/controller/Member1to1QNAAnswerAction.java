@@ -55,12 +55,9 @@ public class Member1to1QNAAnswerAction extends AbstractController {
 		
 		int Show1to1TotalPage = mdao.Show1to1TotalPage(paraMap);
 		
-		System.out.println(Show1to1TotalPage);
 		
 		List<MemberQNADTO> QNAList = mdao.selectQNAList(paraMap);    // 메소드 생성
 		
-		System.out.println(QNAList);
-	
 		
 		request.setAttribute("QNAList", QNAList);
 		request.setAttribute("ShowPage", ShowPage);

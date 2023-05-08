@@ -26,7 +26,7 @@
 		imageSlider();
 	
 		eventTimer('timer','2023-05-20T00:00:00');
-		eventTimer('timer1','2023-05-20T00:00:00');
+		eventTimer('timer1','2023-05-04T17:50:00');
 		
 	}// END OF FUNCTION SETEVENTHANDLING
 	

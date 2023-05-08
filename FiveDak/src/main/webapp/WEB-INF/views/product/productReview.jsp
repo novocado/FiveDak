@@ -7,10 +7,10 @@
 <div class="reviewBox" style="margin:auto;">
 	<c:forEach var="rdto" items="${requestScope.reviewlist}">
 	         <div style="float:left" class="reviewContent">
-	            <c:if test="${ rdto.pimage != 'noimage.png' }">
+	            <c:if test="${ rdto.pimage != 'noimage.png'  and not empty  rdto.pimage}">
 	            	<img clase="image" src="<%=ctxPath%>/images/${rdto.pimage}" style="width:150px; height: 148px;"/>
 	            </c:if>
-	            <c:if test="${ rdto.pimage1 != 'noimage.png'}">
+	            <c:if test="${ rdto.pimage1 != 'noimage.png' and not empty rdto.pimage1 }">
 	            	<img src="<%=ctxPath%>/images/${rdto.pimage1}" style="width:150px; height: 148px;"/>
 	            </c:if>
 	         </div>
